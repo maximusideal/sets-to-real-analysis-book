@@ -1,0 +1,218 @@
+% initial template taken from https://www.overleaf.com/articles/machine-learning-for-trading/bbckwqwmdnrw
+% list of classes https://tex.stackexchange.com/questions/141418/what-are-the-latex-book-classes
+
+% some possible docmuent classes: article, report, book, scrbook
+\documentclass[11pt]{book}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+% basic packages
+\usepackage{amsmath}
+\allowdisplaybreaks
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{color}
+\usepackage{titlesec}
+\usepackage[inline]{enumitem}
+\usepackage{changepage}
+\usepackage[makeroom]{cancel}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\usetikzlibrary{math}
+
+% references and bibliography
+%\usepackage[backend=bibtex,style=alphabetic,citestyle=alphabetic]{biblatex}
+%\addbibresource{refs.bib} 
+
+% other packages
+\usepackage{graphicx}
+\usepackage{import}
+\usepackage{tensor}
+\usepackage{bbm}
+\usepackage{mdframed}
+\usepackage{setspace}
+\usepackage{float}
+%\usepackage{needspace}
+%\usepackage{etoolbox}
+
+% bookmarks and links
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue,  bookmarksopen=true, bookmarksdepth=2]{hyperref}
+\usepackage[open, openlevel=2, atend, numbered]{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+% --------------------------------------
+% --------------------------------------
+% format commands and math operators
+
+% decoration
+\newcommand{\ov}[1]{\overline{#1}}
+\newcommand{\un}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\ff}[1]{\mathfrak{#1}}
+\newcommand{\cc}[1]{\mathcal{#1}}
+\newcommand{\cat}[1]{{\normalfont\textsf{#1}}}
+% symbols
+\newcommand{\D}{\mathrm{D}}
+\renewcommand{\L}{\mathrm{L}}
+\newcommand{\M}{\mathrm{M}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\renewcommand{\O}{\mathrm{O}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\symm}{\mathrm{Symm}}
+\newcommand{\herm}{\mathrm{Herm}}
+% analysis operators
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\fract}{frac}
+% set theory operators
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\eval}{eval}
+\DeclareMathOperator{\map}{Map}
+% topology operators
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Cl}{Cl}
+% linear algebra operators
+\DeclareMathOperator{\Bd}{Bd}
+\DeclareMathOperator{\nullity}{Nullity}
+\DeclareMathOperator{\rank}{Rank}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+
+% --------------------------------------
+% --------------------------------------
+% theorems and enviornments
+% https://tex.stackexchange.com/questions/391443/new-theorem-environment-with-manual-theorem-number
+\newtheorem{manualtheoreminner}{}
+\newenvironment{manualtheorem}[1]{%
+	\renewcommand\themanualtheoreminner{#1}%
+	\manualtheoreminner
+}{\endmanualtheoreminner}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+
+\newtheorem{manualthminner}{}
+\newenvironment{manualthm}[1]{%
+	\renewcommand\themanualthminner{#1}%
+	\manualthminner
+}{\endmanualthminner}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+\newtheorem{exer}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{remark}[theorem]{Remark}
+
+\newtheorem{manualdefinner}{}
+\newenvironment{manualdef}[1]{%
+	\renewcommand\themanualdefinner{#1}%
+	\manualdefinner
+}{\endmanualdefinner}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\newenvironment{claimproof}[1][Proof]
+{\renewcommand\qedsymbol{$\square$}\proof[#1]}
+{\endproof}
+
+% --------------------------------------
+% --------------------------------------
+% problem sets
+
+% \newenvironment{problem}[1]{\noindent #1. \begin{adjustwidth}{\widthof{#1. }}{0em}\vspace{-0.48cm}}{\end{adjustwidth} \hphantom{.}}
+\newenvironment{problem}[1]
+{
+	\noindent \begin{adjustwidth}{\widthof{#1. }}{0em}
+		\makebox[0pt][r]{\makebox[\widthof{#1. }][l]{#1. }}\ignorespaces 
+	}
+	{
+	\end{adjustwidth} \hphantom{.}
+}
+
+% --------------------------------------
+% --------------------------------------
+% reference, section, and table of contents format
+\crefname{equation}{}{}
+\setcounter{tocdepth}{1}
+
+% see https://tex.stackexchange.com/questions/339305/how-to-get-default-formatting-for-chapter-section-etc for default formatting
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries}{\chaptertitlename\ \thechapter}{18pt}{\Huge}
+
+\titleformat{\section}
+{\vspace{1.2em}\normalfont\Large\bfseries}{\thesection.}{1em}{}
+
+\titleformat{\subsection}
+{\vspace{0.6em}\centering\normalfont\large\bfseries}{\thesubsection.}{1em}{}
+
+% ensure there is some space; uses \usepackage{needspace} and \usepackage{etoolbox}
+%\pretocmd{\section}{\needspace{15\baselineskip}}{}{}
+%\pretocmd{\subsection}{\needspace{15\baselineskip}}{}{}
+
+% main title
+\title{Sets to Real Analysis: A Thorough Reconstruction}
+\author{}
+\date{}
+
+\setcounter{secnumdepth}{1}
+
+% --------------------------------------
+% --------------------------------------
+% main document
+
+% for including files, see the following: 
+% https://tex.stackexchange.com/questions/123226/how-to-include-tex-files on including files
+% https://tex.stackexchange.com/questions/40144/how-to-use-inputfile-tex-correctly
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\addcontentsline{toc}{chapter}{Contents}
+
+\setcounter{chapter}{0}
+\include{chapter1/chapter1}
+%\include{chapter2/chapter2}
+%\include{chapter3/chapter3}
+%\include{chapter4/chapter4}
+%\include{chapter5/chapter5}
+%\include{chapter6/chapter6}
+%\include{chapter7/chapter7}
+%\include{chapter8/chapter8}
+%\include{chapter9/chapter9}
+%\include{chapter10/chapter10}
+
+% appendix
+\appendix
+\addcontentsline{toc}{part}{Appendices}
+\part*{Appendices}
+
+%\include{appendixA/appendixA}
+%\include{appendixB/appendixB}
+%\include{appendixC/appendixC}
+%\include{appendixD/appendixD}
+%\include{appendixE/appendixE}
+%\include{appendixF/appendixF}
+
+% end
+%\addcontentsline{toc}{chapter}{References}
+%\printbibliography[title=References]
+
+\end{document}
