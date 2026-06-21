@@ -447,6 +447,7 @@ Consequently,
 	\langle a, b\rangle = \langle a', b'\rangle \iff a = a' \text{ and } b = b'.
 \end{align}
 If $a\ne b$ then $\langle a, b\rangle\ne \langle b, a\rangle$, so the order in which we write $a$ and $b$ here matters. 
+For any pair $o = \langle a, b\rangle$, we'll write $\pi_{L}(o) = a$ and $\pi_{R}(o) = b$ according to the above operations used. 
 
 \begin{definition}
 	Given sets $A, B$, we define the \textbf{binary Kuratowski--Cartesian product} to be the set
@@ -788,8 +789,11 @@ Then use separation to obtain the set
 \[ \{ x\in\cc{P}(A) \,|\, x = [a] \text{ for some } a\in A \}, \]
 which we will denote as $A/\sim\;$. 
 We call $A/\sim$ the \textbf{quotient of $A$ by $\sim$} and we refer to elements of $A/\sim$ as \textbf{equivalence classes}.
-We leave it to the reader to show that for any $a, b\in A$ we have $a\sim b$ if and only if $[a] = [b]$, and that $A/\sim\;$ is a partition of $A$. 
-
+We leave it to the reader to show that for any $a, b\in A$ we have
+\begin{align}\label{ch1eqn_equiv_classes_property}
+	a\sim b \iff [a] = [b],
+\end{align}
+and that $A/\sim\;$ is a partition of $A$. 
 We may also go in the opposite direction.
 If $\cc{U}$ is a partition of $A$, we may define a relation $\sim$ on $A$ by $a\sim b$ if and only if there exists a common class $C\in\cc{U}$ such that $a, b\in C$. 
 We again leave it to the reader to show that the resulting relation is an equivalence relation.
@@ -906,7 +910,6 @@ Below we define some important sets that are associated with partial functions (
 
 For any partial function, let $\textrm{AmbDom}(f)$ be the ambient domain of $f$, let $\textrm{ActDom}(f)$ be the active domain of $f$, and let $\textrm{Cod}(f)$ be the codomain of $f$.
 In the case where $f$ is a function, the active and ambient domains are the same and we just call them the domain $\textrm{Dom}(f)$. 
-For any pair $c = \langle a, b\rangle$, let us write $\pi_{L}(c) = a$ and $\pi_{R}(c) = b$.
 Define the predicate
 \begin{align*}
 	P(y, c) &\equiv (c\text{ is a Kuratowski ordered pair})\land (\pi_{L}(c)\text{ is a partial function}) \\
@@ -1018,6 +1021,8 @@ We introduce composition of functions.
 \begin{proof}
 	Write $f = \langle G_{f}, \langle A, B\rangle\rangle$ and $g = \langle G_{g}, \langle B, C\rangle\rangle$.
 	By the existence of $A\times_{K} C$ and by separation, there exists the set
+	\[ G = \{ t\in A\times_{K} C \,|\, t = \langle x, g(f(x))\rangle \text{ for some } x\in A \}. \]
+	Formally, this is
 	\[ G = \{ t\in A\times_{K} C \,|\, P(t, \langle f, g\rangle) \} \]
 	where
 	\begin{align*}
@@ -1073,10 +1078,12 @@ We introduce changes of domains and codomains of functions.
 \end{prop}
 \begin{proof}
 	Given $f = \langle G_{f}, \langle A, B\rangle\rangle$, $X\subseteq A$, and $Y\supseteq f(X)$, use separation to obtain the subset
+	\[ G = \{ t\in G_{f} \,|\, t\in X\times_{K} Y \}. \]
+	Formally, this is
 	\[ G = \{ t\in G_{f} \,|\, P(t, \langle X, Y\rangle) \} \]
 	where 
-	\[ P(t, c)\equiv (c\text{ is a Kuratowski ordered pair})\land t\in \pi_{L}(c)\times_{K}\pi_{R}(c), \] 
-	and then form $h = \langle G, \langle X, Y\rangle\rangle$. 
+	\[ P(t, c)\equiv (c\text{ is a Kuratowski ordered pair})\land t\in \pi_{L}(c)\times_{K}\pi_{R}(c). \] 
+	Now define $h = \langle G, \langle X, Y\rangle\rangle$, which exists. 
 	If $t\in G$, then $P(t, \langle X, Y\rangle)$, so $t\in X\times_{K} Y$.
 	Hence $G\subseteq X\times_{K} Y$, and it remains to verify (F1) and (F2). 
 	
@@ -1164,8 +1171,290 @@ Now we present some ubiquitous types of functions.
 
 \subsection{Injective, Surjective, and Bijective Maps}
 
+\begin{definition}
+	Let $f:A\rightarrow B$ be a function.
+	\begin{itemize}[itemsep=-0.4ex]
+		\item We say $f$ is \textbf{injective} if for all $x, y\in A$ we have $f(x) = f(y)\implies x = y$.
+		\item We say $f$ is \textbf{surjective} if for all $y\in B$ there exists $x\in A$ such that $f(x) = y$.
+		\item We say $f$ is \textbf{bijective} if it is both injective and surjective. 
+	\end{itemize}
+\end{definition}
 
+An equivalent characterization of injective functions is that $f:A\rightarrow B$ is injective if and only if for all $x, y\in A$ such that $x\ne y$ we have $f(x) \ne f(y)$.
+That is, injective functions send distinct elements to distinct elements. 
+An equivalent characterization of surjective functions is that $f:A\rightarrow B$ is surjective if and only if $\im f = B$. 
+That is, surjective functions are precisely the ones in which their image matches their codomain. 
+We provide some illustrations of some examples below. 
 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\draw (0, 0) ellipse (1cm and 2cm);
+		\draw (4, 0) ellipse (1cm and 2cm);
+		\node at (-1, 2) {$A$};
+		\node at (3, 2) {$B$};
+		
+		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
+		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
+		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
+		
+		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
+		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
+		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
+		\draw[fill] (4, -1.2) circle (1pt) node[above]{$w$};
+		
+		\draw[->] (0.1, 1.2)--(3.9, 1.2);
+		\draw[->] (0.1, 0.4)--(3.9, 0.4);
+		\draw[->] (0.1, -0.4)--(3.9, -0.4);
+	\end{tikzpicture}
+	\caption{An injective but not surjective function.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\draw (0, 0) ellipse (1cm and 2cm);
+		\draw (4, 0) ellipse (1cm and 2cm);
+		\node at (-1, 2) {$A$};
+		\node at (3, 2) {$B$};
+		
+		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
+		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
+		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
+		\draw[fill] (0, -1.2) circle (1pt) node[above]{$d$};
+		
+		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
+		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
+		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
+		
+		\draw[->] (0.1, 1.2)--(3.9, 1.2);
+		\draw[->] (0.1, 0.4)--(3.9, 0.4);
+		\draw[->] (0.1, -0.4)--(3.9, -0.4);
+		\draw[->] (0.1, -1.2)--(3.9, -0.4);
+	\end{tikzpicture}
+	\caption{A surjective but not injective function.}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}
+		\draw (0, 0) ellipse (1cm and 2cm);
+		\draw (4, 0) ellipse (1cm and 2cm);
+		\node at (-1, 2) {$A$};
+		\node at (3, 2) {$B$};
+		
+		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
+		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
+		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
+		\draw[fill] (0, -1.2) circle (1pt) node[above]{$d$};
+		
+		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
+		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
+		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
+		\draw[fill] (4, -1.2) circle (1pt) node[above]{$w$};
+		
+		\draw[->] (0.1, 1.2)--(3.9, 1.2);
+		\draw[->] (0.1, 0.4)--(3.9, -0.4);
+		\draw[->] (0.1, -0.4)--(3.9, 0.4);
+		\draw[->] (0.1, -1.2)--(3.9, -1.2);
+	\end{tikzpicture}
+	\caption{A bijective function.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\draw (0, 0) ellipse (1cm and 2cm);
+		\draw (4, 0) ellipse (1cm and 2cm);
+		\node at (-1, 2) {$A$};
+		\node at (3, 2) {$B$};
+		
+		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
+		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
+		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
+		\draw[fill] (0, -1.2) circle (1pt) node[above]{$d$};
+		
+		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
+		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
+		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
+		
+		\draw[->] (0.1, 1.2)--(3.9, 0.4);
+		\draw[->] (0.1, 0.4)--(3.9, 0.4);
+		\draw[->] (0.1, -0.4)--(3.9, -0.4);
+		\draw[->] (0.1, -1.2)--(3.9, -0.4);
+	\end{tikzpicture}
+	\caption{A function that is neither injective nor surjective.}
+\end{figure}
+
+\subsection{Functions and Quotients}
+
+Let us revisit the notion of equivalence classes and quotient sets. 
+Given a set $A$ and an equivalence relation $\sim$ on $A$, the quotient set $A/\sim$ is defined as
+\[ A/\sim\; = \{ x\in\cc{P}(A) \,|\, x = [a] \text{ for some } a\in A \} \quad\text{where}\quad [a] = \{ a'\in A \,|\, a\sim a' \} \]
+for each $a\in A$. 
+We often want to define functions on quotient sets, which would be of the form $f:A/\sim\;\rightarrow B$. 
+However, we have to be careful:
+If we define $f([a])$ in terms of a representative $a$ of the equivalence class $[a]$, we must ensure that the resulting value is independent of the choice of representative.
+If $a\sim a'$, then the rule used to define $f([a])$ must assign the same value whether we started with representative $a$ or representative $a'$.
+If this does not hold, then in informal treatments we say the function is \textbf{not well-defined}. 
+Formally speaking, this actually means the function simply does not exist. 
+
+\begin{example}[$f$ is not well-defined]\label{ch1ex_f_not_well_defd}
+	Let $A = \{a, i, b, j, c, k\}$ and $B = \{x, y\}$ where all elements listed are distinct from one another.
+	Let $P(t)\equiv t = i\lor t = j\lor t = k$.
+	Define a relation $\sim$ on $A$ by
+	\begin{align*}
+		a\sim a, \qquad i\sim i, \qquad b\sim b, \qquad j\sim j, \qquad c\sim c, \qquad k\sim k, \\
+		a\sim i, \qquad i\sim a, \qquad b\sim j, \qquad j\sim b, \qquad c\sim k, \qquad k\sim c.
+	\end{align*}
+	We leave it to the reader to check this is an equivalence relation on $A$.
+	The resulting quotient set is 
+	\[ A/\sim\; = \{\{a, i\}, \{b, j\}, \{c, k\}\}. \]
+	Define $f:A/\sim\;\rightarrow B$ as follows:
+	\begin{align*}
+		f([\alpha]) = \begin{cases}
+			x &\text{ if } P(\alpha), \\
+			y &\text{ otherwise}.
+		\end{cases}
+	\end{align*}
+	This function is not well-defined!
+	The problem is that because $[a] = [i]$, it must be the case that $f([a]) = f([i])$, but if we follow our naive rule then $f([a]) = x$ and $f([i]) = y$.
+	
+	On one hand, $f([a]) = f([i])$ but we declared at the start that $x$ and $y$ are distinct elements: $x\ne y$. 
+	The mere introduction of this function drives us into a contradiction, so it must not exist. 
+	This is where it is necessary to fall back to set-theoretic constructions as in \Cref{ch1ex_fn} and \Cref{ch1ex_fn_set}. 
+\end{example}
+
+Below, we provide the appropriate definitions and theorems needed to describe a fool-proof recipe for defining functions on quotient sets. 
+
+\begin{definition}
+	If $\sim$ is an equivalence relation on a set $A$, the map $q:A\rightarrow A/\sim$ defined by $q(a) = [a]$ is called the \textbf{quotient map}. 
+\end{definition}
+
+Here is our construction for the above definition. 
+Given any relation $R = \langle G_{R}, \langle A, B\rangle\rangle$, we take $\textrm{Dom}(R) = A$ and $\textrm{Cod}(R) = B$. 
+Take $A\times_{K} A/\sim$ and apply separation to get
+\[ G_{q} = \{ t\in A\times_{K} A/\sim \,|\, P(t, \sim) \} \]
+where
+\[ P(t, \sim)\equiv (\sim\text{ is an equivalence relation})\land \exists a\in\textrm{Dom}(c)\, (t = \langle a, \textrm{EquivCl}(a, \sim)\rangle) \]
+where if $\sim$ is an equivalence relation on $A = \textrm{Dom}(\sim)$ and $a\in A$ then $\textrm{EquivCl}(a, \sim)$ is the equivalence class $[a]\in A/\sim$. 
+Here $G_{q}\subseteq A\times_{K} A/\sim$ and the reader may verify that it satisfies (F1) and (F2). 
+By forming $q = \langle G_{q}, \langle A, A/\sim\rangle\rangle$, we verify that $q$ indeed exists as a function. 
+
+\begin{lemma}
+	If $\sim$ is an equivalence relation on a set $A$, then the quotient map $q:A\rightarrow A/\sim$ is surjective.
+\end{lemma}
+\begin{proof}
+	If $x\in A/\sim$ then $x = [a]$ for some $a\in A$, so $q(a) = x$. 
+\end{proof}
+
+Now we describe the main strategy for defining functions on quotient sets. 
+Given a set $A$ with an equivalence relation $\sim$, instead of trying to define a map $g:A/\sim\;\rightarrow B$ directly on domain $A/\sim$ (which may result in an inconsistent definition like in \Cref{ch1ex_f_not_well_defd} if we are not careful), it makes sense to define a map $f:A\rightarrow B$ on domain $A$, and if this map $f$ meets certain conditions, it passes to a corresponding map $g:A/\sim\;\rightarrow B$ guaranteed to be well-defined. 
+This is justified and made precise by the theorem below. 
+
+\begin{theorem}[Quotient factorization theorem for sets]\label{ch1thm_quotient_factor_thm}
+	Suppose $\sim$ is an equivalence relation on a set $A$ and $f:A\rightarrow B$ is a function such that $a\sim a'$ implies $f(a) = f(a')$ for all $a, a'\in A$. 
+	Then there exists a unique function $g:A/\sim\;\rightarrow B$ such that 
+	\begin{align}\label{ch1eqn_quotient_factor_comm}
+		f = g\circ q
+	\end{align}
+	where $q$ is the quotient map with respect to $\sim$. 
+\end{theorem}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[node distance=2.8cm and 3.5cm, auto]
+		\node (A) at (0 ,0) {$A$};
+		\node (B) at (0, -2.5) {$A/\sim$};
+		\node (C) at (2.5, 0) {$B$};
+		
+		\draw[->] (A) to node[left] {$q$} (B);
+		\draw[->] (A) to node[above] {$f$} (C);
+		\draw[->, dashed] (B) to node[below right] {$g$} (C);
+	\end{tikzpicture}
+	\caption{A commutative diagram illustrating the quotient factorization theorem for sets.
+	A \textbf{commutative diagram} is a diagram of objects and functions in which any two paths with the same start and end points yield the same output for each input.}
+\end{figure}
+\begin{proof}
+	\textsc{Existence.}
+	Let $Q = A/\!\sim$, let $q:A\rightarrow Q$ be the quotient map, and form the product $Q\times_{K} B$.
+	By separation, take the set
+	\[ G_{g} = \{ t\in Q\times_{K} B \,|\, t = \langle [a], f(a)\rangle \text{ for some } a\in A \}. \]
+	Formally, this is
+	\[ G_{g} = \{ t\in Q\times_{K} B \,|\, P(t, \langle f, \sim\rangle) \} \]
+	where 
+	\begin{align*}
+		P(t, c)&\equiv (c\text{ is a Kuratowski ordered pair})\land (\pi_{L}(c)\text{ is a function}) \\
+		&\quad\land (\pi_{R}(c)\text{ is an equivalence relation}) \\
+		&\quad\land \exists a\in\textrm{Dom}(\pi_{L}(c))\, (t = \langle \textrm{EquivCl}(a, \pi_{R}(c)), \textrm{App}(\pi_{L}(c), a)\rangle ). 
+	\end{align*}
+	Now form $g = \langle G_{g}, \langle Q, B\rangle\rangle$, which exists. 
+	If $t\in G_{g}$, then $t = \langle [a], f(a)\rangle$ for some $a\in A$, so $t\in Q\times_{K} B$.
+	Thus, $G_{g}\subseteq Q\times_{K}B$, and it remains to show it satisfies (F1) and (F2). 
+	
+	For (F1), let $x\in Q$.
+	By definition of quotients, there exists $a\in A$ such that $x = [a]$. 
+	Given that $f(a)\in B$, 
+	\[ \langle x, f(a)\rangle = \langle [a], f(a)\rangle \in Q\times_{K} B, \]
+	and also $P(\langle x, f(a)\rangle, \langle f, \sim\rangle)$ holds, so $\langle x, f(a)\rangle\in G_{g}$. 
+	Thus, (F1) holds. 
+	
+	For (F2), suppose $x\in Q$ and $y, y'\in B$ such that
+	\[ \langle x, y\rangle, \langle x, y'\rangle\in G_{g}. \]
+	By definition of $G_{g}$, there exist $a, a;\in A$ such that
+	\[ \langle x, y\rangle = \langle [a], f(a)\rangle \quad\text{and}\quad \langle x, y'\rangle = \langle [a'], f(a')\rangle. \]
+	By \Cref{ch1eqn_kuratowski_pair_property}, 
+	\[ x = [a], \quad y = f(a), \quad x = [a'], \quad\text{and}\quad y' = f(a'). \]
+	So $[a] = [a']$, which implies $a\sim a'$ by \Cref{ch1eqn_equiv_classes_property}.
+	By hypothesis of $f$, it follows $f(a) = f(a')$ and so $y = y'$. 
+	Thus, (F2) holds. 
+	This proves $g:Q\rightarrow B$ exists and is a function. 
+	
+	By construction, $g\circ q(a) = g(q(a)) = g([a]) = f(a)$ for all $a\in A$, so by \Cref{ch1thm_lemma_equality_of_fns},  \Cref{ch1eqn_quotient_factor_comm} holds. \\
+	
+	\textsc{Uniqueness.}
+	Suppose $g, g': Q \rightarrow B$ are two functions such that $f = g\circ q$ and $f = g'\circ q$. 
+	By hypothesis, $g$ and $g'$ have the same domain $Q$ and codomain $B$. 
+	Given $x\in Q$, by construction of $Q$ we know $x = [a]$ for some $a\in A$.
+	Then 
+	\[ g(x) = g([a]) = g(q(a)) = f(a) = g'(q(a)) = g'([a]) = g'(x). \]
+	This applies to all $x\in Q$, so by \Cref{ch1thm_lemma_equality_of_fns}, it follows $g = g'$. 
+\end{proof}
+
+\begin{example}
+	Let $A = \{a, b, c, \rho, \sigma\}$ and $B = \{\textrm{Latin}, \textrm{Greek}\}$ where all elements listed are distinct. 
+	Let $P(t)\equiv t = a\lor t = b\lor t = c$. 
+	Define a relation $\sim$ on $A$ by
+	\begin{align*}
+		& a\sim a, \quad b\sim b, \quad c\sim c, \quad a\sim b, \quad b\sim a, \quad a\sim c, \quad c\sim a, \quad b\sim c, \quad c\sim b, \\
+		& \rho\sim\rho, \quad \sigma\sim\sigma, \quad \rho\sim \sigma, \quad \sigma\sim \rho.
+	\end{align*}
+	We leave it to the reader to check this is an equivalence relation on $A$.
+	The resulting quotient is 
+	\[ A/\sim\; = \{\{a, b, c\}, \{\sigma, \rho\}\}. \]
+	Instead of defining a function from $A/\sim$ to $B$ directly like we tried in \Cref{ch1ex_f_not_well_defd}, we follow the more principled approach by defining $f:A\rightarrow B$ by
+	\[ f(x) = \begin{cases}
+		\textrm{Latin} &\text{ if } P(x), \\
+		\textrm{Greek} &\text{ otherwise}.
+	\end{cases} \]
+	Let us construct this function to ensure it exists. 
+	Apply separation to $A\times_{K} B$ to obtain
+	\[ G_{f} = \{ t\in A\times_{K} B \,|\, t = \langle x, \textrm{Latin}\rangle \text{ if } P(x) \text{ and } t = \langle x, \textrm{Greek}\rangle \text{ otherwise} \}. \]
+	Formally, this is
+	\[ G_{f} = \{ t\in A\times_{K} B \,|\, Q(t) \} \]
+	where
+	\[ Q(t)\equiv \exists x\, ((P(x)\implies t = \langle x, \textrm{Latin}\rangle)\land (\neg P(x)\implies t = \langle x, \textrm{Greek}\rangle)). \]
+	We form $f = \langle G_{f}, \langle A, B\rangle\rangle$ and leave the reader to verify that $G_{f}\subseteq A\times_{K} B$, (F1), and (F2) hold, proving $f$ exists and is a function. 
+	
+	Now because 
+	\[ f(a) = f(b) = f(c) = \textrm{Latin} \quad\text{and}\quad f(\rho) = f(\sigma) = \textrm{Greek}, \] 
+	we have $x\sim x'$ implies $f(x) = f(x')$ for all $x, x'\in A$, and so \Cref{ch1thm_quotient_factor_thm} is applicable. 
+	This, there exists a unique function $g:A/\sim\;\rightarrow B$ such that $f = g\circ q$ where $q$ is the quotient map. 
+	In this case, 
+	\[ g(\{a, b, c\}) = \textrm{Latin} \quad\text{and}\quad g(\{\rho, \sigma\}) = \textrm{Greek}. \]
+	In more loose terms, we may say $g([x]) = \textrm{Latin}$ if $P(x)$ and $g([x]) = \textrm{Greek}$ if $\neg P(x)$ without running into trouble, because \Cref{ch1thm_quotient_factor_thm} guarantees this type of defining leaves $g$ as a well-defined map. 
+\end{example}
+
+\section{title}
 
 
 
@@ -1193,229 +1482,6 @@ Now we present some ubiquitous types of functions.
 % ZFC set theory, but I am not sure how satisfying it would be. 
 
 \iffalse 
-\subsection{Special Types of Functions}
-
-% 
-% lemma
-
-% iden map
-
-% iden map exist and uniqueness
-
-% [comp def'n]
-
-% comp existence and uniqueness
-
-% change of domain and codomain
-
-% chng exist and uniq
-
-\begin{definition}
-	Let $f:A\rightarrow B$ be a function.
-	\begin{itemize}[itemsep=-0.4ex]
-		\item We say $f$ is \textbf{injective} if for all $a, b\in A$ we have $f(a) = f(b)\implies a=b$.
-		\item We say $f$ is \textbf{surjective} if for all $b\in B$ there exists $a\in A$ such that $f(a) = b$.
-		\item We say $f$ is \textbf{bijective} if it is both injective and surjective. 
-	\end{itemize}
-\end{definition}
-
-\begin{figure}[htbp]
-	\centering
-	\begin{tikzpicture}
-		\draw (0, 0) ellipse (1cm and 2cm);
-		\draw (4, 0) ellipse (1cm and 2cm);
-		\node at (-1, 2) {$A$};
-		\node at (3, 2) {$B$};
-		
-		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
-		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
-		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
-		
-		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
-		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
-		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
-		\draw[fill] (4, -1.2) circle (1pt) node[above]{$w$};
-		
-		\draw[->] (0.1, 1.2)--(3.9, 1.2);
-		\draw[->] (0.1, 0.4)--(3.9, 0.4);
-		\draw[->] (0.1, -0.4)--(3.9, -0.4);
-	\end{tikzpicture}
-	\caption{An injective function.}
-\end{figure}
-
-\begin{figure}[htbp]
-	\centering
-	\begin{tikzpicture}
-		\draw (0, 0) ellipse (1cm and 2cm);
-		\draw (4, 0) ellipse (1cm and 2cm);
-		\node at (-1, 2) {$A$};
-		\node at (3, 2) {$B$};
-		
-		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
-		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
-		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
-		\draw[fill] (0, -1.2) circle (1pt) node[above]{$d$};
-		
-		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
-		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
-		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
-		
-		\draw[->] (0.1, 1.2)--(3.9, 1.2);
-		\draw[->] (0.1, 0.4)--(3.9, 0.4);
-		\draw[->] (0.1, -0.4)--(3.9, -0.4);
-		\draw[->] (0.1, -1.2)--(3.9, -0.4);
-	\end{tikzpicture}
-	\caption{A surjective function.}
-\end{figure}
-
-\begin{figure}[htbp]
-	\centering
-	\begin{tikzpicture}
-		\draw (0, 0) ellipse (1cm and 2cm);
-		\draw (4, 0) ellipse (1cm and 2cm);
-		\node at (-1, 2) {$A$};
-		\node at (3, 2) {$B$};
-		
-		\draw[fill] (0, 1.2) circle (1pt) node[above]{$a$};
-		\draw[fill] (0, 0.4) circle (1pt) node[above]{$b$};
-		\draw[fill] (0, -0.4) circle (1pt) node[above]{$c$};
-		\draw[fill] (0, -1.2) circle (1pt) node[above]{$d$};
-		
-		\draw[fill] (4, 1.2) circle (1pt) node[above]{$x$};
-		\draw[fill] (4, 0.4) circle (1pt) node[above]{$y$};
-		\draw[fill] (4, -0.4) circle (1pt) node[above]{$z$};
-		\draw[fill] (4, -1.2) circle (1pt) node[above]{$w$};
-		
-		\draw[->] (0.1, 1.2)--(3.9, 1.2);
-		\draw[->] (0.1, 0.4)--(3.9, 0.4);
-		\draw[->] (0.1, -0.4)--(3.9, -0.4);
-		\draw[->] (0.1, -1.2)--(3.9, -1.2);
-	\end{tikzpicture}
-	\caption{A bijective function.}
-\end{figure}
-
-\begin{exer}
-	Explain why the following definitions are equivalent to the ones above: $f$ is injective if for all $a, b\in A$ we have $a\ne b\implies f(a)\ne f(b)$, and $f$ is surjective if $\im f = B$.
-\end{exer}
-
-% defin of inverse maps (left right both)
-
-
-\subsection{Functions and Quotients}
-
-Let us revisit the notion of quotient sets.
-Given a set $A$ and an equivalence relation $\sim$ on $A$, the quotient set $A/\sim$ is defined as
-\[ A/\sim\; = \{ X\in\cc{P}(A) \,|\, X = [a] \text{ for some } a\in A \} \quad\text{ where }\quad [a] = \{ a'\in A \,|\, a\sim a' \} \]
-for each $a\in A$. 
-In mathematics, we often want to define functions on quotient sets.
-That is, we are often interested in defining functions of the form $f:A/\sim\;\rightarrow B$. 
-However, we have to be careful:
-If we define $f([a])$ by appealing to properties of the representative $a$, we must make sure that the value of $f([a])$ is the same no matter which representative of the class $[a]$ we choose. 
-In other words, if $[a] = [a']$, we must have $f([a]) = f([a'])$.
-If this does not hold, then the function is \textbf{not well-defined}. 
-When something is not well-defined, there is a lack of clarity or precision in the formulation of the object.
-
-\begin{example}[$f$ is not well-defined]\label{ch1ex_f_not_well_defd}
-	Let $A = \{ a, b, c, d, i, j \}$ and $B = \{ x, y \}$ where all elements listed are distinct from one another.
-	Let $C = \{ a, c, i \}$ as well. 
-	Define a relation $\sim$ on $A$ by
-	\begin{align*}
-		a\sim a, \quad b\sim b, \quad c\sim c, \quad d\sim d, \quad i\sim i, \quad j\sim j, \\
-		a\sim b, \quad b\sim a, \quad c\sim d, \quad d\sim c, \quad i\sim j, \quad j\sim i.
-	\end{align*}
-	We leave it to the reader to check this is an equivalence relation on $A$.
-	The resulting quotient set is $A/\sim\; = \{\{a, b\}, \{c, d\}, \{i, j\}\}$. 
-	Define $f:A/\sim\;\rightarrow B$ as follows:
-	\begin{align*}
-		f([\alpha]) = \begin{cases}
-			x &\text{ if } \alpha\in C, \\
-			y &\text{ otherwise}.
-		\end{cases}
-	\end{align*}
-	\emph{This function is not well-defined}.
-	The problem is that because $[a] = [b]$, it must be the case that $f([a]) = f([b])$, but $f([a]) = x$ and $f([b]) = y$.
-	By the substitution property of equality, we have $x = y$, but we declared at the start that $x$ and $y$ are distinct elements, so we end up in a contradiction. 
-\end{example}
-
-Just because we provided a description of a function $f$, it does not automatically follow that $f$ is well-defined. 
-\Cref{ch1ex_f_not_well_defd} is a good demonstration of why it helps to have a formal theory such as ZFC to fall back on when we get into trouble. 
-Below, we provide the appropriate definitions and theorems needed to describe a fool-proof recipe for defining functions on quotient sets. 
-
-\begin{definition}
-	If $\sim$ is an equivalence relation on a set $A$, the map $q:A\rightarrow A/\sim$ defined by $q(a) = [a]$ is called the \textbf{quotient map}. 
-\end{definition}
-
-\begin{lemma}
-	If $\sim$ is an equivalence relation on a set $A$, then the quotient map $q:A\rightarrow A/\sim$ exists and is surjective.
-\end{lemma}
-\begin{proof}
-	Given $A$ and $\sim\; = ((A, A)_{K}, G_{\sim})_{K}$, recall that the axiom schema of separation (ZFC5) justifies the existence of equivalence classes $[a] = \{ a'\in A \,|\, a\sim a' \}$. 
-	The axiom of power set (ZFC6) and the axiom schema of separation (ZFC5) then justify the existence of $Q = A/\sim$. 
-	By \Cref{ch1thm_kuratowski_prod_exists}, $A\times_{K} Q$ exists. 
-	By the axiom schema of separation (ZFC5), the set
-	\[ G = \{ x\in A\times_{K} Q \,|\, x = (a, [a])_{K} \text{ for some } a\in A \} \]
-	exists. 
-	By \Cref{ch1thm_kuratowski_pair_exist}, we construct $q = ((A, Q)_{K}, G)_{K}$. 
-	
-	We will show $q$ is a function. 
-	First, note that $G\subseteq A\times_{K} Q$. 
-	Second, if $a\in A$, then $[a]\in Q$ such that $(a, [a])_{K}\in G$. 
-	Thus, (F1) holds. 
-	Third, if $a\in A$ and $b, b'\in Q$ such that $(a, b)_{K}, (a, b')_{K}\in G$, then by definition of $G$, $b = [a]$ and $b' = [a]$, so $b = b'$. 
-	Thus, (F2) holds. 
-	
-	It remains to show $q$ is surjective.
-	By definition, if $x\in A/\sim$ then $x = [a]$ for some $a\in A$, so $q(a) = x$. 
-	This completes the proof. 
-\end{proof}
-
-\begin{theorem}[Quotient factorization theorem for sets]\label{ch1thm_quotient_factor_thm}
-	Suppose $\sim$ is an equivalence relation on a set $A$ and $f:A\rightarrow B$ is a function such that $a\sim a'$ implies $f(a) = f(a')$. 
-	Then there exists a unique function $g:A/\sim\;\rightarrow B$ such that 
-	\begin{align}\label{ch1eqn_quotient_factor_comm}
-		f = g\circ q
-	\end{align}
-	where $q$ is the quotient map with respect to $\sim$. 
-\end{theorem}
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[node distance=2.8cm and 3.5cm, auto]
-		\node (A) at (0 ,0) {$A$};
-		\node (B) at (0, -2.5) {$A/\sim$};
-		\node (C) at (2.5, 0) {$B$};
-		
-		\draw[->] (A) to node[left] {$q$} (B);
-		\draw[->] (A) to node[above] {$f$} (C);
-		\draw[->, dashed] (B) to node[below right] {$g$} (C);
-	\end{tikzpicture}
-	\caption{A commutative diagram illustrating the quotient factorization theorem for sets.
-	A \textbf{commutative diagram} is a diagram of objects and functions in which any two paths with the same start and end points yield the same output for each input.}
-\end{figure}
-
-The proof of \Cref{ch1thm_quotient_factor_thm} is given as optional reading in \Cref{chA_set_theory_pfs}.
-\Cref{ch1thm_quotient_factor_thm} is exactly what we need to guarantee that any function we define on quotient sets is well-defined. 
-Let $A, B$ be sets and $\sim$ be an equivalence relation on $A$.
-To define a function $g:A/\sim\;\rightarrow B$ so that $g([a])$ is defined by an appeal to the representative $a$ of $[a]$, it suffices to proceed as follows:
-\begin{enumerate}[itemsep=-0.4ex, label=(\arabic*)]
-	\item Think about how you want to define $g$.
-	Given an equivalence class $[a]$, there is some property of the representative $a$ that you want to use to define $g([a])$. 
-	Define the function $f:A\rightarrow B$ in which $f(a)$ is defined that property of $a$. 
-	\item Check whether 
-	\begin{align}\label{ch1eqn_sim_implication_fn}
-		a\sim a'\implies f(a) = f(a')
-	\end{align}
-	for all $a, a'\in A$. 
-	If \Cref{ch1eqn_sim_implication_fn} does not hold, then the desired function $g$ cannot be constructed.  
-	If \Cref{ch1eqn_sim_implication_fn} holds, proceed to the next step. 
-	\item Apply \Cref{ch1thm_quotient_factor_thm} to obtain a unique function $g:A/\sim\;\rightarrow B$ such that $g([a]) = f(a)$. 
-	This is the desired function. 
-\end{enumerate}
-It is common to define $g:A/\sim\;\rightarrow B$ directly (as in \Cref{ch1ex_f_not_well_defd}) and verify \textit{a posteriori} whether $g$ is well-defined. 
-While this approach is often harmless in practice, it can obscure the underlying logic and give the impression of ad hoc justification. 
-Here, we have presented a more systematic account of how functions on quotient sets may be defined.
-
-
-
 \subsection{The Axiom of Choice}
 
 We introduce the following axiom.
@@ -1453,6 +1519,7 @@ Zorn's lemma is in fact equivalent to the axiom of choice (given all the other a
 \end{theorem}
 
 The proof for Zorn's lemma is long and difficult, so we place it in \Cref{chA_set_theory_pfs}. 
+
 
 
 
