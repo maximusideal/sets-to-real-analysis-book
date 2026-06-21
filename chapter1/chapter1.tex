@@ -1022,7 +1022,7 @@ We introduce composition of functions.
 	Write $f = \langle G_{f}, \langle A, B\rangle\rangle$ and $g = \langle G_{g}, \langle B, C\rangle\rangle$.
 	By the existence of $A\times_{K} C$ and by separation, there exists the set
 	\[ G = \{ t\in A\times_{K} C \,|\, t = \langle x, g(f(x))\rangle \text{ for some } x\in A \}. \]
-	Formally, this is
+	More formally, this is
 	\[ G = \{ t\in A\times_{K} C \,|\, P(t, \langle f, g\rangle) \} \]
 	where
 	\begin{align*}
@@ -1079,7 +1079,7 @@ We introduce changes of domains and codomains of functions.
 \begin{proof}
 	Given $f = \langle G_{f}, \langle A, B\rangle\rangle$, $X\subseteq A$, and $Y\supseteq f(X)$, use separation to obtain the subset
 	\[ G = \{ t\in G_{f} \,|\, t\in X\times_{K} Y \}. \]
-	Formally, this is
+	More formally, this is
 	\[ G = \{ t\in G_{f} \,|\, P(t, \langle X, Y\rangle) \} \]
 	where 
 	\[ P(t, c)\equiv (c\text{ is a Kuratowski ordered pair})\land t\in \pi_{L}(c)\times_{K}\pi_{R}(c). \] 
@@ -1439,7 +1439,7 @@ This is justified and made precise by the theorem below.
 	Let us construct this function to ensure it exists. 
 	Apply separation to $A\times_{K} B$ to obtain
 	\[ G_{f} = \{ t\in A\times_{K} B \,|\, t = \langle x, \textrm{Latin}\rangle \text{ if } P(x) \text{ and } t = \langle x, \textrm{Greek}\rangle \text{ otherwise} \}. \]
-	Formally, this is
+	More formally, this is
 	\[ G_{f} = \{ t\in A\times_{K} B \,|\, Q(t) \} \]
 	where
 	\[ Q(t)\equiv \exists x\, ((P(x)\implies t = \langle x, \textrm{Latin}\rangle)\land (\neg P(x)\implies t = \langle x, \textrm{Greek}\rangle)). \]
@@ -1451,13 +1451,15 @@ This is justified and made precise by the theorem below.
 	This, there exists a unique function $g:A/\sim\;\rightarrow B$ such that $f = g\circ q$ where $q$ is the quotient map. 
 	In this case, 
 	\[ g(\{a, b, c\}) = \textrm{Latin} \quad\text{and}\quad g(\{\rho, \sigma\}) = \textrm{Greek}. \]
-	In more loose terms, we may say $g([x]) = \textrm{Latin}$ if $P(x)$ and $g([x]) = \textrm{Greek}$ if $\neg P(x)$ without running into trouble, because \Cref{ch1thm_quotient_factor_thm} guarantees this type of defining leaves $g$ as a well-defined map. 
+	In more loose terms, we may say $g([x]) = \textrm{Latin}$ if $P(x)$ and $g([x]) = \textrm{Greek}$ if $\neg P(x)$ without running into trouble, because \Cref{ch1thm_quotient_factor_thm} guarantees this leaves $g$ as a well-defined map. 
 \end{example}
 
-\section{title}
+\section{Choice and Extensionality Principles}
+
+\subsection{The Axiom of Choice}
 
 
-
+% \subsection{Zorn's Lemma}
 
 % At the end, we will write the following topics
 % 1. Peano system
