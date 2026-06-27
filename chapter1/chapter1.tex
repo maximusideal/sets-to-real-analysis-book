@@ -1,6 +1,6 @@
 \chapter{Introduction to Set Theory}\label{ch1_set_theory}
 
-\section{Foundations and Framework}
+\section{Foundations and Framework}\label{ch1sec_foundations_and_framework}
 
 \subsection{Logic}
 
@@ -11,11 +11,12 @@ If $P$ is true if and only if $Q$ is true, we write $P\iff Q$.
 We write $\neg P$ to mean the negation of $P$, $P\land Q$ to mean $P$ and $Q$, and $P\lor Q$ to mean $P$ or $Q$ (inclusively).
 The usual laws of logic will be assumed without explicating them further.
 
-A \textbf{predicate} $P$ is anything that takes in an object $x$ and outputs a proposition $P(x)$. 
-For example, if $P(x)$ means, ``$x$ went to the store," then $P$ refers to ``went to the store."
+A \textbf{one-place predicate} $P$ is anything that takes in an object $a$ and outputs a proposition $P(a)$. 
+For example, if $P(a)$ means, ``$a$ went to the store," then $P$ refers to ``went to the store."
 In this sense, $P$ refers to something that is either true or false of any given object. 
-In addition to predicates that take in a single object, we allow the following: A predicate $P$ may take objects $x, y$ to form a proposition $P(x, y)$ or take objects $x, y, z$ to form a proposition $P(x, y, z)$, depending on what $P$ is precisely. 
-For example, if $P(x, y)$ means, ``$x$ is on top of $y$," then $P$ refers to ``is on top of."
+In addition to predicates that take in a single object, we allow the following. 
+A \textbf{two-place predicate} $P$ takes objects $a, b$ to form a proposition $P(a, b)$ and a \textbf{three-place predicate} $P$ takes objects $a, b, c$ to form a proposition $P(a, b, c)$.
+For example, if $P(a, b)$ means, ``$a$ is on top of $b$," then $P$ refers to ``is on top of."
 
 When a discussion takes place, we delineate a \textbf{domain of discourse}. 
 This refers to the class of everything that is under consideration in a discussion.
@@ -26,7 +27,16 @@ By writing $\exists x\, P(x)$, we mean: There exists an object $x$ such that $P(
 Here $\forall$ is a \textbf{universal quantifier} and $\exists$ is an \textbf{existential quantifier}. 
 In a statement like $\forall x\, P(x)$, the variable $x$ is implicitly ranging over some domain like the set of natural numbers or a group of people.
 
-When we deal solely with propositions without quantifiers, we are dealing with \textbf{propositional logic}.
+Inside propositions with quantifiers, we use \textbf{variable symbols} like $x, y, z$, which do not refer to any specific object but are placeholders for arbitrary objects in a given domain of discourse.
+In general, a \textbf{bound variable} is a variable whose occurrence lies within the scope of something (a binding operator) that declares the variable role.
+The binding operators can be quantifiers, but later in the text we will come across integral, summation, and limit notation that also serve as binding operators. 
+Bound variables act as local placeholders whose names may be changed without altering the meaning of the expression.
+A variable that is not bound is called a \textbf{free variable}. 
+
+In contrast to variables, we use \textbf{constant symbols} like $a, b, c$, which always refer to some specific object in the domain of discourse, even if we might not know exactly which object. 
+We will not always adhere to the convention of using initial English letters for constant symbols and final English letter for variables symbols; this will only be a heuristic and how any given letter is used should be understood from the context. 
+
+When we deal solely with propositions without predicates or quantifiers, we are dealing with \textbf{propositional logic}.
 When we deal with predicates and quantifiers that range over the objects of the domain of discourse, we are dealing with \textbf{first-order} or \textbf{predicate logic}. 
 Most of this text will implicitly operate within informal predicate logic. 
 The English language will be used throughout, with logical notation appearing at times only as a shorthand.
@@ -34,9 +44,9 @@ The English language will be used throughout, with logical notation appearing at
 \subsection{Equality}
 
 The most basic and prevalent relation in mathematics is the \textbf{equality relation} $=$.
-In mathematics, we use symbols and strings of symbols to designate objects and concepts in a given domain of discourse.
-If two symbols, say $a$ and $b$, refer to the same object, we use equality to signify this by writing $a = b$. 
-If the symbols $a$ and $b$ refer to different objects, we signify this by writing $a\ne b$.
+In mathematics, \textbf{terms} are expressions that designate objects in a given domain of discourse.
+If two terms, say $a$ and $b$, refer to the same object, we write $a = b$. 
+If the terms $a$ and $b$ refer to different objects, we write $a\ne b$ as a shorthand for $\neg (a = b)$. 
 The following characterization of equality is sufficient for the mathematics we will be undertaking:
 
 \begin{enumerate}[itemsep=-0.4ex, label=(\arabic*)]
@@ -44,14 +54,11 @@ The following characterization of equality is sufficient for the mathematics we 
 	\item \textsc{Indiscernibility of identicals (schema):} If $P$ is a predicate, then for any objects $x, y$ in a given domain of discourse, if $x = y$ then $P(x) \iff P(y)$.
 \end{enumerate}
 
-The \textbf{indiscernibility of identicals} is also called the \textbf{substitution property}.
-In the way we formulated it, the indiscernibility of identicals is a \textbf{schema} rather than a single statement. 
-This means it represents multiple statements, one for each predicate $P$. 
-When we later formulate the axioms of set theory, we will encounter \textbf{axiom schemas}.
-An axiom schema is simply a way of representing multiple axioms, one for each predicate.
+\noindent The \textbf{indiscernibility of identicals} is also called the \textbf{substitution property}.
+In the way we formulated it, the indiscernibility of identicals is a schema rather than a single statement, so it represents multiple statements, one for each predicate $P$. 
 
 We will be flexible with our notation in obvious ways.
-For example, by writing $x = y = z$, we mean that $x = y$ and $y = z$ hold simultaneously. 
+For example, by writing $a = b = c$, we mean that $a = b$ and $b = c$ hold simultaneously. 
 From properties (1) and (2) above, we may prove other properties of equality.
 
 \begin{prop}
@@ -73,59 +80,232 @@ From properties (1) and (2) above, we may prove other properties of equality.
 	By the substitution property and by our assumption that $b = c$, it follows that $Q(c)$ holds true, which stands for $a = c$. 
 \end{proof}
 
-\subsection{Constants, Functions, and Relations}
+Oftentimes, we may have propositions of the form
+\[ \exists x\, (P(x)\land \forall y\, (P(y)\implies y=x)) \]
+for some predicate $P$.
+This asserts not only that an object $a$ satisfies $P$, but also that the object is unique, so if $b$ also satisfies $P$, then $a = b$.
+We may abbreviate this as 
+\[ \exists ! x\, P(x), \] 
+which is a statement of unique existence. 
 
-In addition to connectives $\land$, $\lor$, $\!\implies\!$, $\!\impliedby\!$, $\!\iff\!$, quantifiers $\exists$, $\forall$, equality $=$, and parentheses, we will have three kinds of non-logical symbols.
-A \textbf{constant symbol} $c$ is a symbol that refers to a fixed existing object in the domain of discourse. 
-A \textbf{(domain guarded) function symbol} $f$ with \textbf{domain condition} $D$ is a symbol that takes in a term $t$ (anything that may refer to an existing object in the domain of discourse) for which a proof of $D(t)$ exists and returns new term $f(t)$ that refers to an existing object in the domain of discourse. 
+\subsection{Constant, (Domain Guarded) Function, and Relation Symbols}
+
+In addition to connectives $\land$, $\lor$, $\!\implies\!$, $\!\impliedby\!$, $\!\iff\!$, quantifiers $\exists$, $\forall$, equality $=$, and parentheses, we will have three kinds of non-logical symbols. 
+
+A constant symbol $c$ (already introduced above) is a symbol that refers to a fixed existing object in the domain of discourse. 
+A \textbf{(domain guarded) function symbol} $f$ with \textbf{domain condition} $D$ is a symbol that takes in a term $t$ for which a proof of $D(t)$ exists and returns new term $f(t)$ that refers to an existing object in the domain of discourse. 
+In some cases, the domain condition $D$ may be a two-place predicate and the function symbol $f$ may take two terms $s, t$ for which a proof of $D(s, t)$ exists to produce a new term $f(s, t)$. 
 A \textbf{binary relation symbol} $R$ is a symbol that takes in two terms $s, t$ and returns a proposition $R(s, t)$; we often write $R(s, t)$ as $s\, R\, t$. 
 
 The constant, function, and relation symbols we are discussing here are syntactic objects outside of the mathematical domain of discourse. 
 If $f$ is a function symbol with domain condition $D$, we only consider $f(t)$ well-formed if a proof of $D(t)$ exists (in the relevant context) where $t$ is a well-formed term.
-A function $f$ such that $f(t)$ is defined for all terms $t$ is possible if the domain condition is trivial like $D(t)\equiv t=t$. 
+A function $f$ such that $f(t)$ is defined for all terms $t$ is possible if the domain condition is trivial like $D(t)\equiv t=t$.
 
-Unlike in treatments of a formal theory where the language is declared once and never changes, we will extend our language as our text unfolds. 
-Each extended theory must be conservative over the original theory, meaning that any statement in the old language that can be proven in the new theory must be provable in the old theory.
-This way, everything entailed and not entailed by our original axioms is preserved.
-Consequently, each extension can be done only under certain conditions.
-Each extension takes one of three forms:
+We deviate away from usual first-order logic because of our domain guarded scheme taken from Wiedijk and Zwanenburg's work. % cite First order logic with domain conditions by W&Z
+This is so that certain junk terms like $1/0$ (division by zero) remain genuinely undefined.
+Whenever we use a domain guarded function symbol, the relevant domain condition must already be available in the context.
+This has the consequence that propositions and predicates must be read from left to right such that the well-formedness of terms crucially depends on what is established to the left of the term and in the given context. 
+
+\begin{example}
+	Suppose our domain of discourse is the set of rational numbers.
+	We haven't yet introduced rational numbers formally, but we use them here for illustrative purposes. 
+	Suppose division $d(x, y) = x/y$ is domain guarded by $D(x, y)\equiv y\ne 0$. 
+	
+	Consider the predicate
+	\[ P(x)\equiv (x\ne 0)\land (1/x > 0). \]
+	If $x\ne 0$, the first clause is true and $D(1, x)$ holds, so then $1/x$ is well-formed and the second clause may be evaluated as true or false.
+	If $x = 0$, the first clause is false, and we stop there immediately to conclude $P(x)$ is false without reading the second clause.
+	Consider the predicate 
+	\[ Q(x)\equiv (1/x > 0)\land (x\ne 0). \]
+	Here, nothing ensures $x\ne 0$ when reading left to right, so no proof of $D(1, x)$ exists, and so $Q(x)$ is not well-formed
+	
+	The proposition
+	\[ R\equiv \exists x\, (x\in\mathbb{Q}\land 1/x = 1) \]
+	is not well-formed because nothing ensures $x\ne 0$ to the left of $1/x$, so no proof of $D(1, x)$ exists.
+	However,
+	\[ S\equiv \exists x\, (x\in\mathbb{Q}\land x\ne 0\land 1/x = 1) \]
+	is well-formed, because the $x\ne 0$ clause proves $D(1, x)$ before we get to $1/x$. 
+\end{example}
+
+\subsection{Axioms, Theory, and Models}
+
+Mathematics deals with structures such as numbers, shapes, graphs, spaces, and more complicated systems.
+These structures sit on the \textbf{semantic} side of mathematics.
+In order to reason about such structures, we write statements in a language.
+This language, together with the rules for forming statements and proofs done using logic, sits on the \textbf{syntactic} side of mathematics.
+
+An \textbf{axiom} is a proposition we take as true within a given theory.
+Axioms in a given theory are used as the starting point so that we may prove further statements called theorems. 
+Now if the axioms of a given theory are true about some mathematical structure(s), then by soundness of logic all the resulting theorems should also be true about the mathematical structure(s). 
+
+An \textbf{axiom schema} is a rule for generating axioms such that for each appropriate predicate $P$, the schema yields a unique proposition by having $P$ substituted in the right places.
+It is simply a way to represent multiple axioms, one for each predicate. 
+
+\begin{example}\label{ch1ex_axioms_triang_NagelNewman}
+	This example is adapted from Nagel and Newman. % cite Godel's Proof by Nagel & Newman
+	We take the formal language of two sorts $K$ and $L$ where variables $x, y, z, w$ belong to $K$ and variables $i, j, k, l$ belong to $L$, and there is a single primitive relation symbol $\propto$.
+	We read $x\propto i$ as ``$x$ is blorged in $i$.''
+	The theory consists of the following axioms:
+	\begin{enumerate}[itemsep=-0.4ex, label=\textup{(T\arabic*)}]
+		\item Any two distinct $K$-objects are blorged in exactly one $L$-object:
+		\[ \forall x\forall y\, (x\ne y\implies\exists ! i\, (x\propto i\land y\propto i)). \]
+		\item No $K$-object is blorged in more than two $L$-objects:
+		\[ \neg\exists x\exists i\exists j\exists k\,(i\ne j\land i\ne k\land j\ne k\land x\propto i\land x\propto j\land x\propto k). \]
+		\item The $K$-objects are not all blorged in a single $L$-object:
+		\[ \neg\exists i\,\forall x\,(x\propto i). \]
+		\item Any two distinct $L$-objects blorg exactly one $K$-object:
+		\[ \forall i\forall j\,(i\ne j\implies\exists!x\,(x\propto i\land x\propto j)). \]
+		\item No $L$-object blorgs more than two $K$-objects:
+		\[ \neg\exists i\exists x\exists y\exists z\,(x\ne y\land x\ne z\land y\ne z\land x\propto i\land y\propto i\land z\propto i). \]
+		\item There exist two distinct $K$-objects:
+		\[ \exists x\exists y\, (x\ne y). \]
+	\end{enumerate}
+	
+	Using these starting axioms in our theory, we can use logical inference to prove various theorems. 
+	For example, we may deduce that there must be exactly three $K$-objects, and all this can be done without having to interpret what any of the words or symbols mean. 
+	
+	However, the axioms we laid out happen to be true statements about a real mathematical object.
+	In our example, we characterized a triangle-like structure. 
+	We may interpret $K$-objects as vertices, $L$-objects as line segments or edges, and the blorg relation $\propto$ to mean that a vertex is part of the line segment or edge. 
+	Since (T1) to (T6) are true of triangles, any deductions from them such as the theorem that there are exactly three $K$-objects are also true of triangles. 
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			>=stealth,
+			every node/.style = {font=\small},
+			node distance     = 15mm
+			]
+			%--- vertex points ---
+			\coordinate (a) at (3,2.8);
+			\coordinate (b) at (-2,0);
+			\coordinate (c) at (2,0);
+			
+			%--- triangle sides / L-objects ---
+			\draw[-] (a) -- node[above] {$I_{L}$} (b);
+			\draw[-] (a) -- node[right] {$J_{L}$} (c);
+			\draw[-] (b) -- node[below] {$K_{L}$} (c);
+			
+			%--- vertex dots ---
+			\fill (a) circle (2pt);
+			\fill (b) circle (2pt);
+			\fill (c) circle (2pt);
+			
+			%--- vertex labels ---
+			\node[above=4pt] at (a) {$X_{K}$};
+			\node[left=6pt] at (b) {$Y_{K}$};
+			\node[right=6pt] at (c) {$Z_{K}$};
+		\end{tikzpicture}
+		\caption{Triangle model of the axioms.}
+	\end{figure}
+\end{example}
+
+Axiom lists may characterize a class of structures. 
+Sometimes they may narrow the class down to exactly one structure, but this does not have to be true. 
+For example, if we removed some axioms from \Cref{ch1ex_axioms_triang_NagelNewman}, then the triangle would not be the only compatible structure satisfying the axioms. 
+
+\subsection{Extending Our Language and Theory}
+
+In our text, we will be extending our language and theory as our text unfolds exactly as in real life mathematical practice. 
+Let us explain what this means. 
+Let $L$ be a \textbf{language} containing logical symbols along with constant, function, and relation symbols, and let $T$ be a \textbf{theory-as-a-set-of-axioms} in $L$. 
+We say $L'$ \textbf{extends} $L$ if every symbol of $L$ is also a symbol of $L'$.
+We say $T'$ \textbf{extends} $T$ if every axiom of $T$ is also an axiom of $T'$.
+
+In this text, extensions arise by adding new constant, function, or relation symbols, together with axioms governing them. 
+However, we require that every extension $T'$ in an expanded language $L'$ is \textbf{conservative} over $T$, meaning that every proposition expressible in the original language $L$ that is provable from $T'$ must be provable from the original theory $T$.
+This way, what is and is not entailed by our original axioms is preserved. 
+We do not want to add symbols and axioms that break conservativity, because then the extension would leave us with a theory that is inequivalent to the original theory.
+In turn that would change what mathematical structures we are talking about.
+
+Consider the following scenario.
+If our initial theory proves $\neg\exists x\, P(x)$, then adding a new constant symbol $c$ such that $P(c)$ holds introduces a contradiction, because the existence of $c$ implies $\exists x\, P(x)$.
+This breaks not only conservativity over the original theory but consistency itself. 
+In this case, the expansion of language and the introduction of new notation is not harmless. 
+Let us lay out the precise cases where expansion of language and theory is conservative. 
 
 \begin{itemize}[itemsep=-0.4ex]
-	\item\textsc{Introducing constant symbols.} 
+	\item \textsc{Introducing constant symbols.} 
 	Constants refer to existing mathematical objects.
 	If we show 
-	\[ \exists x\, P(x) \] 
+	\begin{align*}
+		\exists ! x\, P(x)
+	\end{align*}
 	for some predicate $P$, then we may introduce a new symbol $c$ with a new axiom 
-	\[ P(c). \]
-	Note that because uniqueness is not established, if $d$ satisfies $P$, it does not necessarily follow that $c = d$. 
-	Oftentimes, however, we may show 
-	\[ \exists x\, (P(x)\land \forall y\, (P(y)\implies y=x)) \]
-	for some predicate $P$, which states that there exists a unique element satisfying $P$. 
-	We may abbreviate this as $\exists ! x\, P(x)$.
-	In such a case, we may introduce a new symbol $c$ with a new axiom 
-	\[ P(c)\land \forall y\, (P(y)\implies y=c). \]
+	\begin{align}\label{ch1eqn_const_ax}
+		P(c).
+	\end{align}
+	Since we require uniqueness, if $d$ satisfies $P$, it follows that $c = d$.
 	\item\textsc{Introducing (domain guarded) function symbols.}
 	Function symbols are used to transform terms into other terms.
 	If we show 
-	\[ \forall x\, (D(x)\implies \exists ! y\, P(x, y)) \]
-	for some one-place predicate $D$ and two-place predicate $P$, then given $x$ such that $D(x)$ holds we want to be able to pick out the unique $y$ such that $P(x, y)$ holds. 
+	\begin{align*}
+		\forall x\, (D(x)\implies \exists ! y\, P(x, y))
+	\end{align*}
+	for some one-place predicate $D$ and two-place predicate $P$, then given $x$ such that $D(x)$ holds we want to be able to pick out $y$ such that $P(x, y)$ holds. 
 	We do this by introducing a new symbol $f$ with domain condition $D$ and a new axiom 
-	\[ \forall x\, (D(x)\implies P(x, f(x))). \]
-	Function symbols with the trivial domain condition $D(x)\equiv x=x$ may be reframed as function symbols without domain conditions.
+	\begin{align}\label{ch1eqn_fn_ax}
+		\forall x\, (D(x)\implies P(x, f(x))).
+	\end{align}
+	Since uniqueness of outputs must be established, if $c, d$ are such that $D(c)$ and $P(c, d)$, it must follow that $d = f(c)$. 
 	Sometimes we will also have $D$ as a two-place predicate and $P$ as a three-place predicate so that given $x, y$ for which $D(x, y)$ holds, we may form $f(x, y)$ so that $P(x, y, f(x, y))$ holds.
 	\item\textsc{Introducing binary relation symbols.}
 	Binary relation symbols take two terms and return a proposition. 
 	In general, for any two-place predicate $P$, we may add a binary relation symbol $R$ with a new axiom 
-	\[ \forall x\forall y\, (P(x, y) \iff xRy). \]
+	\begin{align}\label{ch1eqn_rel_ax}
+		\forall x\forall y\, (P(x, y) \iff xRy).
+	\end{align}
 \end{itemize}
 
-The conditions before adding new symbols are necessary, because their usage presupposes existence. 
-For example, if our initial axioms prove $\neg\exists x\, P(x)$, then adding a new constant symbol $c$ such that $P(c)$ introduces a contradiction: We would be able to prove $\neg\exists x\, P(x)$ and $\exists x\, P(x)$ simultaneously, breaking not only conservativity over the original theory but consistency as well. 
+All three cases are \textbf{extensions by definition}.
+In an extension by definition, any individual formula in the expanded language $L'$ can be translated into a provably equivalent formula in the old language $L$. 
+The translation is done on the atomic formulas and terms containing the new symbols. 
+For example, if $\exists ! x\, P(x)$ holds and $c$ is a constant symbol such that \Cref{ch1eqn_const_ax} holds, then in any formula we may replace every atomic formula of the form $Q(c)$ with $\exists x\, (P(x)\land Q(x))$ to get an equivalent formula.
+If a function symbol $f$ is introduced under \Cref{ch1eqn_fn_ax} with uniqueness of outputs, then terms involving $f$ are eliminated from the innermost outward:
+At each step, we rewrite each atomic formula $Q(f(t))$ with $t$ not containing $f$ as $\exists y\, (P(t, y)\land Q(y))$, provided $D(t)$ holds. 
+By repeating this and working outwards, every occurrence of $f$ is removed. 
+If a relation $R$ is introduced by \Cref{ch1eqn_rel_ax}, then every occurrence of $sRt$ may be replaced by $P(s, t)$ where $s, t$ are terms. 
+Consequently, any proof involving $c$, $f$, or $R$ introduced by extension by definition may be rewritten without those symbols. 
+This guarantees the extension $T'$ of $T$ is conservative.
 
-\subsection{Language and Notation}
+There are other ways in which constant symbols are introduced, but they are only done in \emph{local contexts} (like in a proof or a theorem statement) and the \emph{global language} does not change.
+Let us go over ways this happens in proofs. 
 
+\begin{itemize}[itemsep=-0.4ex]
+	\item\textsc{Universal generalization.}
+	Suppose we want to prove
+	\[ \forall x\, P(x) \]
+	for some predicate $P$.
+	To prove this, we would introduce a constant symbol $c$ with nothing assumed other than background information like the axioms of our theory.
+	After that, we use the axioms and logical inference to deduce $P(c)$.
+	Because the object $c$ refers to is arbitrary, we generalize, and infer $\forall x\, P(x)$, with $c$ no longer part of our vocabulary. 
+	As an instructive example, suppose $P(x)$ is an implication of the form $R(x)\implies S(x)$. 
+	We introduce $c$ and consider two cases.
+	If $c$ does not satisfy $R$, then $R(c)\implies S(c)$ is true by virtue of the antecedent being false. 
+	If $c$ satisfies $R$, then we use axioms and logical inference to deduce that $c$ satisfies $S$, so that $R(c)\implies S(c)$ is true by virtue of the consequent being true. 
+	Since this applies to all $c$, we generalize and conclude $\forall x\, (R(x)\implies S(x))$, with $c$ no longer part of our vocabulary. 
+	\item\textsc{Existential instantiation.}
+	Suppose we want to prove some proposition $Q$ using a previously established fact that $\exists x\, P(x)$ where $P$ is some predicate. 
+	To proceed, we introduce a constant symbol $c$ such that $P(c)$, do reasoning in the given context, reach conclusion $Q$, and then discharge $c$.
+	The constant symbol $c$ must not appear anywhere before its introduction or in $Q$.
+	It is important to stress that $c$ is a \emph{generic witness} to the existential statement $\exists x\, P(x)$. 
+	This means the only fact we may use about $c$ is that it satisfies $P$ and anything entailed by that, even though a \emph{specific object} might satisfy many more predicates. 
+\end{itemize}
+
+\noindent In these local contexts, we do not need uniqueness conditions.
+For example, introducing a witness $c$ such that $P(c)$ can be done if $\exists x\, P(x)$ is established with uniqueness not necessarily established (so if $d$ is also such that $P(d)$ it does not necessarily follow that $c = d$). 
+Proofs that invoke temporary constant symbols are translatable into proofs that avoid this technique.
+However, individual sentences with $c$ cannot be translated into equivalent sentences without $c$ unless the uniqueness condition $\exists ! x\, P(x)$ also holds.
+(Proving all these facts is outside the scope of this text.)
+This is why we limit changes of our global language to only cases where uniqueness conditions hold. 
+
+There are formal proof systems that make all this much more precise.
+In some systems like natural deduction, local introductions of new constant symbols are part of the proof-theoretic framework, but there are systems like Hilbert's system that avoid any introduction of constant symbols altogether.
+The price to pay in systems like Hilbert's system is that proofs are much more arduous and difficult to follow. 
+
+In our text, we will sometimes invoke another layer to our discussion, which involves talking about the syntax explicitly.
 A \textbf{character} is taken to be any symbol in a language.
-More generally, it can be any atomic piece of a language that can't be broken down further. 
+More generally, it can be any atomic piece of a writing system that can't be broken down further. 
 A \textbf{string} is any sequence of characters written together consecutively.
 We include the \textbf{empty string}, which consists of no characters, as a string. 
 In our framework, strings and characters will be linguistic devices sitting outside of our object-level mathematics.
@@ -243,10 +423,10 @@ We will use these axioms to define various set operations.
 	such that $x\in B$ if and only if $x\in y$ for some $y\in A$.
 	Intuitively, $B$ is the set obtained by taking all members of $A$ and then putting the elements of those members into a single set, and we call this the \textbf{union} of elements of $A$.
 	\item\textsc{Axiom schema of separation.}
-	Given sets $A, c$ and a (possibly two-place) predicate $P$, there exists a set 
+	Given sets $A, c$ and a (one-place or two-place) predicate $P$, there exists a set 
 	\[ B = \{ x\in A \,|\, P(x, c) \} \] 
 	such that $x\in B$ if and only if $x\in A$ and $P(x, c)$. 
-	Intuitively, $B$ is the subset of $A$ consisting of elements that have the property $P$ (with parameter $c$), and we call this the \textbf{subset} of $A$ of elements satisfying predicate $P$ (with parameter $c$).
+	Intuitively, $B$ is the subset of $A$ consisting of elements that have the property $P$ (with parameter $c$), and we call this the \textbf{specified subset} of $A$ of elements satisfying predicate $P$ (with parameter $c$).
 	\item\textsc{Axiom of Power Set.}
 	Given a set $A$, there exists a set 
 	\[ B = \cc{P}(A) \] 
@@ -255,6 +435,10 @@ We will use these axioms to define various set operations.
 \end{enumerate}
 
 The axiom schema of separation also goes by the names \textbf{specification}, \textbf{subsets}, and \textbf{restricted comprehension}. 
+
+The axiom schema of separation depends on predicates defined in the original language consisting only of the non-logical $\in$ symbol.
+However, because all expansions of our language will be extensions by definition (as explained in \Cref{ch1sec_foundations_and_framework}), we may invoke predicates that use the expanded language without altering the theory whatsoever. 
+
 The construction axioms assert existence of various sets. 
 Let us go over some basic uniqueness propositions. 
 
@@ -356,7 +540,7 @@ To see this, simply note that $x\in\{a, b\}$ if and only if $x = a\lor x = b$ if
 
 Given an element $a$, we may use the axiom of pairing (ZFC3) to form the set $\{a, a\}$. 
 Since $x\in\{a, a\}$ if and only if $x = a\lor x = a$ if and only if $x = a$, this set contains only the element $a$.
-If $A$ is a set such that $\forall x\, (x\in A\iff x = a)$, then we call $A$ a \textbf{singleton}, and the axiom of extensionality (ZFC2) implies $A = \{a, a\}$, which is unique with respect to $a$. 
+If $A$ is a set such that $\forall x\, (x\in A\iff x = a)$, we call $A$ a \textbf{singleton}, and the axiom of extensionality (ZFC2) implies $A = \{a, a\}$, which is unique with respect to $a$. 
 For any $a$, the singleton containing $a$ is written as $\{a\}$.
 
 Given two singletons $\{a\}$ and $\{b\}$, we may form the union $\{a\}\cup\{b\}$ and get back the pairing $\{a, b\}$ of $a$ and $b$. 
@@ -487,6 +671,8 @@ Any predicate $P$ satisfying \Cref{ch1eqn_func_pred} is called a \textbf{functio
 	This shows $B\subseteq B'$. 
 	By the same reasoning, $B'\subseteq B$, so by the axiom of extensionality (ZFC2), $B = B'$. 
 \end{proof}
+
+Just like with the axiom schema of separation, the axiom schema of replacement depends on predicates defined in the original language consisting only of the non-logical $\in$ symbol, but since all expansions of our language are extensions by definition, we may invoke predicates that use the expanded language without altering the theory whatsoever. 
 
 Given a functional predicate $P$ and sets $A, c$, the existence and uniqueness of the set given by replacement may be written as $B = \textrm{Rep}_{P}(A, c)$, or in set-builder notation,
 \[ B = \{ \mathcal{F}_{P}(x, c) \,|\, x\in A \} \]
@@ -784,7 +970,7 @@ We do this as follows.
 Given an equivalence relation $\sim$ on set $A$, we can form a partition of $A$ as follows.
 For each $a\in A$, use separation to obtain
 \[ \{ b\in A \,|\, a\sim b \}, \]
-which we denote as $[a]$.
+which we denote as $[a]_{\sim}$ or usually just $[a]$.
 Then use separation to obtain the set
 \[ \{ x\in\cc{P}(A) \,|\, x = [a] \text{ for some } a\in A \}, \]
 which we will denote as $A/\sim\;$. 
@@ -1454,12 +1640,13 @@ This is justified and made precise by the theorem below.
 	In more loose terms, we may say $g([x]) = \textrm{Latin}$ if $P(x)$ and $g([x]) = \textrm{Greek}$ if $\neg P(x)$ without running into trouble, because \Cref{ch1thm_quotient_factor_thm} guarantees this leaves $g$ as a well-defined map. 
 \end{example}
 
-\section{Choice and Extensionality Principles}
+\section{Choice and x Principles}
 
 \subsection{The Axiom of Choice}
 
-
 % \subsection{Zorn's Lemma}
+
+
 
 % At the end, we will write the following topics
 % 1. Peano system
