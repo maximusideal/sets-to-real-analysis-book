@@ -969,7 +969,7 @@ We do this as follows.
 
 Given an equivalence relation $\sim$ on set $A$, we can form a partition of $A$ as follows.
 For each $a\in A$, use separation to obtain
-\[ \{ b\in A \,|\, a\sim b \}, \]
+\[ \{ a'\in A \,|\, a'\sim a \}, \]
 which we denote as $[a]_{\sim}$ or usually just $[a]$.
 Then use separation to obtain the set
 \[ \{ x\in\cc{P}(A) \,|\, x = [a] \text{ for some } a\in A \}, \]
@@ -994,9 +994,7 @@ We again leave it to the reader to show that the resulting relation is an equiva
 
 \subsection{Basic Definitions}
 
-Based on the axioms of what is allowed and not allowed in set theory, we introduced various function-like operations, some of which are defined on the class of all sets like the power set operation $\cc{P}$ and the union operation $\bigcup$. 
-Some other operations are defined only if certain non-trivial conditions are satisfied.
-For example, when it comes to the intersection operation $\bigcap$, we only consider $\bigcap A$ well-formed if there exists a proof that $A$ is nonempty. 
+Based on the axioms telling us what is allowed and not allowed in set theory, we introduced various function-like operations like the power set operation $\cc{P}$, the union operation $\bigcup$, and the intersection operator $\bigcap$.
 
 Just like with relations, we want to define functions only on certain sets, and we want functions to be treated as objects of set theory. 
 For this reason, we will introduce new functions by encoding them as sets. 
@@ -1009,32 +1007,39 @@ For this reason, we will introduce new functions by encoding them as sets.
 		\item \textsc{Uniqueness:}
 		For all $x\in A$ and $y, y'\in B$, if $\langle x, y\rangle, \langle x, y'\rangle\in G_{f}$ then $y = y'$.
 	\end{enumerate}
-	If $f$ is a function, we call $A$ the \textbf{domain}, $B$ the \textbf{codomain}, and $G_{f}$ the \textbf{graph}, and we denote it by $f:A\rightarrow B$. 
+	If $f$ is a function, we define the following:
+	\begin{itemize}[itemsep=-0.4ex]
+		\item the \textbf{domain} is $A = \textrm{Dom}(f)$,
+		\item the \textbf{codomain} is $B = \textrm{Cod}(f)$,
+		\item the \textbf{graph} is $G_{f} = \textrm{Graph}(f)$. 
+	\end{itemize}
+	We denote the fact that $f$ is a function form $A$ to $B$ by writing $f:A\rightarrow B$. 
 \end{definition}
-
-In addition to (set-coded) function, we have the following objects that have weakened conditions.
 
 \begin{definition}
 	A \textbf{partial function} $f$ from $A$ to $B$ is a relation $f = \langle G_{f}, \langle A, B\rangle\rangle$ satisfying (F2) but not necessarily (F1).
-	We say $A$ is the \textbf{ambient domain}, $B$ is the \textbf{codomain}, $G_{f}$ is the \textbf{graph}, and $S = \{ x\in A \,|\, \exists y\in B : \langle x, y\rangle\in G_{f} \}$ is the \textbf{active domain}.
-	We denote it by $f:A\rightharpoonup B$. 
+	If $f$ is a partial function, we define the following:
+	\begin{itemize}[itemsep=-0.4ex]
+		\item the \textbf{ambient domain} is $A = \textrm{AmbDom}(f)$,
+		\item the \textbf{active domain} is $S = \textrm{ActDom}(f)$ defined as the set of $x\in A$ such that $\langle x, y\rangle\in G_{f}$ for some $y\in B$,
+		\item the \textbf{codomain} is $B = \textrm{Cod}(f)$,
+		\item the \textbf{graph} is $G_{f} = \textrm{Graph}(f)$.
+	\end{itemize}
+	We denote the fact that $f$ is a partial function from $A$ to $B$ by writing $f:A\rightharpoonup B$. 
 \end{definition}
 
-\begin{definition}
-	A \textbf{multivalued function} $f$ from $A$ to $B$ is a relation $f = \langle G_{f}, \langle A, B\rangle\rangle$ satisfying (F1) but not necessarily (F2).
-	We say $A$ is the \textbf{domain}, $B$ is the \textbf{codomain}, and $G_{f}$ is the \textbf{graph}.
-	We do not denote it by any special notation.
-\end{definition}
-
-In our setup of terminology, a (set-coded) function is both a partial function and a multivalued function, but partial functions and multivalued functions are not necessarily functions. 
+In our setup of terminology, a (set-coded) function is a partial function where the active domain is the ambient domain.
 We will oftentimes refer to a function as a \textbf{map} or \textbf{mapping}. 
 
-We think of the partial function as ``sending" elements of the active domain to elements of the codomain.
+We think of a partial function as ``sending" elements of the active domain to elements of the codomain.
 Given $f:A\rightharpoonup B$ with active domain $S$ and $x\in S$, we want a way to automatically denote the unique $y\in B$ for which $\langle x, y\rangle\in G_{f}$. 
 To this end, let $D$ be the predicate
-\[ D(f, x)\equiv (f\text{ is a partial function})\land \exists y \, (\langle x, y\rangle\in \textrm{Graph}(f)) \]
-where $\textrm{Graph}(f)$ is the graph of $f$, and then note that if $f, x$ satisfy $D$ then there exists a unique $y$ such that $\langle x, y\rangle\in\textrm{Graph}(f)$. 
-Given this, we define a function symbol $\textrm{App}$ with domain condition $D$ such that $\textrm{App}(f, x)$ is the unique $y$ for which $\langle x, y\rangle\in\textrm{Graph}(f)$.
+\[ D(f, x)\equiv (f\text{ is a partial function})\land x\in\textrm{ActDom}(f), \]
+and let $P$ be the predicate
+\[ P(f, x, y)\equiv D(f, x)\land \langle x, y\rangle\in\textrm{Graph}(f). \]
+We leave it to the reader to verify 
+\[ \forall f\forall x\, (D(f, x)\implies \exists ! y\, P(f, x, y)). \]
+Given this, we define a function symbol $\textrm{App}$ with domain condition $D$ such that $\textrm{App}(f, x)$ is the unique $y$ for which $P(f, x, y)$ holds, i.e. $\langle x, y\rangle\in\textrm{Graph}(f)$.
 We abbreviate all well-formed terms of the form $\textrm{App}(f, x)$ as simply $f(x)$. 
 We may sometimes signify the fact that $y = f(x)$ by writing 
 \[ x\mapsto y, \qquad f:x\mapsto y, \qquad x\xmapsto{f} y, \] 
@@ -1094,17 +1099,21 @@ Below we define some important sets that are associated with partial functions (
 	Constructions justifying existence and uniqueness of these is done below. 
 \end{definition}
 
-For any partial function, let $\textrm{AmbDom}(f)$ be the ambient domain of $f$, let $\textrm{ActDom}(f)$ be the active domain of $f$, and let $\textrm{Cod}(f)$ be the codomain of $f$.
-In the case where $f$ is a function, the active and ambient domains are the same and we just call them the domain $\textrm{Dom}(f)$. 
-Define the predicate
+Let $D$ be the predicate
+\[ D(f, E)\equiv (f\text{ is a partial function})\land E\subseteq\textrm{AmbDom}(f), \]
+and let $P$ be the predicate
 \begin{align*}
-	P(y, c) &\equiv (c\text{ is a Kuratowski ordered pair})\land (\pi_{L}(c)\text{ is a partial function}) \\
-	&\quad\land \pi_{R}(c)\subseteq\textrm{AmbDom}(\pi_{L}(c))\land \exists x\, (x\in\pi_{R}(c)\cap\textrm{ActDom}(\pi_{L}(c))\land y = \textrm{App}(\pi_{L}(c), x)),
+	P(y, c) &\equiv (c\text{ is a Kuratowski ordered pair}) \\
+	&\quad\land (\pi_{L}(c)\text{ is a partial function}) \\
+	&\quad\land \pi_{R}(c)\subseteq\textrm{AmbDom}(\pi_{L}(c)) \\
+	&\quad\land \exists x\, (x\in\pi_{R}(c)\cap\textrm{ActDom}(\pi_{L}(c)) \\
+	&\quad\land y = \textrm{App}(\pi_{L}(c), x)),
 \end{align*}
-and let $D(f, E)$ say $f$ is a partial function and $E\subseteq\textrm{AmbDom}(f)$. 
+which says $c$ is a Kuratowski ordered pair consisting of a partial function $f$ and a subset $E$ of the ambient domain of $f$ such that $y = f(x)$ for some $x\in E$.
 Then for all $f, E$ such that $D(f, E)$ holds, by separation there exists a unique set of the form
-\[ \textrm{AppIm}(f, E) = \textrm{Sep}_{P}(\textrm{Cod}(f), \langle f, E\rangle), \]
-where $\textrm{Sep}_{P}(A, c)$ is the subset of $A$ of elements $y$ satisfying $P(y, c)$, so $\textrm{AppIm}$ is defined for all $f, E$ for which $D(f, E)$ holds. 
+\[ \textrm{Sep}_{P}(\textrm{Cod}(f), \langle f, E\rangle), \]
+where $\textrm{Sep}_{P}(A, c)$ is the subset of $A$ of elements $y$ satisfying $P(y, c)$.
+We label this as $\textrm{AppIm}(f, E)$, so $\textrm{AppIm}$ is defined for all $f, E$ for which $D(f, E)$ holds. 
 Now $\textrm{AppIm}(f, E)$ is precisely the image of $E$ under $f$, and we abbreviate it as $f(E)$ as in the above definition. 
 The image of $f$ is now simply $\im f = \textrm{AppIm}(f, \textrm{AmbDom}(f))$. 
 The existence and uniqueness of inverse images can be shown similarly. 
@@ -1124,8 +1133,6 @@ Given two sets, we may consider all possible functions from one to the other.
 \begin{definition}
 	Given sets $A$ and $B$, the set of all functions $f:A\rightarrow B$ from $A$ to $B$ is denoted by $B^{A}$ or $\map(A, B)$.
 \end{definition}
-
-\noindent Let us justify the existence of $\map(A, B)$ given sets $A, B$. 
 
 \begin{prop}
 	Given sets $A$ and $B$, the set of all functions from $A$ to $B$ exists and is unique. 
@@ -1347,11 +1354,11 @@ Now we present some ubiquitous types of functions.
 	Define $f:A\rightarrow B$ by $f(a) = y$, $f(b) = z$, and $f(c) = x$.
 	Define $g:B\rightarrow A$ by $g(x) = c$, $g(y) = a$, and $g(z) = b$.
 	Then
-	\[ g(f(a)) = a,\quad g(f(b)) = b,\quad\text{and}\quad g(f(c)) = c, \]
-	so $g\circ f = \id_A$. 
-	Also,
-	\[ f(g(x)) = x,\quad f(g(y)) = y,\quad\text{and}\quad f(g(z)) = z, \]
-	so $f\circ g = \id_B$.
+	\begin{align*}
+		g(f(a)) = a, &\qquad& g(f(b)) = b, &\qquad& g(f(c)) = c, \\
+		f(g(x)) = x, &\qquad& f(g(y)) = y, &\qquad& f(g(z)) = z,
+	\end{align*}
+	so $g\circ f = \id_A$ and $f\circ g = \id_B$.
 	Thus, $g$ is an inverse of $f$.
 \end{example}
 
@@ -1476,7 +1483,7 @@ We provide some illustrations of some examples below.
 
 Let us revisit the notion of equivalence classes and quotient sets. 
 Given a set $A$ and an equivalence relation $\sim$ on $A$, the quotient set $A/\sim$ is defined as
-\[ A/\sim\; = \{ x\in\cc{P}(A) \,|\, x = [a] \text{ for some } a\in A \} \quad\text{where}\quad [a] = \{ a'\in A \,|\, a\sim a' \} \]
+\[ A/\sim\; = \{ x\in\cc{P}(A) \,|\, x = [a] \text{ for some } a\in A \} \quad\text{where}\quad [a] = \{ a'\in A \,|\, a'\sim a \} \]
 for each $a\in A$. 
 We often want to define functions on quotient sets, which would be of the form $f:A/\sim\;\rightarrow B$. 
 However, we have to be careful:
@@ -1486,27 +1493,27 @@ If this does not hold, then in informal treatments we say the function is \textb
 Formally speaking, this actually means the function simply does not exist. 
 
 \begin{example}[$f$ is not well-defined]\label{ch1ex_f_not_well_defd}
-	Let $A = \{a, i, b, j, c, k\}$ and $B = \{x, y\}$ where all elements listed are distinct from one another.
-	Let $P(t)\equiv t = i\lor t = j\lor t = k$.
+	Let $A = \{a, b, c, d, e, i\}$ and $B = \{\text{Consonant}, \text{Vowel}\}$ where all elements listed are distinct from one another.
+	Let $P(t)\equiv t = a\lor t = e\lor t = i$.
 	Define a relation $\sim$ on $A$ by
 	\begin{align*}
-		a\sim a, \qquad i\sim i, \qquad b\sim b, \qquad j\sim j, \qquad c\sim c, \qquad k\sim k, \\
-		a\sim i, \qquad i\sim a, \qquad b\sim j, \qquad j\sim b, \qquad c\sim k, \qquad k\sim c.
+		a\sim a, \qquad b\sim b, \qquad c\sim c, \qquad d\sim d, \qquad e\sim e, \qquad i\sim i, \\
+		a\sim b, \qquad b\sim a, \qquad c\sim d, \qquad d\sim c, \qquad e\sim i, \qquad i\sim e.
 	\end{align*}
 	We leave it to the reader to check this is an equivalence relation on $A$.
 	The resulting quotient set is 
-	\[ A/\sim\; = \{\{a, i\}, \{b, j\}, \{c, k\}\}. \]
+	\[ A/\sim\; = \{\{a, b\}, \{c, d\}, \{e, i\}\}. \]
 	Define $f:A/\sim\;\rightarrow B$ as follows:
 	\begin{align*}
-		f([\alpha]) = \begin{cases}
-			x &\text{ if } P(\alpha), \\
-			y &\text{ otherwise}.
+		f([x]) = \begin{cases}
+			\text{Vowel} &\text{ if } P(x), \\
+			\text{Consonant} &\text{ otherwise}.
 		\end{cases}
 	\end{align*}
 	This function is not well-defined!
-	The problem is that because $[a] = [i]$, it must be the case that $f([a]) = f([i])$, but if we follow our naive rule then $f([a]) = x$ and $f([i]) = y$.
+	The problem is that because $[a] = [b]$, it must be the case that $f([a]) = f([b])$, but if we follow our naive rule then $f([a]) = \text{Vowel}$ and $f([b]) = \text{Consonant}$.
 	
-	On one hand, $f([a]) = f([i])$ but we declared at the start that $x$ and $y$ are distinct elements: $x\ne y$. 
+	On one hand, $f([a]) = f([b])$ but we declared at the start that $\text{Consonant}$ and $\text{Vowel}$ are distinct elements: $\text{Consonant}\ne \text{Vowel}$. 
 	The mere introduction of this function drives us into a contradiction, so it must not exist. 
 	This is where it is necessary to fall back to set-theoretic constructions as in \Cref{ch1ex_fn} and \Cref{ch1ex_fn_set}. 
 \end{example}
@@ -1607,16 +1614,16 @@ This is justified and made precise by the theorem below.
 \end{proof}
 
 \begin{example}
-	Let $A = \{a, b, c, \rho, \sigma\}$ and $B = \{\textrm{Latin}, \textrm{Greek}\}$ where all elements listed are distinct. 
+	Let $A = \{a, b, c, \delta, \varepsilon\}$ and $B = \{\textrm{Latin}, \textrm{Greek}\}$ where all elements listed are distinct. 
 	Let $P(t)\equiv t = a\lor t = b\lor t = c$. 
 	Define a relation $\sim$ on $A$ by
 	\begin{align*}
 		& a\sim a, \quad b\sim b, \quad c\sim c, \quad a\sim b, \quad b\sim a, \quad a\sim c, \quad c\sim a, \quad b\sim c, \quad c\sim b, \\
-		& \rho\sim\rho, \quad \sigma\sim\sigma, \quad \rho\sim \sigma, \quad \sigma\sim \rho.
+		& \delta\sim\delta, \quad \varepsilon\sim\varepsilon, \quad \delta\sim \varepsilon, \quad \varepsilon\sim \delta.
 	\end{align*}
 	We leave it to the reader to check this is an equivalence relation on $A$.
 	The resulting quotient is 
-	\[ A/\sim\; = \{\{a, b, c\}, \{\sigma, \rho\}\}. \]
+	\[ A/\sim\; = \{\{a, b, c\}, \{\varepsilon, \delta\}\}. \]
 	Instead of defining a function from $A/\sim$ to $B$ directly like we tried in \Cref{ch1ex_f_not_well_defd}, we follow the more principled approach by defining $f:A\rightarrow B$ by
 	\[ f(x) = \begin{cases}
 		\textrm{Latin} &\text{ if } P(x), \\
@@ -1632,17 +1639,21 @@ This is justified and made precise by the theorem below.
 	We form $f = \langle G_{f}, \langle A, B\rangle\rangle$ and leave the reader to verify that $G_{f}\subseteq A\times_{K} B$, (F1), and (F2) hold, proving $f$ exists and is a function. 
 	
 	Now because 
-	\[ f(a) = f(b) = f(c) = \textrm{Latin} \quad\text{and}\quad f(\rho) = f(\sigma) = \textrm{Greek}, \] 
+	\[ f(a) = f(b) = f(c) = \textrm{Latin} \quad\text{and}\quad f(\delta) = f(\varepsilon) = \textrm{Greek}, \] 
 	we have $x\sim x'$ implies $f(x) = f(x')$ for all $x, x'\in A$, and so \Cref{ch1thm_quotient_factor_thm} is applicable. 
 	This, there exists a unique function $g:A/\sim\;\rightarrow B$ such that $f = g\circ q$ where $q$ is the quotient map. 
 	In this case, 
-	\[ g(\{a, b, c\}) = \textrm{Latin} \quad\text{and}\quad g(\{\rho, \sigma\}) = \textrm{Greek}. \]
+	\[ g(\{a, b, c\}) = \textrm{Latin} \quad\text{and}\quad g(\{\delta, \varepsilon\}) = \textrm{Greek}. \]
 	In more loose terms, we may say $g([x]) = \textrm{Latin}$ if $P(x)$ and $g([x]) = \textrm{Greek}$ if $\neg P(x)$ without running into trouble, because \Cref{ch1thm_quotient_factor_thm} guarantees this leaves $g$ as a well-defined map. 
 \end{example}
 
-\section{Choice and x Principles}
+\section{Choice Principles}
 
 \subsection{The Axiom of Choice}
+
+
+
+
 
 % \subsection{Zorn's Lemma}
 
