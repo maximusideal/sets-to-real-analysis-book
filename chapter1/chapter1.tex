@@ -29,12 +29,12 @@ In a statement like $\forall x\, P(x)$, the variable $x$ is implicitly ranging o
 
 Inside propositions with quantifiers, we use \textbf{variable symbols} like $x, y, z$, which do not refer to any specific object but are placeholders for arbitrary objects in a given domain of discourse.
 In general, a \textbf{bound variable} is a variable whose occurrence lies within the scope of something (a binding operator) that declares the variable role.
-The binding operators can be quantifiers, but later in the text we will come across integral, summation, and limit notation that also serve as binding operators. 
+The binding operators can be quantifiers, but later in the text we will come across integral, summation, and limit notations that also serve as binding operators. 
 Bound variables act as local placeholders whose names may be changed without altering the meaning of the expression.
 A variable that is not bound is called a \textbf{free variable}. 
 
-In contrast to variables, we use \textbf{constant symbols} like $a, b, c$, which always refer to some specific object in the domain of discourse, even if we might not know exactly which object. 
-We will not always adhere to the convention of using initial English letters for constant symbols and final English letter for variables symbols; this will only be a heuristic and how any given letter is used should be understood from the context. 
+In contrast to variables, we use \textbf{constant symbols} like $a, b, c$ to refer to some specific objects in the domain of discourse, even if we might not know exactly which object. 
+We will not always adhere to the convention of using initial English letters for constant symbols and final English letters for variables symbols; this will only be a heuristic and how any given letter is used should be understood from the context. 
 
 When we deal solely with propositions without predicates or quantifiers, we are dealing with \textbf{propositional logic}.
 When we deal with predicates and quantifiers that range over the objects of the domain of discourse, we are dealing with \textbf{first-order} or \textbf{predicate logic}. 
@@ -103,7 +103,7 @@ A function $f$ such that $f(t)$ is defined for all terms $t$ is possible if the 
 
 We deviate away from usual first-order logic because of our domain guarded scheme taken from Wiedijk and Zwanenburg's work. % cite First order logic with domain conditions by W&Z
 This is so that certain junk terms like $1/0$ (division by zero) remain genuinely undefined.
-Whenever we use a domain guarded function symbol, the relevant domain condition must already be available in the context.
+Whenever we use a domain guarded function symbol, the relevant domain condition must be already available in the context.
 This has the consequence that propositions and predicates must be read from left to right such that the well-formedness of terms crucially depends on what is established to the left of the term and in the given context. 
 
 \begin{example}
@@ -117,7 +117,7 @@ This has the consequence that propositions and predicates must be read from left
 	If $x = 0$, the first clause is false, and we stop there immediately to conclude $P(x)$ is false without reading the second clause.
 	Consider the predicate 
 	\[ Q(x)\equiv (1/x > 0)\land (x\ne 0). \]
-	Here, nothing ensures $x\ne 0$ when reading left to right, so no proof of $D(1, x)$ exists, and so $Q(x)$ is not well-formed
+	Here, nothing ensures $x\ne 0$ when reading left to right, so no proof of $D(1, x)$ exists, and so $Q(x)$ is not well-formed.
 	
 	The proposition
 	\[ R\equiv \exists x\, (x\in\mathbb{Q}\land 1/x = 1) \]
@@ -161,7 +161,7 @@ It is simply a way to represent multiple axioms, one for each predicate.
 		\[ \exists x\exists y\, (x\ne y). \]
 	\end{enumerate}
 	
-	Using these starting axioms in our theory, we can use logical inference to prove various theorems. 
+	Using these starting axioms of our theory, we can use logical inference to prove various theorems. 
 	For example, we may deduce that there must be exactly three $K$-objects, and all this can be done without having to interpret what any of the words or symbols mean. 
 	
 	However, the axioms we laid out happen to be true statements about a real mathematical object.
@@ -345,7 +345,7 @@ A strong case for structuralism can be made by pointing out that a given concept
 \subsection{Sets, Membership, and Subset Relations}
 
 In ZFC, any mention of element or object is taken as synonymous with set. 
-The formal language of ZFC consists of the logical symbols and one additional relation symbol $\in$.
+The base formal language of ZFC consists of the logical symbols and one additional relation symbol $\in$.
 However, as we explained above, we will not adhere to this language and we will introduce constant terms, (domain guarded) function symbols, and relation symbols as we see fit. 
 The $\in$ relation represents \textbf{membership}, so if $a, b$ are sets and $a\in b$ then we say $a$ is a \textbf{member} or \textbf{element} of $b$.
 If it is not the case that $a\in b$ then we write $a\not\in b$. 
@@ -990,7 +990,7 @@ We again leave it to the reader to show that the resulting relation is an equiva
 	This is a partition of $A$ into subsets. 
 \end{example}
 
-\section{Set-Coded Functions}
+\section{Set-Coded Functions}\label{ch1sec_fns}
 
 \subsection{Basic Definitions}
 
@@ -1529,8 +1529,7 @@ Given any relation $R = \langle G_{R}, \langle A, B\rangle\rangle$, we take $\te
 Take $A\times_{K} A/\sim$ and apply separation to get
 \[ G_{q} = \{ t\in A\times_{K} A/\sim \,|\, P(t, \sim) \} \]
 where
-\[ P(t, \sim)\equiv (\sim\text{ is an equivalence relation})\land \exists a\in\textrm{Dom}(c)\, (t = \langle a, \textrm{EquivCl}(a, \sim)\rangle) \]
-where if $\sim$ is an equivalence relation on $A = \textrm{Dom}(\sim)$ and $a\in A$ then $\textrm{EquivCl}(a, \sim)$ is the equivalence class $[a]\in A/\sim$. 
+\[ P(t, \sim)\equiv (\sim\text{ is an equivalence relation})\land \exists a\, (a\in\textrm{Dom}(\sim) \land t = \langle a, [a]_{\sim}\rangle). \]
 Here $G_{q}\subseteq A\times_{K} A/\sim$ and the reader may verify that it satisfies (F1) and (F2). 
 By forming $q = \langle G_{q}, \langle A, A/\sim\rangle\rangle$, we verify that $q$ indeed exists as a function. 
 
@@ -1593,7 +1592,7 @@ This is justified and made precise by the theorem below.
 	
 	For (F2), suppose $x\in Q$ and $y, y'\in B$ such that
 	\[ \langle x, y\rangle, \langle x, y'\rangle\in G_{g}. \]
-	By definition of $G_{g}$, there exist $a, a;\in A$ such that
+	By definition of $G_{g}$, there exist $a, a'\in A$ such that
 	\[ \langle x, y\rangle = \langle [a], f(a)\rangle \quad\text{and}\quad \langle x, y'\rangle = \langle [a'], f(a')\rangle. \]
 	By \Cref{ch1eqn_kuratowski_pair_property}, 
 	\[ x = [a], \quad y = f(a), \quad x = [a'], \quad\text{and}\quad y' = f(a'). \]
@@ -1632,24 +1631,36 @@ This is justified and made precise by the theorem below.
 	Let us construct this function to ensure it exists. 
 	Apply separation to $A\times_{K} B$ to obtain
 	\[ G_{f} = \{ t\in A\times_{K} B \,|\, t = \langle x, \textrm{Latin}\rangle \text{ if } P(x) \text{ and } t = \langle x, \textrm{Greek}\rangle \text{ otherwise} \}. \]
-	More formally, this is
-	\[ G_{f} = \{ t\in A\times_{K} B \,|\, Q(t) \} \]
-	where
+	More formally, this is $G_{f} = \{ t\in A\times_{K} B \,|\, Q(t) \}$ where
 	\[ Q(t)\equiv \exists x\, ((P(x)\implies t = \langle x, \textrm{Latin}\rangle)\land (\neg P(x)\implies t = \langle x, \textrm{Greek}\rangle)). \]
 	We form $f = \langle G_{f}, \langle A, B\rangle\rangle$ and leave the reader to verify that $G_{f}\subseteq A\times_{K} B$, (F1), and (F2) hold, proving $f$ exists and is a function. 
-	
 	Now because 
 	\[ f(a) = f(b) = f(c) = \textrm{Latin} \quad\text{and}\quad f(\delta) = f(\varepsilon) = \textrm{Greek}, \] 
-	we have $x\sim x'$ implies $f(x) = f(x')$ for all $x, x'\in A$, and so \Cref{ch1thm_quotient_factor_thm} is applicable. 
-	This, there exists a unique function $g:A/\sim\;\rightarrow B$ such that $f = g\circ q$ where $q$ is the quotient map. 
+	the relationship $x\sim x'$ implies $f(x) = f(x')$ for all $x, x'\in A$, and so \Cref{ch1thm_quotient_factor_thm} is applicable. 
+	Thus, there exists a unique function $g:A/\sim\;\rightarrow B$ such that $f = g\circ q$ where $q$ is the quotient map. 
 	In this case, 
 	\[ g(\{a, b, c\}) = \textrm{Latin} \quad\text{and}\quad g(\{\delta, \varepsilon\}) = \textrm{Greek}. \]
 	In more loose terms, we may say $g([x]) = \textrm{Latin}$ if $P(x)$ and $g([x]) = \textrm{Greek}$ if $\neg P(x)$ without running into trouble, because \Cref{ch1thm_quotient_factor_thm} guarantees this leaves $g$ as a well-defined map. 
 \end{example}
 
-\section{Choice Principles}
+\section{Choice Principles}\label{ch1sec_choice}
 
 \subsection{The Axiom of Choice}
+
+We introduce the following axiom.
+
+\begin{enumerate}[itemsep=-0.4ex, label=\textup{(ZFC${\arabic*}$)}]\setcounter{enumi}{8}
+	\item\textsc{Axiom of Choice.}
+	Given a set $A$ consisting of nonempty sets, there exists a function
+	\[ f:A\rightarrow\bigcup A \]
+	such that $f(a)\in a$ for all $a\in A$. 
+\end{enumerate}
+
+Any function matching the description of $f$ in the axiom of choice is called a \textbf{choice function}.
+The meaning of such a function is that for each $a\in A$, the function picks out some specific element of $a$. 
+A very important fact about the axiom of choice is that it is making an assertion about arbitrary collections of nonempty sets.
+
+
 
 
 
@@ -1682,19 +1693,6 @@ This is justified and made precise by the theorem below.
 % ZFC set theory, but I am not sure how satisfying it would be. 
 
 \iffalse 
-\subsection{The Axiom of Choice}
-
-We introduce the following axiom.
-
-\begin{enumerate}[itemsep=-0.4ex, label=\textup{(ZFC${\arabic*}$)}]\setcounter{enumi}{8}
-	\item\textsc{Axiom of Choice.}
-	Given a set $A$ consisting of nonempty sets, there exists a function
-	\[ f:A\rightarrow\bigcup A \]
-	such that $f(a)\in a$ for all $a\in A$. 
-\end{enumerate}
-
-Any function matching the description of $f$ in (ZFC9) is called a \textbf{choice function}.
-The meaning of such a function is that for each $a\in A$, the function picks out some specific element of $a$. 
 
 \begin{exer}\label{ch1thm_fn_inverses}
 	Let $f:A\rightarrow B$ be a map whose domain $A$ is nonempty. 
