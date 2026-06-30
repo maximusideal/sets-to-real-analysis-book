@@ -1106,8 +1106,7 @@ and let $P$ be the predicate
 	P(y, c) &\equiv (c\text{ is a Kuratowski ordered pair}) \\
 	&\quad\land (\pi_{L}(c)\text{ is a partial function}) \\
 	&\quad\land \pi_{R}(c)\subseteq\textrm{AmbDom}(\pi_{L}(c)) \\
-	&\quad\land \exists x\, (x\in\pi_{R}(c)\cap\textrm{ActDom}(\pi_{L}(c)) \\
-	&\quad\land y = \textrm{App}(\pi_{L}(c), x)),
+	&\quad\land \exists x\, (x\in\pi_{R}(c)\cap\textrm{ActDom}(\pi_{L}(c))\land y = \pi_{L}(c)(x)),
 \end{align*}
 which says $c$ is a Kuratowski ordered pair consisting of a partial function $f$ and a subset $E$ of the ambient domain of $f$ such that $y = f(x)$ for some $x\in E$.
 Then for all $f, E$ such that $D(f, E)$ holds, by separation there exists a unique set of the form
@@ -1577,7 +1576,7 @@ This is justified and made precise by the theorem below.
 	\begin{align*}
 		P(t, c)&\equiv (c\text{ is a Kuratowski ordered pair})\land (\pi_{L}(c)\text{ is a function}) \\
 		&\quad\land (\pi_{R}(c)\text{ is an equivalence relation}) \\
-		&\quad\land \exists a\in\textrm{Dom}(\pi_{L}(c))\, (t = \langle \textrm{EquivCl}(a, \pi_{R}(c)), \textrm{App}(\pi_{L}(c), a)\rangle ). 
+		&\quad\land \exists a\, (a\in\textrm{Dom}(\pi_{L}(c))\land t = \langle [a]_{\pi_{R}(c)}, \pi_{L}(c)(a)\rangle ). 
 	\end{align*}
 	Now form $g = \langle G_{g}, \langle Q, B\rangle\rangle$, which exists. 
 	If $t\in G_{g}$, then $t = \langle [a], f(a)\rangle$ for some $a\in A$, so $t\in Q\times_{K} B$.
@@ -1657,18 +1656,79 @@ We introduce the following axiom.
 \end{enumerate}
 
 Any function matching the description of $f$ in the axiom of choice is called a \textbf{choice function}.
-The meaning of such a function is that for each $a\in A$, the function picks out some specific element of $a$. 
+The meaning of such a function is that for each $a\in A$, the function picks out some element of $a$. 
 A very important fact about the axiom of choice is that it is making an assertion about arbitrary collections of nonempty sets.
+Let us go over an application of the axiom of choice.
 
-
-
+\begin{prop}\label{ch1thm_fn_inverses}
+	Let $f:A\rightarrow B$ be a function whose domain $A$ is nonempty. 
+	Then the following statements are true:
+	\begin{enumerate}[itemsep=-0.4ex, label=\textup{(\alph*)}]
+		\item $f$ is injective if and only if it has a left-inverse.
+		Every left-inverse, if any exists, is surjective.
+		\item $f$ is surjective if and only if it has a right-inverse.
+		Every right-inverse, if any exists, is injective.
+		\item $f$ is bijective if and only if it has an inverse.
+		The inverse, if it exists, is bijective. 
+	\end{enumerate}
+\end{prop}
+\begin{remark}
+	Part (b) of the proposition specifically requires the axiom of choice. 
+	In the ending problem set, we claim that (b) is actually equivalent to the axiom of choice. 
+\end{remark}
+\begin{proof}
+	(a).
+	Suppose $f$ is injective.
+	Since $A$ is nonempty, we may take an arbitrary element $a_{0}\in A$.
+	We define $g:B\rightarrow A$ by
+	\[ g(y) = \begin{cases}
+		x &\text{ if } y\in\im f, \text{ where $x$ is the unique element with } f(x)=y, \\
+		a_{0} &\text{ if } y\not\in\im f.
+	\end{cases} \]
+	The element $x$ in the first case is unique precisely because $f$ is injective.
+	To justify existence, apply separation to $B\times_{K} A$ to obtain
+	\[ G_{g} = \{ o\in B\times_{K} A \,|\, P(o, \langle f, a_{0}\rangle) \} \]
+	where
+	\begin{align*}
+		P(o, c) &\equiv (o, c\text{ are Kuratowski ordered pair})\land (\pi_{L}(c)\text{ is a function}) \\
+		&\quad\land ( \underbrace{ \langle\pi_{R}(o), \pi_{L}(o)\rangle\in\textrm{Graph}(\pi_{L}(c)) }_{\text{first disjunct}}\lor \underbrace{ (\pi_{L}(o)\not\in\im(\pi_{L}(c))\land \pi_{R}(o) = \pi_{R}(c)) }_{\text{second disjunct}} ).
+	\end{align*}
+	Reading $o = \langle y, x\rangle$, the predicate says either $f(x) = y$, or $y\not\in\im f$ and $x = a_{0}$.
+	Take $g = \langle G_{g}, \langle B, A\rangle\rangle$, which exists.
+	Since $G_{g}\subseteq B\times_{K} A$, it remains to verify (F1) and (F2) from the definition of functions.
+	
+	For (F1), let $y\in B$.
+	If $y\in\im f$, there exists $x\in A$ with $f(x) = y$, so $\langle x, y\rangle\in\textrm{Graph}(f)$, and so $\langle y, x\rangle$ satisfies the first disjunct and $\langle y, x\rangle\in G_{g}$.
+	If $y\not\in\im f$, then $\langle y, a_{0}\rangle$ satisfies the second disjunct and $\langle y, a_{0}\rangle\in G_{g}$.
+	In both cases, there exists $x\in A$ such that $\langle y, x\rangle\in G_{g}$.
+	
+	For (F2), suppose $\langle y, x\rangle, \langle y, x'\rangle\in G_{g}$.
+	If $y\in\im f$, the second disjunct fails for both pairs, so $\langle x, y\rangle, \langle x', y\rangle\in\textrm{Graph}(f)$, i.e. $f(x) = y = f(x')$, and injectivity gives $x = x'$.
+	If $y\not\in\im f$, the first disjunct fails for both pairs, so $x = a_{0} = x'$.
+	In both cases, $x = x'$.
+	
+	Thus $g:B\rightarrow A$ is a function with $g(y) = x$ whenever $f(x) = y$.
+	Given any $x\in A$, take $y = f(x)$, so then $y\in\im f$ and the unique element of $A$ mapping to $y$ under $f$ is $x$ itself, so
+	\[ g\circ f(x) = g(f(x)) = g(y) = x. \]
+	Hence $g\circ f = \id_{A}$ by \Cref{ch1thm_lemma_equality_of_fns}, and $g$ is a left-inverse of $f$.
+	
+	Conversely, suppose $f$ has a left-inverse $g:B\rightarrow A$. 
+	Then if $x, x'\in A$ such that $f(x) = f(x')$, we find that by applying $g$ to both sides, we get $g(f(x)) = g(f(x'))$, so
+	\[ x = g\circ f(x) = g(f(x)) = g(f(x')) = g\circ f(x') = x', \]
+	and so $f$ is injective. 
+	
+	Lastly, suppose $f$ is injective and $g:B\rightarrow A$ is any left-inverse. 
+	For any $a\in A$, we have $g(b) = a$ for $b = f(a)$, so $g$ is surjective. 
+	
+	(b).
+	Suppose $f$ is surjective. 
+	$\cdots$
+\end{proof}
 
 
 
 
 % \subsection{Zorn's Lemma}
-
-
 
 % At the end, we will write the following topics
 % 1. Peano system
