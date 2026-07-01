@@ -1,0 +1,787 @@
+
+
+
+
+
+
+
+
+
+
+
+% 
+
+% At the end, we will write the following topics
+% 1. Peano system
+% 2. Axiom of infinity
+% 3. Principle of induction
+% 4. Defining a total order on N
+% Principle of recursive definitions
+% Defining set operations
+% Counting, Finite, and Infinite Sets
+% Defining Addition and Multiplication
+% Relative Cardinality
+% Numerical Representations
+
+% We intended to place everything on ZFC set theory.
+% However, discussions of numeral representations of natraul numbers
+% requires us to talk about written strings and characters, which are
+% not sets (Godel encodings or sequences don't count). 
+
+% The intention is to consider placing everything on 2-level homotopy type theory
+% so that both the theory and metatheory are subsumed by one framework. 
+% It may still be possible to define the numeral system in first-order logic + 
+% ZFC set theory, but I am not sure how satisfying it would be. 
+
+\iffalse 
+\section{The Peano System and The Axiom of Infinity}
+
+\subsection{The Peano System}
+
+The natural numbers are indispensable objects of mathematics. 
+At the most basic level, they are used to count things, and in set theory, we need a way to keep track of how many elements there are in a set.
+Before we can study the natural numbers as a fully developed number system with arithmetic, we will first isolate their fundamental properties in a simpler form. 
+
+\begin{definition}
+	A \textbf{Peano system} is a set $\bb{N}$ with a distinguished object $0\in\bb{N}$ and a function $\sigma:\bb{N}\rightarrow\bb{N}$, called a \textbf{successor operator}, such that the following axioms hold:
+	\begin{enumerate}[itemsep=-0.0ex, label=\textup{(\textup{PA}\arabic*)}]
+		\item There is no element $b\in \bb{N}$ such that $\sigma(b) = 0$.
+		\item $\sigma$ is injective.
+		\item\textsc{(Induction).} 
+		If $A$ is a subset of $\bb{N}$ such that $0\in A$ and $a\in A\implies \sigma(a)\in A$, then $A = \bb{N}$. 
+	\end{enumerate}
+	We refer to elements of $\bb{N}$ as \textbf{natural numbers}.
+	We may denote a Peano system as $(\bb{N}, 0, \sigma)$ to emphasize that the set $\bb{N}$ comes with a special element $0$ and a function $\sigma$. 
+	Often, however, we will simply refer to it by its set $\bb{N}$, leaving $0$ and $\sigma$ implicit. 
+\end{definition}
+
+Axioms (PA1)--(PA3) are a condensed reformulation of the \textbf{Peano axioms}.
+Traditionally, they are presented as a list of five axioms, but the exact number varies depending on how one formulates them.
+Giuseppe Peano (1858--1932) originally presented them as a list of nine axioms. 
+So far we have defined a Peano system, but we have not shown that such a structure actually exists within our set-theoretic framework. 
+To do this within set theory, we require one more axiom.
+
+
+
+\subsection{The Axiom of Infinity}
+
+We introduce the final axiom of ZFC with which we are able to provide an example of a Peano system from within set theory. 
+
+\begin{enumerate}[itemsep=-0.4ex, label=\textup{(ZFC${\arabic*}$)}]\setcounter{enumi}{9}
+	\item\textsc{Axiom of Infinity.}
+	There exists a set $I$ for which the following holds: $\varnothing\in I$, and for all objects $x$, if $x\in I$ then $x\cup\{x\}\in I$. 
+\end{enumerate}
+
+Given a set $A$, define the \textbf{von Neumann successor} of $A$ to be the set $S(A) = A\cup\{A\}$. 
+If $I$ is a set for which $\varnothing\in I$, and $S(A)\in I$ for every $A\in I$, we say $I$ is an \textbf{inductive set}.
+Thus, (ZFC10) asserts the existence of an inductive set. 
+Now if $I$ is an inductive set, define
+\[ \omega_{I} = \bigcap \{ J\subseteq I \;|\; J\text{ is an inductive set} \}. \]
+Such a set exists by the axiom of power set (ZFC6), axiom schema of separation (ZFC5), and the existence of intersections. 
+
+\begin{prop}\label{ch1thm_intersection_inductive}
+	The intersection of any nonempty collection of inductive sets is an inductive set.
+	Hence, if $I$ is an inductive set, then $\omega_{I}$ is an inductive set.
+\end{prop}
+\begin{proof}
+	Let $\cc{A}$ be a nonempty collection of inductive sets, and let $K = \bigcap\cc{A}$.
+	For every $I\in\cc{A}$, we have $\varnothing\in I$, so $\varnothing\in K$.
+	If $A\in K$, then $A\in I$ for all $I\in\cc{A}$.
+	Now if $A\in I$ and $I$ is inductive, then $S(A)\in I$, so it follows that $S(A)\in I$ for all $I\in\cc{A}$.
+	Therefore, $S(A)\in K$.
+	This shows $K$ is inductive.
+\end{proof}
+
+\begin{prop}\label{ch1thm_inductive_unique}
+	If $I, J$ are inductive sets, then $\omega_{I} = \omega_{J}$.
+\end{prop}
+\begin{proof}
+	By \Cref{ch1thm_intersection_inductive}, $\omega_{I}\cap J$ is an inductive subset of $J$, so then $\omega_{J}\subseteq\omega_{I}\cap J\subseteq\omega_{I}$.
+	By the same reasoning but reversing the roles of $I$ and $J$, we find $\omega_{I}\subseteq I\cap\omega_{J}\subseteq\omega_{J}$.
+	Thus $\omega_{I} = \omega_{J}$.
+\end{proof}
+
+We define $\omega = \omega_{I}$ where $I$ is any inductive set.
+By \Cref{ch1thm_inductive_unique}, this set does not depend on the choice of $I$. 
+To get a sense of what $\omega$ looks like, we label the following elements:
+\begin{alignat*}{2}
+	0 &= \varnothing &&= \varnothing, \\
+	1 &= 0 \cup \{0\} &&= \{0\}, \\
+	2 &= 1 \cup \{1\} &&= \{0, 1\}, \\
+	3 &= 2 \cup \{2\} &&= \{0, 1, 2\}, \\
+	4 &= 3 \cup \{3\} &&= \{0, 1, 2, 3\}.
+\end{alignat*}
+No matter how far we continue this pattern, we will not be able to exhaust the set. 
+In other words, the pattern is endless. 
+This is called the \textbf{von Neumann construction of the natural numbers}, named after John von Neumann (1903--1957).
+Let us show that $\omega$ has precisely the structure of a Peano system.
+
+\begin{prop}\label{ch1thm_nat_satisfy_Peano}
+	There exists an element $0\in\omega$ and a function $\sigma:\omega\rightarrow\omega$ such that the Peano axioms are satisfied.
+\end{prop}
+\begin{proof}
+	Define $0 = \varnothing$ and $\sigma:\omega\rightarrow\omega$ by $\sigma(a) = S(a)$. 
+	We leave it to the reader to verify $\sigma = ((\omega, \omega)_{K}, G_{\sigma})_{K}$ exists.
+	We will show these satisfy (PA1)--(PA3) from the definition of Peano systems. 
+	
+	(PA1).
+	For any $b\in\omega$, we have $\sigma(b) = b\cup\{b\}$, so $b\in\sigma(b)$ which implies $\sigma(b)\ne\varnothing = 0$.
+	
+	(PA2).
+	Suppose $\sigma(a) = \sigma(b)$ for any distinct $a, b\in\omega$. 
+	The inequality $a\ne b$ and the fact that $a\cup\{a\} = b\cup\{b\}$ together imply $a\in b$ and $b\in a$. 
+	This runs into conflict with the axioms of pairing (ZFC3) and foundation (ZFC8):
+	By pairing, we may form the set $\{a, b\}$.
+	By foundation, there exists $x\in\{a, b\}$ such that $x\cap\{a, b\} = \varnothing$.
+	Now $x\in\{a, b\}$ implies $x=a$ or $x=b$. 
+	In the former case, $a\cap \{a, b\} = \varnothing$, but $b\in a$ and $b\in\{a, b\}$, so $b\in a\cap \{a, b\}$, which is a contradiction.
+	In the latter case, we obtain an analogous contradiction. 
+	Thus, if $\sigma(a) = \sigma(b)$ then $a=b$. 
+	This proves $\sigma$ is injective.
+	
+	(PA3).
+	Suppose $A\subseteq\omega$, $0\in A$, and $a\in A\implies\sigma(a)\in A$.
+	Then $A$ is an inductive set, so $A\subseteq\omega = \omega_{A}\subseteq A$ (remember $\omega = \omega_{I}$ for any inductive set $I$). 
+	Given $A\subseteq\omega$ and $\omega\subseteq A$, we conclude $A = \omega$, as desired. 
+\end{proof}
+
+What we have done is show that $(\omega, 0, \sigma)$ is an instantiation of a Peano system $(\bb{N}, 0, \sigma)$. 
+In this chapter, we only need to know that at least one such system exists. 
+
+
+
+\subsection{The Principle of Induction}
+
+The most important consequence of the Peano axioms is the \textbf{principle of induction}.
+
+\begin{theorem}[Proof by induction]\label{ch1thm_proof_by_induction}
+	Let $(\bb{N}, 0, \sigma)$ be a Peano system.
+	Let $P(n)$ be a proposition for every $n\in\bb{N}$.
+	If $P(0)$ is true, and if $P(n)$ implies $P(\sigma(n))$ for every $n\in\bb{N}$, then $P(n)$ holds for all $n\in\bb{N}$. 
+\end{theorem}
+\begin{proof}
+	To see that proof by induction works, consider the set $A = \{ n\in\bb{N} \,|\, P(n) \}$.
+	Then $A\subseteq\bb{N}$, $0\in A$, and $n\in A$ implies $\sigma(n)\in A$ for all $n\in\bb{N}$.
+	By (PA3), it follows that $A = \bb{N}$ which must mean that $P(n)$ holds true for all $n\in\bb{N}$.
+\end{proof}
+
+In a proof by induction, the \textbf{base case} refers to $P(0)$ and the \textbf{inductive step} refers to the implication $P(n)\implies P(\sigma(n))$. 
+Let us demonstrate examples of proof by induction below.
+By convention, we take $(\bb{N}, 0, \sigma)$ to be a Peano system. 
+
+\begin{prop}\label{ch1thm_peano_zero_or_succ}
+	For every $m\in\bb{N}$, either $m = 0$ or $m = \sigma(n)$ for some $n\in\bb{N}$. 
+	Consequently, $\bb{N} = \{0\}\cup \sigma(\bb{N})$. 
+\end{prop}
+\begin{proof}
+	Let $P(m)$ be the proposition that $m = 0$ or $m = \sigma(n)$ for some $n\in\bb{N}$. 
+	Clearly, $P(0)$ is automatically true. 
+	If $P(m)$ is true for some $m\in\bb{N}$, then because $\sigma(m)$ is the successor to $m$, it has the required form so that $P(\sigma(m))$ is true. 
+	By induction, it follows that $P(m)$ holds for all $m\in\bb{N}$. 
+\end{proof}
+
+\begin{prop}\label{ch1thm_peano_elem_not_equal_to_its_succ}
+	For every $m\in\bb{N}$, we have $\sigma(m)\ne m$. 
+\end{prop}
+\begin{proof}
+	Let $P(m)$ be the proposition that $\sigma(m)\ne m$.
+	By (PA1), $P(0)$ holds true. 
+	Suppose $P(m)$ is true for some $m\in\bb{N}$, so $\sigma(m)\ne m$. 
+	By (PA2), it follows $\sigma(\sigma(m))\ne \sigma(m)$, so $P(\sigma(m))$ holds. 
+	By induction, it follows that $P(m)$ holds for all $m\in\bb{N}$. 
+\end{proof}
+
+
+
+\subsection{Defining a Total Order on $\bb{N}$}
+
+Intuitively, we can place the natural numbers along a single, straight number line, starting from $0$ and extending indefinitely using $\sigma$. 
+However, our axioms do not explicitly define what it means for one number to appear before or after another on this line.
+To formalize this intuition, we introduce a binary relation that captures precisely when one natural number can be obtained from another by repeated use of the successor function. 
+After defining such a relation and going over some basic properties, we show that it is a strict total order.
+This will give us a notion of ``smaller natural numbers" and ``larger natural numbers."
+
+By \Cref{ch1thm_kuratowski_prod_exists}, the axiom of power set (ZFC6), and the axiom schema of separation (ZFC5), we may obtain a set $\cc{G}$ to be the collection of all subsets $X\subseteq \bb{N}\times_{K}\bb{N}$ such that
+\begin{align}\label{ch1eqn_nat_order_rel}
+	(m, \sigma(m))_{K}\in X \qquad\text{ and }\qquad (m, n)_{K}\in X\implies (m, \sigma(n))_{K}\in X
+\end{align}
+for all $m, n\in\bb{N}$. 
+We know $\cc{G}$ is nonempty, because $\bb{N}\times_{K}\bb{N}$ satisfies the criterion \Cref{ch1eqn_nat_order_rel} and this implies $\bb{N}\times_{K}\bb{N}\in\cc{G}$. 
+By the existence of intersections, we may take 
+\begin{align}\label{ch1eqn_nat_order_rel2}
+	G_{<} = \bigcap\cc{G}.
+\end{align}
+Finally, we define $< \; = ((\bb{N}, \bb{N})_{K}, G_{<})_{K}$, which is a relation. 
+
+\begin{lemma}\label{ch1thm_peano_order_basic0}
+	The set $G_{<}$ satisfies \Cref{ch1eqn_nat_order_rel}. 
+	As a result, for all natural numbers $m, n$ we have the following:
+	\begin{enumerate}[itemsep=-0.4ex, label=\textup{(\alph*)}]
+		\item $m < \sigma(m)$.
+		\item $m < n \implies m < \sigma(n)$. 
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	If $m\in\bb{N}$, then $(m, \sigma(m))_{K}\in X$ for all $X\in\cc{G}$, so $(m, \sigma(m))_{K}\in G_{<}$. 
+	Let $m, n\in\bb{N}$ such that $(m, n)_{K}\in G_{<}$.
+	Then $(m, n)_{K}\in X$ for all $X\in\cc{G}$, and since each $X\in\cc{G}$ satisfies \Cref{ch1eqn_nat_order_rel}, it follows $(m, \sigma(n))_{K}\in X$ for all $X\in\cc{G}$. 
+	Thus, $(m, \sigma(n))_{K}\in G_{<}$. 
+	This shows $G_{<}$ satisfies \Cref{ch1eqn_nat_order_rel}, and so $<$ satisfies (a) and (b). 
+\end{proof}
+
+\begin{lemma}\label{ch1thm_peano_order_basic1}
+	For all $m, n\in\bb{N}$, we have the following:
+	\begin{enumerate}[itemsep=-0.4ex, label=\textup{(\alph*)}]
+		\item $m\not < 0$. % (a)
+		\item $m = 0$ or $0 < m$. % (b)
+		\item If $m\ne n$ and $m \not< n$, then $m \not< \sigma(n)$. % (c)
+		\item If $m < \sigma(n)$, then $m = n$ or $m < n$. % (d)
+		\item If $m < n$, then $\sigma(m) < \sigma(n)$. % (e)
+		\item If $m < n$, then $\sigma(m) = n$ or $\sigma(m) < n$. % (f)
+		\item If $\sigma(m)\not < \sigma(n)$, then $m\not < n$.  % (g)
+		\item If $\sigma(m) < n$, then $m < n$. % (h)
+		\item If $\sigma(m) < \sigma(n)$, then $m < n$. % (i)
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	(a).
+	Let $X = \bb{N}\times_{K} (\bb{N}\setminus\{0\})$. 
+	For all natural numbers $m$, we have $(m, \sigma(m))_{K}\in X$ by (PA1). 
+	For all natural numbers $m, n$ such that $(m, n)_{K}\in X$, we have $(m, \sigma(n))_{K}\in X$ by (PA1). 
+	Thus, $X$ satisfies \Cref{ch1eqn_nat_order_rel}, so $(m, 0)_{K}\notin G_{<}$ for all $m\in\bb{N}$. 
+	This shows $m\not < 0$ for all $m\in\bb{N}$. 
+	
+	(b).
+	Let $P(m)$ be the proposition that $m = 0$ or $0 < m$. 
+	Clearly, $P(0)$ is automatically true. 
+	Suppose $P(m)$ is true for some natural number $m$, so $m = 0$ or $0 < m$. 
+	We aim to show $P(\sigma(m))$ holds. 
+	If $m = 0$ then $0 < \sigma(m)$ by \Cref{ch1thm_peano_order_basic0} (a), and if $0 < m$ then $0 < \sigma(m)$ by \Cref{ch1thm_peano_order_basic0} (b). 
+	In either case, $P(\sigma(m))$ holds. 
+	By induction, it follows that $P(m)$ holds for all natural numbers $m$.
+	
+	(c).
+	Suppose $m, n\in\bb{N}$ such that $m\ne n$ and $m \not< n$. 
+	Form the set 
+	\[ X = G_{<}\setminus\{ (m, \sigma(n))_{K} \}. \]
+	We aim to show that $X$ satisfies both parts of \Cref{ch1eqn_nat_order_rel}, thereby showing $(m, \sigma(n))_{K}$ is not an element of the intersection \Cref{ch1eqn_nat_order_rel2} and thus $m\not< \sigma(n)$. 
+	
+	Let $k\in\bb{N}$. 
+	If $(k, \sigma(k))_{K} = (m, \sigma(n))_{K}$, then $k = m$ and $\sigma(k) = \sigma(n)$.
+	By injectivity of $\sigma$ by (PA2), $k = n$ holds as well, so then $m = n$, which contradicts the fact that $m\ne n$. 
+	Thus, $(k, \sigma(k))_{K}\ne (m, \sigma(n))_{K}$ and $(k, \sigma(k))_{K}\in G_{<}$ where the latter relation holds by the first part of \Cref{ch1eqn_nat_order_rel}. 
+	Together, these two facts imply $(k, \sigma(k))_{K}\in X$.  
+	This shows $X$ satisfies the first part of \Cref{ch1eqn_nat_order_rel}.
+	
+	Suppose now $(a, b)_{K}\in X$, which means $(a, b)_{K}\in G_{<}$ and $(a, b)_{K}\ne (m, \sigma(n))_{K}$. 
+	If $(a, \sigma(b))_{K} = (m, \sigma(n))_{K}$, then $\sigma(b) = \sigma(n)$ so then $b = n$ by injectivity of $\sigma$ by (PA2), and then $(a, b)_{K} = (m, n)_{K}$.
+	The equality implies $(m, n)_{K}\in G_{<}$, so then $m < n$, which contradicts the fact that $m\not< n$. 
+	This implies $(a, \sigma(b))_{K}\ne (m, \sigma(n))_{K}$ and $(a, \sigma(b))_{K}\in G_{<}$ where the latter relation holds by the second part of \Cref{ch1eqn_nat_order_rel}.
+	Together, these two facts imply $(a, \sigma(b))_{K}\in X$. 
+	This shows $X$ satisfies the second part of \Cref{ch1eqn_nat_order_rel}.
+	
+	Since $X$ meets both parts in \Cref{ch1eqn_nat_order_rel}, it follows $(m, \sigma(n))_{K}\notin G_{<}$. 
+	Thus, $m \not< \sigma(n)$. 
+	
+	(d).
+	This is simply the contrapositive of Part (c).
+	
+	(e).
+	Let $Q(n)$ be the proposition that for all $m\in\bb{N}$, if $m < n$ then $\sigma(m) < \sigma(n)$. 
+	Since there is no $m\in\bb{N}$ for which $m < 0$ by Part (a), $Q(0)$ is vacuously true.
+	Suppose $Q(n)$ is true for some $n\in\bb{N}$, so if $m < n$ then $\sigma(m) < \sigma (n)$. 
+	We aim to show $Q(\sigma(n))$ holds. 
+	Take any natural number $m$ for which $m < \sigma(n)$.
+	There are two cases:
+	\begin{itemize}[itemsep=-0.4ex]
+		\item\textsc{Case 1:}
+		If $m = n$, then $\sigma(m) = \sigma(n) < \sigma(\sigma(n))$ by \Cref{ch1thm_peano_order_basic0} (a).
+		\item\textsc{Case 2:}
+		If $m\ne n$, Part (d) implies $m < n$.
+		By the inductive hypothesis $Q(n)$, we have $\sigma(m) < \sigma(n)$.
+		Then by \Cref{ch1thm_peano_order_basic0} (b), $\sigma(m) < \sigma(\sigma(n))$. 
+	\end{itemize}
+	In all cases, $\sigma(m) < \sigma(\sigma(n))$. 
+	Thus, $m < \sigma(n)\implies \sigma(m) < \sigma(\sigma(n))$ for all $m\in\bb{N}$. 
+	This shows $Q(\sigma(n))$ holds. 
+	By induction, $Q(n)$ holds for all natural numbers $n$. 
+	
+	(f).
+	Suppose $m, n\in\bb{N}$ such that $m < n$ and $\sigma(m)\ne n$. 
+	Since $m < n$, Part (a) implies $n\ne 0$. 
+	By \Cref{ch1thm_peano_zero_or_succ}, $n = \sigma(p)$ for some $p\in\bb{N}$. 
+	From $m < n = \sigma(p)$, apply Part (d) to get 
+	\[ m = p \qquad\text{ or }\qquad m < p. \]
+	In the former case, $m = p$ and $n = \sigma(p)$ imply $n = \sigma(m)$, but this contradicts the fact that $\sigma(m)\ne n$.
+	Thus, we must have $m\ne p$ and $m < p$.
+	Apply Part (e) to $m < p$ to get $\sigma(m) < \sigma(p) = n$ and we are done. 
+	
+	(g).
+	This is simply the contrapositive of Part (e).
+	
+	(h).
+	Let $R(n)$ be the proposition that for all $m\in\bb{N}$, if $\sigma(m) < n$ then $m < n$. 
+	Since there is no $m\in\bb{N}$ for which $\sigma(m) < 0$ by Part (a), $R(0)$ is vacuously true. 
+	Suppose $R(n)$ is true for some $n\in\bb{N}$, so if $\sigma(m) < n$ then $m < n$. 
+	We aim to show $R(\sigma(n))$ holds. 
+	Take any natural number $m$ for which $\sigma(m) < \sigma(n)$. 
+	There are two cases:
+	\begin{itemize}[itemsep=-0.4ex]
+		\item\textsc{Case 1:}
+		If $\sigma(m) = n$, then \Cref{ch1thm_peano_order_basic0} (a) implies $m < \sigma(m) = n$. 
+		From this, \Cref{ch1thm_peano_order_basic0} (b) gives $m < \sigma(n)$. 
+		\item\textsc{Case 2:}
+		If $\sigma(m)\ne n$, then Part (d) gives $\sigma(m) < n$.
+		By the induction hypothesis $R(n)$, we obtain $m < n$.
+		Then by \Cref{ch1thm_peano_order_basic0} (b), we obtain $m < \sigma(n)$. 
+	\end{itemize}
+	In all cases, $m < \sigma(n)$.
+	Thus, $R(\sigma(n))$ holds. 
+	By induction, $R(n)$ holds for all natural numbers $n$. 
+	
+	(i).
+	Suppose $m, n\in\bb{N}$ such that $\sigma(m) < \sigma(n)$. 
+	By Part (d), $\sigma(m) = n$ or $\sigma(m) < n$. 
+	In the former case, \Cref{ch1thm_peano_order_basic0} (a) gives $m < \sigma(m) = n$ and we are done. 
+	In the latter case, Part (h) gives $m < n$ and we are again done. 
+\end{proof}
+
+\begin{theorem}
+	The $<$ relation on $\bb{N}$ is a strict total ordering. 
+\end{theorem}
+\begin{proof}
+	\textsc{Irreflexivity.}
+	Let $P(m)$ be the proposition that $m\not< m$. 
+	By \Cref{ch1thm_peano_order_basic1} (a), $P(0)$ is true. 
+	Suppose $P(m)$ is true for some $m\in\bb{N}$, so $m\not< m$
+	By the contrapositive of \Cref{ch1thm_peano_order_basic1} (i), it follows $\sigma(m) \not< \sigma(m)$. 
+	Thus, $P(\sigma(m))$ is true.
+	By induction, $P(m)$ is true for all natural numbers $m$. \\
+	
+	\textsc{Transitivity.}
+	Let $a, b$ be natural numbers such that $a < b$, and let $Q(c)$ be the proposition that if $b < c$ then $a < c$. 
+	Here $Q(0)$ is vacuously true because of \Cref{ch1thm_peano_order_basic1} (a).
+	Suppose $Q(c)$ is true for some natural number $c$.
+	We aim to show $Q(\sigma(c))$ is true. 
+	Suppose $b < \sigma(c)$. 
+	By \Cref{ch1thm_peano_order_basic1} (d), 
+	\[ b = c \qquad\text{ or }\qquad b < c. \]
+	If $b = c$, then $a < b = c$ and \Cref{ch1thm_peano_order_basic0} (b) gives $a < \sigma(c)$. 
+	If $b < c$, then the inductive hypothesis $Q(c)$ implies $a < c$, so then by \Cref{ch1thm_peano_order_basic0} (b) we have $a < \sigma(c)$. 
+	In every case, $a < \sigma(c)$, so $Q(\sigma(c))$ holds. 
+	By induction, $Q(c)$ holds for all natural numbers $c$. 
+	
+	This shows that if $a, b, c$ are natural numbers such that $a < b$ and $b < c$, then $a < c$, so transitivity is proven. \\
+	
+	\textsc{Asymmetry.}
+	If $m, n$ are natural numbers such that $m < n$ and $n < m$ both hold, then by transitivity we have $m < m$.
+	However, by irreflexivity we have $m\not< m$.
+	This is a contradiction, so $m < n$ and $n < m$ cannot be both true. 
+	Thus, if $m < n$ then $n\not< m$, so asymmetry is proven. \\
+	
+	\textsc{Strict Comparability.}
+	Let $n$ be a natural number.
+	Let $R(m)$ be the proposition that if $m\ne n$, then $m < n$ or $n < m$. 
+	If $0\ne n$, then $0 < n$ by \Cref{ch1thm_peano_order_basic1} (b).
+	Thus, $R(0)$ is true. 
+	Suppose $R(m)$ is true for some natural number $m$. 
+	We aim to show $R(\sigma(m))$ is true. 
+	Suppose $n$ is a natural number for which $\sigma(m)\ne n$. 
+	There are two cases to consider:
+	\begin{itemize}[itemsep=-0.4ex]
+		\item\textsc{Case 1:}
+		If $m = n$, then $n < \sigma(n) = \sigma(m)$ by \Cref{ch1thm_peano_order_basic0} (a).
+		\item\textsc{Case 2:}
+		If $m\ne n$, then the inductive hypothesis $P(m)$ yields either $m < n$ or $n < m$. 
+		In the first subcase $m < n$, \Cref{ch1thm_peano_order_basic1} (f) says $\sigma(m) = n$ or $\sigma(m) < n$. 
+		Since $\sigma(m)\ne n$ by our choice of $n$, it follows $\sigma(m) < n$. 
+		In the second subcase $n < m$, \Cref{ch1thm_peano_order_basic0} (b) implies $n < \sigma(m)$. 
+	\end{itemize}
+	In all cases, we have $\sigma(m) < n$ or $n < \sigma(m)$. 
+	Thus, $R(\sigma(m))$ holds. 
+	By induction, $R(m)$ holds for all natural numbers $m$. \\
+	
+	This completes the demonstration that $<$ satisfies properties (T1)--(T4) of the definition of strict total order relations. 
+\end{proof}
+
+For any Peano system $(\bb{N}, 0, \sigma)$, we take $<$ as defined above to be the standard ordering on $\bb{N}$. 
+All terminology and notation pertaining to total orderings applies to this relation. 
+So for example, if $m < n$ then we say $m$ is less than $n$. 
+
+\begin{theorem}
+	The $<$ relation on $\bb{N}$ is a well-ordering. 
+\end{theorem}
+\begin{proof}
+	Suppose for the sake of contradiction that $A$ is a nonempty subset of $\bb{N}$ that does not have a least element.
+	
+	Define
+	\[ B = \{ m\in\bb{N} \,|\, m < a \text{ for all } a\in A \}. \]
+	If $0\in A$, then the fact that $0\le a$ for all $a\in A$ by \Cref{ch1thm_peano_order_basic1} (b) implies $0$ is a least element of $A$. 
+	Since $A$ does not have a least element, it follows $0\notin A$. 
+	By \Cref{ch1thm_peano_order_basic1} (b), we have $0 < a$ for all $a\in A$. 
+	Thus, $0\in B$. 
+	
+	Suppose $m\in B$, so $m < a$ for all $a\in A$. 
+	By \Cref{ch1thm_peano_order_basic1} (f), for all $a\in A$, we have $\sigma(m) = a$ or $\sigma(m) < a$. 
+	If $\sigma(m)\in A$, then $\sigma(m)\le a$ for all $a\in A$, so then $\sigma(m)$ is a least element of $A$.
+	Since $A$ does not have a least element, it follows $\sigma(m) < a$ for all $a\in A$. 
+	Thus, $\sigma(m)\in B$. 
+	
+	By (PA3), $B = \bb{N}$. 
+	Since $A$ is nonempty, there exists some $a\in A$.
+	Since $a\in B$, we have $a < a$.
+	This violates irreflexivity of $<$, so we have a contradiction. 
+\end{proof}
+
+The fact that $<$ is a total ordering on $\bb{N}$ precisely corresponds to the fact that the natural numbers can be arranged in a number line such that later elements are obtain from earlier elements by the successor function $\sigma$. 
+By \Cref{ch1thm_peano_order_basic1} (b), $0$ is the least element of $\bb{N}$, which corresponds to the fact that the number line starts with $0$, as expected. 
+We should also note that this number line is ``discrete" in the sense that for each number, there is an immediate next number with nothing in-between.
+Let us demonstrate this formally.
+
+\begin{corollary}[Discreteness property]\label{ch1thm_no_between_nat}
+	For every $m\in\bb{N}$ there is no $k\in\bb{N}$ that satisfies $m < k < \sigma(m)$.
+\end{corollary}
+\begin{proof}
+	Let $A = \{ k\in\bb{N} \,|\, 0 < k \}$.
+	By the well-ordering property, $A$ has a least element $a\in A$. 
+	Since $0 < a$, \Cref{ch1thm_peano_order_basic1} (a) implies $a\ne 0$. 
+	By \Cref{ch1thm_peano_zero_or_succ} it follows $a = \sigma(b)$ for some natural number $b$. 
+	By \Cref{ch1thm_peano_order_basic0} (a), $b < a$, and since $a$ is the least element of $A$, it follows $b\notin A$. 
+	The fact that $b$ is not an element of $A$ means $0\not< b$, so by \Cref{ch1thm_peano_order_basic1} (b) we have $b = 0$, and so we find $a = \sigma(0)$.
+	Since the existence of a natural number $k$ for which $0 < k < \sigma(0)$ contradicts the fact that $\sigma(0)$ is the least element of $A$, which has just been established, it follows that no such $k$ exists. 
+	
+	Let $P(m)$ be the proposition that there is no $k\in\bb{N}$ such that $m < k < \sigma(m)$. 
+	The previous paragraph demonstrated that the base case $P(0)$ holds.
+	For the inductive step, suppose $P(m)$ holds for some $m\in\bb{N}$. 
+	Supposing for the sake of contradiction there exists $k\in\bb{N}$ such that $\sigma(m) < k < \sigma(\sigma(m))$, \Cref{ch1thm_peano_order_basic1} (a) implies $k\ne 0$, so then \Cref{ch1thm_peano_zero_or_succ} implies $k = \sigma(k')$ for some $k'\in\bb{N}$. 
+	By \Cref{ch1thm_peano_order_basic1} (i) it follows $m < k' < \sigma(m)$, contradicting $P(m)$
+	Therefore, if $P(m)$ holds, then there cannot exist $k$, so $P(\sigma(m))$ holds as well. 
+	This proves the inductive step.
+	By induction, $P(m)$ holds for all $m\in\bb{N}$. 
+\end{proof}
+
+
+
+\subsection{The Principle of Recursive Definitions}
+
+Another utility of the induction property is the \textbf{principle of recursive definitions}.
+Not only are we able to prove certain statements to be true for all natural numbers, but we are able to use induction to \emph{define} certain things.
+The idea is that we may define a function $f$ on the natural numbers by specifying $f(0)$ and specifying $f(\sigma(n))$ in terms of $f(n)$ for each $n\in\bb{N}$.
+Such a definition is called a \textbf{recursive definition}.
+In such a definition, it seems that we are attempting to define a function in terms of itself, and it's not at all clear that this is a logically coherent move.
+Below we provide a careful justification for the ability to define functions via recursion (along with conditions that specify exactly when this is okay to do). 
+
+\begin{theorem}[Principle of recursive definitions]\label{ch1thm_recur}
+	Let $X$ be a nonempty set, let $x_{0}\in X$, and let $g:\bb{N}\times X\rightarrow X$.
+	Then there is a well-defined and unique map $f:\bb{N}\rightarrow X$ such that
+	\[ f(0) = x_{0} \qquad\text{ and }\qquad f(\sigma(n)) = g(n, f(n)) \]
+	for all $n\in\bb{N}$
+\end{theorem}
+\fi %%%
+\iffalse 
+\begin{proof}
+	For each $i\in\bb{N}\setminus\{0\}$, we know there exists a unique $j\in\bb{N}$ such that $\sigma(j) = i$ by \Cref{ch1thm_peano_zero_or_succ} and (PA2).
+	Denote $i^{-}$ to be the unique natural number for which $\sigma(i^{-}) = i$ if $i\in\bb{N}\setminus\{0\}$.
+	
+	To see that the desired function $f$ exists, we use induction.
+	For every $n\in\bb{N}$, let 
+	\[ F_{n} = \{ f:\bb{N}\rightarrow X \;|\; f(0) = x_{0} \text{ and } f(i) = g(i^{-}, f(i^{-})) \text{ for all } 0 < i \le n \}. \]
+	% need to justify the existence of $F_{n}$, how is it possible for *every* $n$, no need to invoke replacement
+	For each $n\in\bb{N}$, let $P(n)$ be the proposition that $F_{n}$ is a nonempty set. 
+	
+	Define $f_{0}:\bb{N}\rightarrow X$ by taking $f_{0}(i) = x_{0}$ for all $i\in\bb{N}$.
+	Then $f_{0}\in F_{0}$ and the base case $P(0)$ is true. 
+	For the inductive step, suppose $P(n)$ is true.
+	Pick any function $f_{n}\in F_{n}$, and define $f_{\sigma(n)}:\bb{N}\rightarrow X$ by
+	\[ f_{\sigma(n)}(i) = \begin{cases}
+		f_{n}(i) &\text{ if }\quad 0\le i \le n, \\
+		g(n, f_{n}(n)) &\text{ if }\quad i = \sigma(n), \\
+		x_{0} &\text{ otherwise }. 
+	\end{cases} \]
+	We find $f_{\sigma(n)}(0) = f_{n}(0) = x_{0}$.
+	For $0 < i\le n$, 
+	\[ f_{\sigma(n)}(i) = f_{n}(i) = g(i^{-}, f_{n}(i^{-})) = g(i^{-}, f_{\sigma(n)}(i^{-})). \]
+	For $n < i\le \sigma(n)$, \Cref{ch1thm_no_between_nat} implies $i = \sigma(n)$ and
+	\[ f_{\sigma(n)}(\sigma(n)) = g(n, f_{n}(n)) = g(n, f_{\sigma(n)}(n)). \]
+	Thus, $f_{\sigma(n)}\in F_{\sigma(n)}$ and so $P(\sigma(n))$ is true. 
+	By induction, $P(n)$ is true for every $n\in\bb{N}$.
+	
+	Let $Q(n)$ be the proposition that if $f, \wt{f}\in F_{n}$, then $f(n) = \wt{f}(n)$. 
+	The base case $Q(0)$ is true, because for any $f, \wt{f}\in F_{0}$, we have $f(0) = x_{0} = \wt{f}(0)$. 
+	Suppose $Q(n)$ is true for some $n\in\bb{N}$.
+	Given any $f, \wt{f}\in F_{\sigma(n)}$, we have $f(\sigma(n)) = g(n, h(n))$ and $\wt{f}(\sigma(n)) = g(n, \wt{h}(n))$ for some $h, \wt{h}\in F_{n}$. 
+	By $Q(n)$, it follows 
+	\[ f(\sigma(n)) = g(n, h(n)) = g(n, \wt{h}(n)) = \wt{f}(\sigma(n)), \]
+	so $Q(\sigma(n))$ holds. 
+	By induction, $Q(n)$ holds for all natural numbers $n$. 
+	
+	
+	
+	
+	
+	% Let $Q$ be the predicate $Q(n, u) \equiv$ there exists $h\in F_{n}$ and $h(n) = u$. 
+	
+	\iffalse 
+	Finally, we define $f:\bb{N}\rightarrow X$ by $f(n) = f_{n}(n)$ where $f_{n}$ is any chosen $f_{n}\in F_{n}$. % need to establish $f$ via replacement
+	One can check that $f$ satisfies the desired properties.
+	Showing uniqueness of $f$ is done by induction as well and is left to the reader as an exercise.
+	\fi 
+\end{proof}
+\fi 
+
+
+%%%
+
+\iffalse 
+
+\begin{theorem}[Principle of recursive definitions]\label{thm:recursion}
+	Let $X$ be a non–empty set, let $x_{0}\in X$, and let 
+	\(g:\mathbb{N}\times X\longrightarrow X\).
+	Then there exists a \emph{unique} map
+	\(f:\mathbb{N}\longrightarrow X\) such that
+	\[
+	f(0)=x_{0}\qquad\text{and}\qquad 
+	f\!\bigl(\sigma(n)\bigr)=g\bigl(n,f(n)\bigr)
+	\quad\text{for every }n\in\mathbb{N}.
+	\]
+\end{theorem}
+
+\begin{proof}
+	For each $i\in\mathbb{N}\setminus\{0\}$ there is a unique
+	$j\in\mathbb{N}$ with $\sigma(j)=i$ by
+	\cref{ch1thm_peano_zero_or_succ} and (PA2);  
+	denote this $j$ by $i^{-}$.
+	\textbf{Step 1: finite partial extensions.}
+	For every $n\in\mathbb{N}$ put
+	\[
+	F_{n}:=
+	\Bigl\{
+	h:\mathbb{N}\to X\;\Big|\;
+	h(0)=x_{0}\text{ and }
+	h(i)=g(i^{-},h(i^{-})) \text{ for all }0<i\le n
+	\Bigr\}.
+	\]
+	
+	\textbf{Step 2: $F_{n}$ is non–empty (induction).}
+	Define $h_{0}:\mathbb N\to X$ by $h_{0}(i)=x_{0}$ for all $i$; then
+	$h_{0}\in F_{0}$.  
+	Assume $F_{n}\neq\varnothing$ and choose any $h\in F_{n}$.  
+	Define
+	\[
+	h'(i)=
+	\begin{cases}
+		h(i) &\text{if }0\le i\le n,\\[2pt]
+		g\!\bigl(n,h(n)\bigr) &\text{if }i=\sigma(n),\\[2pt]
+		x_{0} &\text{otherwise.}
+	\end{cases}
+	\]
+	One checks directly that $h'\in F_{\sigma(n)}$, hence $F_{\sigma(n)}$
+	is non–empty.  By induction $F_{n}$ is non–empty for every $n$.
+	
+	\textbf{Step 3: agreement at level $n$.}
+	\begin{lemma}\label{lem:agree}
+		For every $n\in\mathbb{N}$ and all $h,h'\in F_{n}$ one has
+		$h(n)=h'(n)$.
+	\end{lemma}
+	
+	\begin{proof}
+		By definition $h(0)=h'(0)=x_{0}$.  
+		Assume inductively $h(i)=h'(i)$ for all $i\le n$.
+		Then
+		\[
+		h(\sigma(n))=g\bigl(n,h(n)\bigr)=
+		g\bigl(n,h'(n)\bigr)=h'(\sigma(n)),
+		\]
+		so the claim follows.
+	\end{proof}
+	
+	\textbf{Step 4: build the graph via Replacement.}
+	Consider the formula
+	\[
+	\varphi(n,y)\;:\;\exists h\bigl(h\in F_{n}\land h(n)=y\bigr).
+	\]
+	By \cref{lem:agree} this formula is \emph{functional}:  
+	for each $n$ there is exactly one $y$ with $\varphi(n,y)$.
+	Applying the \emph{Replacement Scheme} to $\varphi$ and the set
+	$\mathbb N$ yields the set 
+	\[
+	Y:=\{\,y\mid \exists n\in\mathbb N\; \varphi(n,y)\,\},
+	\]
+	and again by Replacement we obtain the set
+	\[
+	G:=\bigl\{(n,y)_{K}\mid \varphi(n,y)\bigr\}
+	\subseteq\mathbb N\times_{K}X .
+	\]
+	Using Kuratowski pairing we set 
+	\(f:=\bigl((\mathbb N,X)_{K},G\bigr)_{K}\).
+	Because $G$ is the graph of a single–valued total relation on
+	$\mathbb N$, $f$ is a function.
+	
+	\textbf{Step 5: $f$ satisfies the recursion.}
+	For every $n$ the definition of $\varphi$ gives
+	$f(n)=y$ with $\varphi(n,y)$, hence some $h\in F_{n}$ has $h(n)=y$.
+	If $n=0$ then $h(0)=x_{0}$, so $f(0)=x_{0}$.
+	If $n=\sigma(k)$, then $h(n)=h(\sigma(k))=g(k,h(k))=g(k,f(k))$,
+	so $f(\sigma(k))=g(k,f(k))$.
+	
+	\textbf{Step 6: uniqueness.}
+	Suppose $f'$ is another map with the same two defining equations.
+	Define  
+	\[
+	P(n):\; f(n)=f'(n).
+	\]
+	Clearly $P(0)$ is true.  
+	Assume $P(n)$ and compute
+	\(
+	f(\sigma(n))=g(n,f(n))=g(n,f'(n))=f'(\sigma(n)),
+	\)
+	so $P(\sigma(n))$ holds.  
+	By induction $P(n)$ is true for all $n$; therefore $f=f'$ (two
+	functions that agree at every natural number are identical).
+	
+	This completes the proof.
+\end{proof}
+
+\fi 
+
+
+\iffalse 
+\begin{theorem}[Principle of recursive definitions]\label{ch2thm_recur}
+	Let $X$ be a nonempty set, let $x_{0}\in X$, and let $g:\bb{N}\times X\rightarrow X$.
+	Then there is a well-defined and unique map $f:\bb{N}\rightarrow X$ such that
+	\[ f(0) = x_{0} \qquad\text{ and }\qquad f(n+1) = g(n, f(n)) \]
+	for all $n\in\bb{N}$
+\end{theorem}
+\begin{proof}
+	To see that the desired function $f$ exists, we use induction.
+	For every $n\in\bb{N}$, let 
+	\[ F_{n} = \{ f:\bb{N}\rightarrow X \;|\; f(0) = x_{0} \text{ and } f(i) = g(i-1, f(i-1)) \text{ for all } 0 < i \le n \}, \]
+	and 
+	\[ \cc{F}_{n} = \{ F_{k} \,|\, 0\le k \le n \}. \]
+	For each $n\in\bb{N}$, let $P(n)$ be the proposition that every element $F_{k}$ of $\cc{F}_{n}$ is a nonempty set. 
+	Define $f_{0}:\bb{N}\rightarrow X$ by taking $f_{0}(i) = x_{0}$ for all $i\in\bb{N}$, so then $f_{0}\in F_{0}$ and the base case $P(0)$ is true. 
+	
+	For the inductive step, suppose $P(n)$ is true.
+	Pick any function $f_{n}\in F_{n}$, and define $f_{n+1}:\bb{N}\rightarrow X$ by
+	\[ f_{n+1}(i) = \begin{cases}
+		f_{n}(i) &\text{ if }\quad 0\le i\le n, \\
+		g(n, f_{n}(n)) &\text{ if }\quad i = n+1, \\
+		x_{0} &\text{ if }\quad i>n+1.
+	\end{cases} \]
+	Now one can check $f_{n+1}\in F_{n+1}$, so the elements of $\cc{F}_{n+1} = \cc{F}_{n}\cup\{F_{n+1}\}$ are known to be nonempty sets, so $P(n+1)$ is true. 
+	By induction, $P(n)$ is true for every $n\in\bb{N}$.
+	Finally, we define $f:\bb{N}\rightarrow X$ by $f(n) = f_{n}(n)$ where $f_{n}$ is any chosen $f_{n}\in F_{n}$. 
+	One can check that $f$ satisfies the desired properties.
+	Showing uniqueness of $f$ is done by induction as well and is left to the reader as an exercise. 
+\end{proof}
+\fi 
+
+
+\iffalse %%%
+Shortly, we will define an ordering relation, addition, and multiplication from these properties alone. 
+
+We have not yet explained how ZFC subsumes $\bb{N}$. 
+In our characterization of the integers, we did not specify \emph{what they are} or \emph{how they're implemented}, because this is not the important part.
+What is important is the structure of $\bb{N}$, which we have specified by (N1)--(N3). 
+In fact, the structure is precisely what defines $\bb{N}$. 
+This speaks to the fact that the natural numbers can be used to count many disparate things.
+You can use natural numbers to count rocks in your hand, letters in a text, stars in a constellation, days passing by, and many more things.
+What you are counting doesn't matter, as long as those things exhibit the right properties and relations that allow $\bb{N}$ to model them appropriately. 
+\fi 
+
+\iffalse 
+In this formulation, each natural number is a set, which is consistent with the fact that every object in ZFC is a set. 
+However, by the axiom of replacement (ZFC8) we may construct other sets with successor functions that also satisfy (N1)--(N3). 
+What matters is the structure of the natural number system, and in this text, the specific encoding or instantiation of numbers in ZFC is not important. 
+What matters is that the structure of the natural numbers exists in ZFC, and this existence is provided by the axiom of infinity (ZFC10). 
+
+In \Cref{ch2_realintro}, we will rediscover the structure of natural numbers as a subset of the real number system.
+For now in this chapter, when we talk of a natural number system $\bb{N}$, we refer to any set with a successor function that satisfies the Peano axioms (N1)--(N3). 
+\fi 
+
+% look into the diff geom notes you had at this point; need to prove some misc properties
+%\subsection{The Principle of Induction}
+
+\iffalse 
+Induction is an important property, because in addition to being an essential defining property of the natural number system, it is our first contact with something that introduces a concept of infinity. 
+Intuitively speaking, no matter how long of a list of natural numbers we write down, we may always take the latest one and apply $\sigma$ 
+\fi 
+
+\iffalse %%%
+% next section: more on functions? (operations w/ indexing, cartesian prods AND disjoint unions, axiom of choice, zorn's lemma)
+\subsection{Binary Operations}
+
+In many mathematical disciplines, we analyze sets $A$ with some functions of the form $f:A\times_{K} A\rightarrow A$. 
+In some contexts, these will be called \textbf{binary operations} or \textbf{operations} for short and we will write $a\, f\, b = f((a, b)_{K})$. 
+
+\begin{example}
+	Let \( A = \{a, b, c\} \), and define a binary operation $+ : A \times_{K} A \rightarrow A$ by the following rules:
+	\begin{align*}
+		a + a &= a, & a + b &= b, & a + c &= c, \\
+		b + a &= b, & b + b &= c, & b + c &= a, \\
+		c + a &= c, & c + b &= a, & c + c &= b.
+	\end{align*}
+	One can check that for all $x, y\in A$, we have $x + y = y + x$.
+	As we will see in other parts of the text, such a property of $+$ is called \textbf{commutativity}. 
+\end{example}
+
+To avoid getting bogged down in notation, any time we introduce an operation $f:A\times_{K} A\rightarrow A$, we will write it as $f:A\times A\rightarrow A$ where the $\times$ sign has no $K$ subscript. 
+\fi 
+
+\iffalse 
+With enough work, we may use induction to define the principle of recursive definitions, an ordering relation, and addition and multiplication operations as we traditionally know them. 
+This would take a lot of work. 
+
+The construction we have made will not be important to us, because this text uses the system of integers or the system of real numbers as the starting points, and both already contain the natural numbers as a subset. 
+The axiom of infinity is used so that these systems (and beyond) could be constructed within ZFC set theory alone without needing to postulate their existence. 
+When we postulate that the integer number system exists in \Cref{chB_intratreal} or that the real number system exists in \Cref{ch1_realintro}, the postulates are actually theorems of ZFC.
+However, demonstrating this is not a priority in this text. 
+\fi 
+
+
+
+\iffalse %%%
+\subsection{Indexing, Unions, and Intersections}
+
+It is often the case that when we have a collection of sets $\cc{A}$, there is a surjective function $f:I\rightarrow\cc{A}$.
+In such a case, we call $f$ an \textbf{indexing function} of $\cc{A}$ and $I$ the \textbf{index set}. 
+This helps us label and organize the sets that belong to $\cc{A}$. 
+If $f$ is known, we may write $f(\alpha) = A_{\alpha}$ and then write
+\[ \cc{A} = \{ A_{\alpha} \,|\, \alpha\in I \}. \]
+Note that the indexing function has to be surjective but not necessarily injective.
+An indexing function that is injective (and hence bijective) is called a \textbf{proper indexing function}. 
+
+In \Cref{ch1sec_basic_set_axioms}, we labeled the union and intersection as $\bigcup\cc{A}$ and $\bigcap\cc{A}$ if $\cc{A}$ is a collection of sets (although we kept the intersection as undefined if $\cc{A}$ is an empty collection).
+Given an indexing function $f:I\rightarrow\cc{A}$, we may instead write the union and intersection as
+\[ \bigcup_{\alpha\in I} A_{\alpha} = \bigcup\cc{A} \qquad\text{ and }\qquad \bigcap_{\alpha\in I} A_{\alpha} = \bigcap\cc{A}. \]
+This new notation will be prominent throughout our text. 
+
+
+
+\subsection{General Cartesian Products}
+
+Just as binary union and intersection operations are extended to operations on collections of sets, we will extend the Cartesian product as follows.
+
+\begin{definition}
+	Suppose $\cc{A} = \{ A_{\alpha} \,|\, \alpha\in I \}$ is an indexed collection of sets with indexing set $I$. 
+	We define the \textbf{Cartesian product} to be the set
+	\[ \prod_{\alpha\in I} A_{\alpha} = \{ x\in\map(I, \bigcup\cc{A}) \,|\, x(\alpha)\in A_{\alpha} \}. \]
+	Note that this definition of the Cartesian product not only requires the collection of sets $\cc{A}$ to be given but also the indexing system $\alpha\mapsto A_{\alpha}$ as well.
+\end{definition}
+
+Given the indexing system $f:I\rightarrow\cc{A}$ with $\alpha\mapsto A_{\alpha}$, the existence of $\bigcup\cc{A}$ follows by the axiom of union (ZFC4). 
+The existence of $\map(I, \bigcup\cc{A})$ then follows by \Cref{ch1thm_set_of_fns_exists}, and then the Cartesian product is specified as a subset of that whose existence is justified by the axiom schema of separation (ZFC5).
+We will explain how this is a generalization of binary Kuratowski--Cartesian products later in this chapter. 
+
+Since elements of Cartesian products are functions, they keep track of their codomains.
+This means that if $\cc{A} = \{ A_{\alpha} \,|\, \alpha\in I \}$ and $\cc{B} = \{ B_{\alpha} \,|\, \alpha\in I \}$ are collections of sets such that $A_{\alpha}\subseteq B_{\alpha}$ for each $\alpha\in I$, we can have elements
+\[ x\in\prod_{\alpha\in I} A_{\alpha} \qquad\text{ and }\qquad y\in\prod_{\alpha\in I} B_{\alpha} \]
+such that $x(\alpha) = y(\alpha)$ for each $\alpha\in I$ and still have $x\ne y$. 
+However, in these scenarios, we may appeal to \Cref{ch1thm_fn_domain_codomain_change_exists} to implicitly change the codomains of elements of Cartesian products to be able to compare them, even if they initially have different codomains. 
+Usually, this type of technicality will not pose any problems for us. 
+\fi 
+
+
+
+
+
