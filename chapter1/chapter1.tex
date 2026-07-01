@@ -1833,15 +1833,15 @@ Zorn's lemma is in fact equivalent to the axiom of choice (given all the other a
 	\begin{enumerate}[itemsep=-0.8ex, label=(\roman*)]\setcounter{enumi}{2}
 		\item Every chain has a strict upper bound.
 	\end{enumerate}
-	Define $B:\cc{C}\rightarrow\cc{P}(P)$ by
-	\[ B(C) = \{ b\in P \,|\, b\text{ is a strict upper bound of } C \}. \]
+	Define 
+	\[ B:\cc{C}\rightarrow\cc{P}(P) \quad\text{by}\quad B(C) = \{ b\in P \,|\, b\text{ is a strict upper bound of } C \}. \]
 	By fact (iii), every $B(C)$ is nonempty. 
 	Let $\cc{B} = \im B$, which is nonempty since $\varnothing\in\cc{C}$ and $B(\varnothing)\in\cc{B}$. 
 	We appeal to the axiom of choice (ZFC9) to invoke a choice function
-	\[ f:\cc{B}\rightarrow \bigcup\cc{B} \]
-	where $f(B(C))\in B(C)$, i.e. $f(B(C))$ is a strict upper bound of $C$. 
-	Compose functions and expand the codomain to get
-	\[ g = (f\circ B)|^{P}:\cc{C}\rightarrow P. \]
+	\[ f:\cc{B}\rightarrow \bigcup\cc{B} \quad\text{where}\quad f(B(C))\in B(C), \]
+	i.e. $f(B(C))$ is a strict upper bound of $C$. 
+	Change codomains and compose functions to get
+	\[ g = f|^{P}\circ B|^{\cc{B}}:\cc{C}\rightarrow P. \]
 	Define a chain $C$ to be \textbf{nifty} if the following properties hold:
 	\begin{enumerate}[itemsep=-0.3ex, label=(N\arabic*)]
 		\item $g(\varnothing)\in C$,
