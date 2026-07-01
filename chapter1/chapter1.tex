@@ -34,7 +34,7 @@ Bound variables act as local placeholders whose names may be changed without alt
 A variable that is not bound is called a \textbf{free variable}. 
 
 In contrast to variables, we use \textbf{constant symbols} like $a, b, c$ to refer to some specific objects in the domain of discourse, even if we might not know exactly which object. 
-We will not always adhere to the convention of using initial English letters for constant symbols and final English letters for variables symbols; this will only be a heuristic and how any given letter is used should be understood from the context. 
+We will not always adhere to the convention of using initial English letters for constant symbols and final English letters for variable symbols; this will only be a heuristic and how any given letter is used should be understood from the context. 
 
 When we deal solely with propositions without predicates or quantifiers, we are dealing with \textbf{propositional logic}.
 When we deal with predicates and quantifiers that range over the objects of the domain of discourse, we are dealing with \textbf{first-order} or \textbf{predicate logic}. 
@@ -93,7 +93,7 @@ which is a statement of unique existence.
 In addition to connectives $\land$, $\lor$, $\!\implies\!$, $\!\impliedby\!$, $\!\iff\!$, quantifiers $\exists$, $\forall$, equality $=$, and parentheses, we will have three kinds of non-logical symbols. 
 
 A constant symbol $c$ (already introduced above) is a symbol that refers to a fixed existing object in the domain of discourse. 
-A \textbf{(domain guarded) function symbol} $f$ with \textbf{domain condition} $D$ is a symbol that takes in a term $t$ for which a proof of $D(t)$ exists and returns new term $f(t)$ that refers to an existing object in the domain of discourse. 
+A \textbf{(domain guarded) function symbol} $f$ with \textbf{domain condition} $D$ is a symbol that takes in a term $t$ for which a proof of $D(t)$ exists and returns a new term $f(t)$ that refers to an existing object in the domain of discourse. 
 In some cases, the domain condition $D$ may be a two-place predicate and the function symbol $f$ may take two terms $s, t$ for which a proof of $D(s, t)$ exists to produce a new term $f(s, t)$. 
 A \textbf{binary relation symbol} $R$ is a symbol that takes in two terms $s, t$ and returns a proposition $R(s, t)$; we often write $R(s, t)$ as $s\, R\, t$. 
 
@@ -103,7 +103,7 @@ A function $f$ such that $f(t)$ is defined for all terms $t$ is possible if the 
 
 We deviate away from usual first-order logic because of our domain guarded scheme taken from Wiedijk and Zwanenburg's work. % cite First order logic with domain conditions by W&Z
 This is so that certain junk terms like $1/0$ (division by zero) remain genuinely undefined.
-Whenever we use a domain guarded function symbol, the relevant domain condition must be already available in the context.
+Whenever we use a domain guarded function symbol, the relevant domain condition must already be available in the context.
 This has the consequence that propositions and predicates must be read from left to right such that the well-formedness of terms crucially depends on what is established to the left of the term and in the given context. 
 
 \begin{example}
@@ -348,24 +348,24 @@ In ZFC, any mention of element or object is taken as synonymous with set.
 The base formal language of ZFC consists of the logical symbols and one additional relation symbol $\in$.
 However, as we explained above, we will not adhere to this language and we will introduce constant terms, (domain guarded) function symbols, and relation symbols as we see fit. 
 The $\in$ relation represents \textbf{membership}, so if $a, b$ are sets and $a\in b$ then we say $a$ is a \textbf{member} or \textbf{element} of $b$.
-If it is not the case that $a\in b$ then we write $a\not\in b$. 
+If it is not the case that $a\in b$ then we write $a\notin b$. 
 
 Let us now provide two axioms.
 
 \begin{enumerate}[itemsep=-0.4ex, label=\textup{(ZFC${\arabic*}$)}]
 	\item\textsc{Axiom of the Empty Set.}
-	There exists a set $\varnothing$ such that $\forall x\, (x\not\in\varnothing)$. 
+	There exists a set $\varnothing$ such that $\forall x\, (x\notin\varnothing)$. 
 	\item\textsc{Axiom of Extensionality.}
 	For any $A, B$, if $\forall x\, (x\in A\iff x\in B)$, then $A = B$.
 \end{enumerate}
 
-\noindent The axiom of the empty set asserts the existence of an \textbf{empty set}, defined as any set $\varnothing$ satisfying $\forall x\, (x\not\in\varnothing)$.
+\noindent The axiom of the empty set asserts the existence of an \textbf{empty set}, defined as any set $\varnothing$ satisfying $\forall x\, (x\notin\varnothing)$.
 
 \begin{prop}
 	The empty set is unique.
 \end{prop}
 \begin{proof}
-	Suppose $\varnothing, \varnothing'$ have the property that $x\not\in\varnothing$ and $x\not\in\varnothing'$ for all $x$.
+	Suppose $\varnothing, \varnothing'$ have the property that $x\notin\varnothing$ and $x\notin\varnothing'$ for all $x$.
 	Then for all $x$, the equivalence $x\in\varnothing\iff x\in\varnothing'$ is vacuously true, so $\varnothing = \varnothing'$ by (ZFC2).
 \end{proof}
 
@@ -489,9 +489,9 @@ This famous result concerns the non-existence of a certain set in ZFC set theory
 \begin{proof}
 	We proceed by proof by contradiction. 
 	Suppose such a set $A$ exists.
-	Let $P(x)\equiv x\not\in x$ and apply separation to get the subset $B = \{x\in A \,|\, x\not\in x\}$.
-	If $B\in B$, then the definition of $B$ forces $B\not\in B$.
-	If $B\not\in B$, then the definition of $B$ forces $B\in B$.
+	Let $P(x)\equiv x\notin x$ and apply separation to get the subset $B = \{x\in A \,|\, x\notin x\}$.
+	If $B\in B$, then the definition of $B$ forces $B\notin B$.
+	If $B\notin B$, then the definition of $B$ forces $B\in B$.
 	In all cases, we obtain a contradiction.
 	Since the existence of $B$ is entailed by the existence of $A$, our supposition that $A$ exists must be false. 
 \end{proof} 
@@ -511,7 +511,7 @@ Using the construction axioms we introduced, we may start to define new kinds of
 
 \begin{definition}[Set difference]
 	We define the \textbf{set difference of $A$ relative to $B$}, also referred to as the \textbf{relative complement of $B$ in $A$}, to be the set 
-	\[ A\setminus B = \{ x\in A \,|\, x\not\in B \}. \]
+	\[ A\setminus B = \{ x\in A \,|\, x\notin B \}. \]
 \end{definition}
 
 Let us use the axioms of set theory to establish that all three set operations form valid sets out of existing sets. 
@@ -527,7 +527,7 @@ Let us use the axioms of set theory to establish that all three set operations f
 	Thus, $U$ is a binary union of $A$ and $B$, so $A\cup B$ exists.
 	
 	To obtain the intersection $A\cap B$, apply the axiom schema of separation (ZFC5) to $A$ with the predicate $P(x)\equiv x\in B$. 
-	To obtain the set difference $A\setminus B$, apply the axiom schema of separation (ZFC5) to $A$ with the predicate $Q(x)\equiv x\not\in B$. 
+	To obtain the set difference $A\setminus B$, apply the axiom schema of separation (ZFC5) to $A$ with the predicate $Q(x)\equiv x\notin B$. 
 	
 	Uniqueness of all three sets given $A$ and $B$ is left to the reader to prove.
 \end{proof}
@@ -601,7 +601,7 @@ In a similar manner, the binary intersection operation can be considered as a sp
 If $A$ is empty, we leave $\bigcap A$ undefined, so $\bigcap$ is a domain guarded function symbol with domain condition $D(x)\equiv x\ne\varnothing$. 
 (There is nothing wrong with applying union followed by separation in the case where $A$ is empty, but it is conventional to leave the intersection undefined.
 The thinking is that we want to preserve the property that $A\subseteq B$ implies $\bigcap A\supseteq\bigcap B$ for all applicable sets $A, B$.
-If we had $\bigcap\varnothing$ were defined such that the subset property held, then the fact that $\varnothing\subseteq A$ for all sets $A$ would imply $\bigcap\varnothing$ contains all sets.
+If $\bigcap\varnothing$ were defined such that the subset property held, then the fact that $\varnothing\subseteq A$ for all sets $A$ would imply $\bigcap\varnothing$ contains all sets.
 However, such a set does not exist by Russell's paradox.)
 
 \subsection{Kuratowski--Cartesian Products}
@@ -622,10 +622,10 @@ For the first element, we find
 \end{align*}
 For the second element, we claim
 \begin{align*}
-	\bigcup\Big\{ x\in \bigcup\langle a, b\rangle \,|\, P(x, \langle a, b\rangle) \Big\} = b \quad\text{where}\quad P(x, c)\equiv \bigcup c \ne \bigcap c \implies x\not\in\bigcap c.
+	\bigcup\Big\{ x\in \bigcup\langle a, b\rangle \,|\, P(x, \langle a, b\rangle) \Big\} = b \quad\text{where}\quad P(x, c)\equiv \bigcup c \ne \bigcap c \implies x\notin\bigcap c.
 \end{align*}
 To see this, note that if $a = b$, then $\bigcup\langle a, b\rangle = \bigcap\langle a, b\rangle$ so $P(x, \langle a, b\rangle)$ is true for all $x$, and the set in the set-builder notation is $\{ x\in\{b\} \,|\, P(x, \langle a, b\rangle) \} = \{b\}$, and thus the left-hand side evaluates to $b$. 
-If $a\ne b$, then $\bigcup\langle a, b\rangle \ne \bigcap\langle a, b\rangle$ so $P(x, \langle a, b\rangle)$ is true only for $x\not\in\bigcap\langle a, b\rangle = \{a\}$, i.e. $x = b$, so the set in the set-builder notation is $\{ x\in\{a, b\} \,|\, x=b \} = \{b\}$ and thus the left-hand side evaluates to $b$. 
+If $a\ne b$, then $\bigcup\langle a, b\rangle \ne \bigcap\langle a, b\rangle$ so $P(x, \langle a, b\rangle)$ is true only for $x\notin\bigcap\langle a, b\rangle = \{a\}$, i.e. $x = b$, so the set in the set-builder notation is $\{ x\in\{a, b\} \,|\, x=b \} = \{b\}$ and thus the left-hand side evaluates to $b$. 
 Consequently, 
 \begin{align}\label{ch1eqn_kuratowski_pair_property}
 	\langle a, b\rangle = \langle a', b'\rangle \iff a = a' \text{ and } b = b'.
@@ -679,7 +679,7 @@ Given a functional predicate $P$ and sets $A, c$, the existence and uniqueness o
 where $\mathcal{F}_{P}$ is the function corresponding to the functional predicate $P$. 
 
 \begin{prop}
-	For all sets $A$, $A\not\in A$. 
+	For all sets $A$, $A\notin A$. 
 \end{prop}
 \begin{proof}
 	Let $A$ be any set. 
@@ -687,7 +687,7 @@ where $\mathcal{F}_{P}$ is the function corresponding to the functional predicat
 	Then the axiom of foundation (ZFC8) implies there exists $x\in\{A\}$ for which $x\cap \{A\} = \varnothing$.
 	In this case, $x = A$ so $A\cap\{A\} = \varnothing$. 
 	If $A\in A$, then $A\in A\cap\{A\}$, which contradicts the previous sentence.
-	Thus, $A\not\in A$.
+	Thus, $A\notin A$.
 \end{proof}
 
 \section{Set-Coded Binary Relations}\label{ch1sec_rels}
@@ -703,7 +703,7 @@ For this reason, we will introduce new relations by encoding them as sets.
 	A \textbf{(set-coded) binary relation} $R$ from $A$ to $B$ is a set of the form
 	\[ R = \langle G_{R}, \langle A, B\rangle\rangle \quad\text{where}\quad G_{R}\subseteq A\times_{K} B. \]
 	If $\langle a, b\rangle\in G_{R}$, then we say \textbf{$a$ is related to $b$ by relation $R$}, and we write $a\, R\, b$.
-	If $\langle a, b\rangle\not\in G_{R}$, then we say \textbf{$a$ is not related to $b$ by relation $R$}, and we write $a \not\!\! R\, b$.
+	If $\langle a, b\rangle\notin G_{R}$, then we say \textbf{$a$ is not related to $b$ by relation $R$}, and we write $a \not\!\! R\, b$.
 \end{definition}
 
 If $R$ is a relation from $A$ to itself, we say $R$ is a relation on $A$. 
@@ -856,8 +856,12 @@ Below we present some terminology pertaining to partial orders and thus to total
 	Let $A$ be a partially ordered set with $<$ as the strict relation and $\le$ as the corresponding weak relation, and let $X$ be a subset of $A$.
 	We define the notion of bounds.
 	\begin{itemize}[itemsep=-0.4ex]
-		\item If $b\in A$ such that $\forall x\in X\, (x\le b)$, then we say $X$ is \textbf{bounded above} and $b$ is an \textbf{upper bound} of $X$. 
-		\item If $b\in A$ such that $\forall x\in X\, (b\le x)$, then we say $X$ is \textbf{bounded below} and $b$ is an \textbf{lower bound} of $X$. 
+		\item If an element $b\in A$ is such that $\forall x\in X\, (x\le b)$, we say $b$ is an \textbf{upper bound} of $X$. 
+		If an element $b\in A$ is such that $\forall x\in X\, (x < b)$, we say $b$ is a \textbf{strict upper bound} of $X$.
+		If an upper bound of $X$ exists, we say $X$ is \textbf{bounded above}. 
+		\item If an element $b\in A$ is such that $\forall x\in X\, (x\ge b)$, we say $b$ is an \textbf{lower bound} of $X$. 
+		If an element $b\in A$ is such that $\forall x\in X\, (x > b)$, we say $b$ is a \textbf{strict lower bound} of $X$.
+		If an upper bound of $X$ exists, we say $X$ is \textbf{bounded below}. 
 	\end{itemize}
 	We define the notions of maxima and minima.
 	\begin{itemize}[itemsep=-0.4ex]
@@ -868,8 +872,8 @@ Below we present some terminology pertaining to partial orders and thus to total
 	\end{itemize}
 	We define notations of maximal and minimal elements. 
 	\begin{itemize}[itemsep=-0.4ex]
-		\item If $m\in X$ such that $\forall x\in X\, (m\le x\implies m=x)$, then $m$ is called a \textbf{maximal} element of $X$. 
-		\item If $m\in X$ such that $\forall x\in X\, (x\le m\implies m=x)$, then $m$ is called a \textbf{minimal} element of $X$. 
+		\item If $m\in X$ such that $\forall x\in X\, (m\le x\implies x = m)$, then $m$ is called a \textbf{maximal} element of $X$. 
+		\item If $m\in X$ such that $\forall x\in X\, (x\le m\implies x = m)$, then $m$ is called a \textbf{minimal} element of $X$. 
 	\end{itemize}
 \end{definition}
 
@@ -879,7 +883,8 @@ However, the concepts are not equivalent in general.
 
 \begin{example}\label{ch1ex_maximalelems}
 	As a simple example, consider $A = \{a, b, c\}$ with only the relationships $a < b$ and $a < c$. 
-	Here $b$ and $c$ are maximal, but neither $b$ nor $c$ is the greatest, because they are incomparable with one another.
+	Here $b$ and $c$ are maximal, but neither $b$ nor $c$ is the greatest, because they are incomparable with one another. 
+	This gives us a concrete example where the concepts of maximal and greatest differ. 
 	\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[
@@ -1323,10 +1328,31 @@ Now we present some ubiquitous types of functions.
 		\item $g$ is said to be a \textbf{left-inverse} of $f$ if $g\circ f = \id_{A}$.
 		\item $g$ is said to be a \textbf{right-inverse} of $f$ if $f\circ g = \id_{B}$.
 		\item $g$ is said to be an \textbf{inverse} of $f$ if it is both a left-inverse and right-inverse.
-		We leave it to the reader to show that if it exists, then it is unique.
+		We show below that if it exists, then it is unique.
 		We denote it by $f^{-1}$, which can be done due to uniqueness. 
 	\end{itemize}
+	If an inverse of $f$ exists, $f$ is called \textbf{invertible}. 
 \end{definition}
+
+\begin{prop}\label{ch1thm_fn_inv_unique}
+	If $f:A\rightarrow B$ is an invertible function, then its left-inverse and right-inverse are unique and the left-inverse and right-inverse are equal to each other. 
+\end{prop}
+\begin{proof}
+	Let $f:A\rightarrow B$ be an invertible function and let $g:B\rightarrow A$ be its inverse. 
+	Suppose $g_{L}:B\rightarrow A$ is a left-inverse of $f$.
+	For any $y\in B$, we have $f(g(y)) = y$ because $g$ is an inverse of $f$, so $x = g(y)$ is the element such that $f(x) = y$.
+	Then because $g, g_{L}$ are left-inverses of $f$, 
+	\[ g_{L}(f(x)) = x = g(f(x)), \quad\text{so}\quad g_{L}(y) = g(y). \]
+	By \Cref{ch1thm_lemma_equality_of_fns}, $g_{L} = g$, which means all left-inverses of $f$ are $g$. 
+	
+	Suppose $g_{R}:B\rightarrow A$ is a right-inverse of $f$.
+	For any $y\in B$, we have $f(g(y)) = y = f(g_{R}(y))$ because $g, g_{R}$ are right-inverses of $f$, so
+	\[ g(f(g(y))) = g(f(g_{R}(y))), \quad\text{so}\quad g(y) = g_{R}(y), \]
+	because $g$ is an inverse of $f$. 
+	By \Cref{ch1thm_lemma_equality_of_fns}, $g_{R} = g$, which means all right-inverses of $f$ are $g$.
+	
+	Lastly, for any left-inverse $g_{L}$ and right-inverse $g_{R}$ of $f$, both are equal to $g$, so $g_{L} = g_{R}$. 
+\end{proof}
 
 \begin{example}[Left-inverse]
 	Let $A = \{a, b, c\}$ and $B = \{x, y, z, w\}$ where $a, b, c, x, y, z, w$ are distinct elements. 
@@ -1660,7 +1686,7 @@ The meaning of such a function is that for each $a\in A$, the function picks out
 A very important fact about the axiom of choice is that it is making an assertion about arbitrary collections of nonempty sets.
 Let us go over an application of the axiom of choice.
 
-\begin{prop}\label{ch1thm_fn_inverses}
+\begin{prop}\label{ch1thm_fn_inverses_vs_ject}
 	Let $f:A\rightarrow B$ be a function whose domain $A$ is nonempty. 
 	Then the following statements are true:
 	\begin{enumerate}[itemsep=-0.4ex, label=\textup{(\alph*)}]
@@ -1675,6 +1701,7 @@ Let us go over an application of the axiom of choice.
 \begin{remark}
 	Part (b) of the proposition specifically requires the axiom of choice. 
 	In the ending problem set, we claim that (b) is actually equivalent to the axiom of choice. 
+	Recall from \Cref{ch1thm_fn_inv_unique} that the inverse of $f$, if it exists, is unique. 
 \end{remark}
 \begin{proof}
 	(a).
@@ -1683,7 +1710,7 @@ Let us go over an application of the axiom of choice.
 	We define $g:B\rightarrow A$ by
 	\[ g(y) = \begin{cases}
 		x &\text{ if } y\in\im f, \text{ where $x$ is the unique element with } f(x)=y, \\
-		a_{0} &\text{ if } y\not\in\im f.
+		a_{0} &\text{ if } y\notin\im f.
 	\end{cases} \]
 	The element $x$ in the first case is unique precisely because $f$ is injective.
 	To justify existence, apply separation to $B\times_{K} A$ to obtain
@@ -1691,24 +1718,24 @@ Let us go over an application of the axiom of choice.
 	where
 	\begin{align*}
 		P(o, c) &\equiv (o, c\text{ are Kuratowski ordered pair})\land (\pi_{L}(c)\text{ is a function}) \\
-		&\quad\land ( \underbrace{ \langle\pi_{R}(o), \pi_{L}(o)\rangle\in\textrm{Graph}(\pi_{L}(c)) }_{\text{first disjunct}}\lor \underbrace{ (\pi_{L}(o)\not\in\im(\pi_{L}(c))\land \pi_{R}(o) = \pi_{R}(c)) }_{\text{second disjunct}} ).
+		&\quad\land ( \underbrace{ \langle\pi_{R}(o), \pi_{L}(o)\rangle\in\textrm{Graph}(\pi_{L}(c)) }_{\text{first disjunct}}\lor \underbrace{ (\pi_{L}(o)\notin\im(\pi_{L}(c))\land \pi_{R}(o) = \pi_{R}(c)) }_{\text{second disjunct}} ).
 	\end{align*}
-	Reading $o = \langle y, x\rangle$, the predicate says either $f(x) = y$, or $y\not\in\im f$ and $x = a_{0}$.
+	Reading $o = \langle y, x\rangle$, the predicate says either $f(x) = y$, or $y\notin\im f$ and $x = a_{0}$.
 	Take $g = \langle G_{g}, \langle B, A\rangle\rangle$, which exists.
 	Since $G_{g}\subseteq B\times_{K} A$, it remains to verify (F1) and (F2) from the definition of functions.
 	
 	For (F1), let $y\in B$.
 	If $y\in\im f$, there exists $x\in A$ with $f(x) = y$, so $\langle x, y\rangle\in\textrm{Graph}(f)$, and so $\langle y, x\rangle$ satisfies the first disjunct and $\langle y, x\rangle\in G_{g}$.
-	If $y\not\in\im f$, then $\langle y, a_{0}\rangle$ satisfies the second disjunct and $\langle y, a_{0}\rangle\in G_{g}$.
+	Else if $y\notin\im f$, then $\langle y, a_{0}\rangle$ satisfies the second disjunct and $\langle y, a_{0}\rangle\in G_{g}$.
 	In both cases, there exists $x\in A$ such that $\langle y, x\rangle\in G_{g}$.
 	
 	For (F2), suppose $\langle y, x\rangle, \langle y, x'\rangle\in G_{g}$.
-	If $y\in\im f$, the second disjunct fails for both pairs, so $\langle x, y\rangle, \langle x', y\rangle\in\textrm{Graph}(f)$, i.e. $f(x) = y = f(x')$, and injectivity gives $x = x'$.
-	If $y\not\in\im f$, the first disjunct fails for both pairs, so $x = a_{0} = x'$.
+	If $y\in\im f$, the second disjunct fails for both pairs, so $\langle x, y\rangle, \langle x', y\rangle\in\textrm{Graph}(f)$, i.e. $f(x) = y = f(x')$, and injectivity of $f$ gives $x = x'$.
+	Else if $y\notin\im f$, the first disjunct fails for both pairs, so $x = a_{0} = x'$.
 	In both cases, $x = x'$.
 	
-	Thus $g:B\rightarrow A$ is a function with $g(y) = x$ whenever $f(x) = y$.
-	Given any $x\in A$, take $y = f(x)$, so then $y\in\im f$ and the unique element of $A$ mapping to $y$ under $f$ is $x$ itself, so
+	Thus, $g:B\rightarrow A$ is a function with $g(y) = x$ whenever $f(x) = y$.
+	Given any $x\in A$, take $y = f(x)$, so then $y\in\im f$ and the unique element of $A$ mapping to $y$ under $f$ is $x$, so
 	\[ g\circ f(x) = g(f(x)) = g(y) = x. \]
 	Hence $g\circ f = \id_{A}$ by \Cref{ch1thm_lemma_equality_of_fns}, and $g$ is a left-inverse of $f$.
 	
@@ -1718,17 +1745,266 @@ Let us go over an application of the axiom of choice.
 	and so $f$ is injective. 
 	
 	Lastly, suppose $f$ is injective and $g:B\rightarrow A$ is any left-inverse. 
-	For any $a\in A$, we have $g(b) = a$ for $b = f(a)$, so $g$ is surjective. 
+	For any $x\in A$, we have $g(y) = x$ for $y = f(x)$, so $g$ is surjective. 
 	
 	(b).
 	Suppose $f$ is surjective. 
-	$\cdots$
+	Let $i:B\rightarrow\cc{P}(A)$ by $i(y) = f^{-1}\{y\}$ and $C = \im i$. 
+	To justify existence, apply separation to $B\times_{K}\cc{P}(A)$ to obtain
+	\[ G_{i} = \{ o\in B\times_{K}\cc{P}(A) \,|\, Q(o, f) \} \]
+	where
+	\begin{align*}
+		Q(o, c) &\equiv (o\text{ is a Kuratowski ordered pair})\land (c\text{ is a function}) \\
+		&\quad\land (\pi_{L}(o)\in\textrm{Cod}(c))\land (\pi_{R}(o) = c^{-1}\{\pi_{L}(o)\}).
+	\end{align*}
+	Given $G_{i}\subseteq B\times_{K}\cc{P}(A)$, we verify (F1) and (F2) from the definition of functions.
+	Here (F1) holds because for all $y\in B$ we have $\langle y, f^{-1}\{y\}\rangle\in G_{i}$, and (F2) holds because if $\langle y, X\rangle, \langle y, X'\rangle\in G_{i}$ then $X = f^{-1}\{y\} = X'$.
+	
+	By surjectivity of $f$, every inverse image of the form $f^{-1}\{y\}$ for $y\in B$ is nonempty, so every member of $C$ is nonempty.
+	By the axiom of choice (ZFC9), there exists a function $j:C\rightarrow\bigcup C$ such that $j(c)\in c$ for all $c\in C$. 
+	Note that since $C\subseteq\cc{P}(A)$, we have $\bigcup C\subseteq A$. 
+	Then we may form 
+	\[ g = j|^{A}\circ i|^{C}:B\rightarrow A. \] 
+	For any $y\in B$, we have
+	\[ f\circ g(y) = f(g(y)) = f(j(f^{-1}\{y\})) = y \]
+	where the last equality follows from $j(f^{-1}\{y\})\in f^{-1}\{y\}$ and $\forall x\, (x\in f^{-1}\{y\}\implies f(x) = y)$. 
+	Hence $f\circ g = \id_{B}$ by \Cref{ch1thm_lemma_equality_of_fns}, and $g$ is a right-inverse of $f$.
+	
+	Conversely, suppose $f$ has a right-inverse $g:B\rightarrow A$. 
+	Then for any $y\in B$, we have $f(x) = y$ for $x = g(y)$, so $f$ is surjective.
+	
+	Lastly, suppose $f$ is surjective and $g:B\rightarrow A$ is any right-inverse. 
+	If $y, y'\in B$ such that $g(y) = g(y')$, then $y = f(g(y)) = f(g(y')) = y'$, so $g$ is injective. 
+	
+	(c).
+	Suppose $f$ is bijective, meaning it is both injective and surjective. 
+	By (a), $f$ has a left-inverse $g_{L}:B\rightarrow A$, and by (b), $f$ has a right-inverse $g_{R}:B\rightarrow A$. 
+	We claim $g_{L} = g_{R}$. 
+	For any $y\in B$, applying the left-inverse identity $g_{L}\circ f = \id_{A}$ to $g_{R}(y)$ gives 
+	\[ g_{L}(f(g_{R}(y))) = g_{R}(y). \]
+	Since $f\circ g_{R} = \id_{B}$, we have $f(g_{R}(y)) = y$, so the left-hand side above is $g_{L}(y)$.
+	Thus, $g_{L}(y) = g_{R}(y)$, and since this holds for all $y\in B$, \Cref{ch1thm_lemma_equality_of_fns} gives $g_{L} = g_{R}$. 
+	Setting $g = g_{L} = g_{R}$, we find $g\circ f = \id_{A}$ and $f\circ g = \id_{B}$, so $g$ is an inverse of $f$. 
+	
+	Conversely, suppose $f$ has an inverse $g$. 
+	Then $g$ is both a left-inverse and a right-inverse of $f$, so by (a) and (b), $f$ is injective and surjective.
+	Thus, $f$ is bijective. 
+	
+	Lastly, if $g$ is an inverse of $f$, then $f\circ g = \id_{B}$ and $g\circ f = \id_{A}$ show $f$ is an inverse of $g$, so $g$ is invertible. 
+	Applying the forward direction just proved to $g$ in place of $f$, we conclude $g$ is bijective.
+\end{proof}
+
+\subsection{Zorn's Lemma}
+
+Let us provide an important definition about partial orders.
+
+\begin{definition}
+	Let $\langle P, <\rangle$ be a partially ordered set. 
+	Suppose $C$ is a subset of $P$ and $<'$ is the restriction of $<$ to $C$.
+	If $\langle C, <'\rangle$ is a totally ordered set, we call it a \textbf{chain} of $\langle P, <\rangle$. 
+	For brevity, we usually refer to $\langle P, <\rangle$ and $\langle C, <'\rangle$ as just $P$ and $C$. 
+\end{definition}
+
+A famous consequence of the axiom of choice involving partial orders is Zorn's lemma.
+Zorn's lemma is in fact equivalent to the axiom of choice (given all the other axioms), but for the purposes of our text we are concerned with only one implication direction. 
+
+\begin{theorem}[Zorn's lemma]\label{ch1thm_zornslemma}
+	Let $\langle P, <\rangle$ be a nonempty partially ordered set.
+	If every chain $C$ of $P$ is bounded above, then there exists a maximal element of $P$.
+\end{theorem}
+\begin{proof}
+	Let $\langle P, <\rangle$ be a nonempty partially ordered set and suppose the following:
+	\begin{enumerate}[itemsep=-0.8ex, label=(\roman*)]
+		\item Every chain of $P$ is bounded above: 
+		If $C\subseteq P$ is a chain, there exists $y\in P$ such that $x\le y$ for all $x\in C$. 
+		\item There is no maximal element of $P$: 
+		If $m\in P$, then there exists $x\in P$ such that $m < x$. 
+	\end{enumerate}
+	We will show that these two facts lead to a contradiction, so both cannot be true at the same time.
+	Thus, if a nonempty partially ordered set satisfies (i), then the set must have a maximal element, which means Zorn's lemma is true. 
+	Let $\cc{C}\subseteq\cc{C}(P)$ be the collection of all chains of $P$. 
+	For any chain $C$ of $P$, define 
+	\[ C_{x} = \{ y\in C \,|\, y < x \}. \]
+	
+	Suppose $C\subseteq P$ is a chain.
+	By fact (i), there exists $m\in P$ such that $x\le m$ for all $x\in C$. 
+	By fact (ii), there exists $y\in P$ such that $m < y$.
+	Thus, $C$ has a strict upper bound $y$ and we have the following fact:
+	\begin{enumerate}[itemsep=-0.8ex, label=(\roman*)]\setcounter{enumi}{2}
+		\item Every chain has a strict upper bound.
+	\end{enumerate}
+	Define $B:\cc{C}\rightarrow\cc{P}(P)$ by
+	\[ B(C) = \{ b\in P \,|\, b\text{ is a strict upper bound of } C \}. \]
+	By fact (iii), every $B(C)$ is nonempty. 
+	Let $\cc{B} = \im B$, which is nonempty since $\varnothing\in\cc{C}$ and $B(\varnothing)\in\cc{B}$. 
+	We appeal to the axiom of choice (ZFC9) to invoke a choice function
+	\[ f:\cc{B}\rightarrow \bigcup\cc{B} \]
+	where $f(B(C))\in B(C)$, i.e. $f(B(C))$ is a strict upper bound of $C$. 
+	Compose functions and expand the codomain to get
+	\[ g = (f\circ B)|^{P}:\cc{C}\rightarrow P. \]
+	Define a chain $C$ to be \textbf{nifty} if the following properties hold:
+	\begin{enumerate}[itemsep=-0.3ex, label=(C\arabic*)]
+		\item $g(\varnothing)\in C$,
+		\item $g(\varnothing)\le x$ for all $x\in C$,
+		\item $g(C_{x}) = x$ for all $x\in C$, and
+		\item if $X$ is a strict subchain of $C$ such that $X_{x} = C_{x}$ for all $x\in X$, then $g(X)\in C$ and $X = C_{g(X)}$. 
+	\end{enumerate}
+	Let $\cc{G}$ be the collection of all nifty chains and let $G = \bigcup\cc{G}$.
+	We go through and prove the following claims.
+	
+	\begin{manualthm}{Claim 1}
+		For all $C, D\in\cc{G}$, either $C\subseteq D$ or $D\subseteq C$, and $C_{x} = D_{x}$ for all $x\in C\cap D$. 
+	\end{manualthm}
+	\begin{claimproof}
+		Given $C, D\in\cc{G}$, take 
+		\[ X = \{ x\in C\cap D \,|\, C_{x} = D_{x} \}. \]
+		Since $X\subseteq C\cap D$, we have that
+		\[ X\subseteq C, \quad X\subseteq D, \quad\text{and}\quad X\text{ is a chain}. \]
+		Suppose $X$ is a proper subset of $C$ and $D$.
+		For any $x\in X$, we find $X_{x} = C_{x}$ due to the following reasoning:
+		\begin{itemize}[itemsep=-0.0ex]
+			\item $(\subseteq).$
+			If $y\in X_{x}$, then $y < x$ and $y\in X\subset C$, so clearly $y\in C_{x}$.
+			\item $(\supseteq).$
+			If $y\in C_{x}$, then $y < x$ and $y\in C$. 
+			Now given $C_{x} = D_{x}$, it follows that $y\in D$, and a further restriction of these sets yields $C_{y} = D_{y}$, so $y\in X$ by definition of $X$.
+			Given that $y < x$, we have $y\in X_{x}$. 
+		\end{itemize}
+		Thus, $X$ satisfies the hypothesis of (C4), and because $C$ is nifty, we have $g(X)\in C$ and $X = C_{g(X)}$. 
+		By the exact same reasoning, $g(X)\in D$ and $X = D_{g(X)}$. 
+		
+		Now $g(X)\in C\cap D$ and $C_{g(X)} = D_{g(X)}$, so then $g(X)\in X$ by definition of $X$.
+		However, $g(X)$ is a strict upper bound of $X$, so it cannot be contained in $X$.
+		This is a contradiction, so the supposition that $X$ is a proper subset of both $C$ and $D$ is false.
+		However, $X$ is a subset of $C$ and $D$, so $X = C$ or $X = D$.
+		Without loss of generality, assume $X = C$ holds. 
+		Given 
+		\[ C = X\subseteq C\cap D\subseteq C, \]
+		it follows that $C = C\cap D$, which is equivalent to $C\subseteq D$. 
+		This proves the first part of Claim 1. 
+		The fact that $X = C$ proves the second part of Claim 1.
+	\end{claimproof} 
+	
+	\begin{manualthm}{Claim 2}
+		$G$ is a chain.
+	\end{manualthm}
+	\begin{claimproof}
+		The irreflexivity, asymmetry, and transitivity properties of $<$ are trivially passed down from $P$ to $G$.
+		It only remains to prove the strict comparability property. 
+		Let $x, y\in G$.
+		Then $x\in C$ and $y\in D$ for some $C, D\in\cc{G}$. 
+		By Claim 1, one of the two sets $C, D$ is a subset of the other, say $C\subseteq D$.
+		Then $x, y\in D$ and by the fact that $D$ is a chain it follows that $x < y$, $x = y$, or $x > y$.
+		Thus, any two elements of $G$ are comparable, and therefore $G$ is a chain. 
+		This proves Claim 2.
+	\end{claimproof}
+	
+	\begin{manualthm}{Claim 3}
+		For every $C\in\cc{G}$, we have $C_{x} = G_{x}$ for all $x\in C$.
+	\end{manualthm}
+	\begin{claimproof}
+		Let $C\in\cc{G}$ and $x\in C$.
+		Then $C\subseteq G$, and by Claim 2, actually $C$ is a subchain of $G$, so $C_{x}\subseteq G_{x}$.
+		It remains to show the opposite inclusion $C_{x}\supseteq G_{x}$. 
+		
+		Let $y\in G_{x}$, so $y < x$ and there exists $D\in\cc{G}$ such that $y\in D$. 
+		By Claim 1, one of the two sets $C, D$ must be a subset of the other.
+		If $D\subseteq C$, then $y\in C$ and with $y < x$ we have $y\in C_{x}$. 
+		If $C\subseteq D$, then $x\in D$ and by Claim 1 again, we have $C_{x} = D_{x}$ and so $y\in C_{x}$. 
+		Thus, $G_{x}\subseteq C_{x}$, and so $C_{x} = G_{x}$, as desired.
+		This proves Claim 3.
+	\end{claimproof}
+	
+	\begin{manualthm}{Claim 4}
+		$G$ is a nifty chain.
+	\end{manualthm}
+	\begin{claimproof}
+		By Claim 2, $G$ is a chain.
+		We will show that $G$ satisfies the properties (C1)--(C4).
+		Property (C1) holds, because $\{g(\varnothing)\}\in\cc{G}$.
+		Property (C2) holds, because (C2) holds for every $C\in\cc{G}$.
+		
+		Now we show (C3) applies to $G$.
+		Given any $x\in G$, we know $x\in C$ for some $C\in\cc{G}$.
+		By Claim 3, $C_{x} = G_{x}$, and since (C3) holds for $C$, we have
+		\[ g(G_{x}) = g(C_{x}) = x. \]
+		This proves that property (C3) holds.
+		
+		Lastly, we show (C4) applies to $G$.
+		Let $X\subset G$ such that $X_{x} = G_{x}$ for all $x\in X$. 
+		Choose any $y\in G\setminus X$. 
+		Then $y\in D$ for some $D\in\cc{G}$. 
+		If $y < x$ for some $x\in X$, then $y\in G_{x} = X_{x}$ and $y\in X$, which is a contradiction.
+		Thus, $y\ge x$ for all $x\in X$, i.e. $y$ is an upper bound of $X$.
+		Given that $y\notin X$, we know $y\ne x$ for all $x\in X$, so $y$ is a strict upper bound of $X$.
+		
+		Since $D_{y} = G_{y}$ (by Claim 3), $X\subset G$, and $y$ is a strict upper bound of $X$, we have
+		\[ X\subseteq G_{y} = D_{y}\subset D. \]
+		Let $x\in X$. 
+		Since $X_{x} = G_{x}$ by assumption and $D_{x} = G_{x}$ by Claim 3, it follows that $X_{x} = D_{x}$.
+		Thus, $X\subset D$ and for all $x\in X$ we have $X_{x} = D_{x}$.
+		Since (C4) holds for $D$, we have $g(X)\in D$ and $X = D_{g(X)}$. 
+		Recalling $D\subseteq G$ (by definition of $G$) and $D_{g(X)} = G_{g(X)}$ (by Claim 3), we conclude $g(X)\in G$ and $X = G_{g(X)}$. 
+		This proves that property (C4) holds and completes the proof of Claim 4.
+	\end{claimproof}
+	
+	Now that we've proven that $G$ is a nifty chain, take the strict upper bound $g(G)$ of $G$ and form the set $G\cup\{g(G)\}$.
+	
+	\begin{manualthm}{Claim 5}
+		$G\cup\{g(G)\}$ is a nifty chain.
+	\end{manualthm}
+	\begin{claimproof}
+		Since $G$ is a chain and $g(G)$ is a strict upper bound of $G$, it follows that $G\cup\{g(G)\}$ is a chain.
+		We will show that $G\cup\{g(G)\}$ satisfies the properties (C1)--(C4).
+		Property (C1) holds, because $g(\varnothing)\in G\subseteq G\cup\{g(G)\}$.
+		Property (C2) holds, because (C2) holds for $G$, and $g(\varnothing)\le g(G)$ since $g(G)$ is a strict upper bound of $G$.
+		
+		Now we show (C3) applies to $G\cup\{g(G)\}$.
+		Let $x\in G\cup\{g(G)\}$.
+		If $x\in G$, then $(G\cup\{g(G)\})_{x} = G_{x}$, because $g(G)$ is a strict upper bound of $G$.
+		Since (C3) holds for $G$, we have
+		\[ g((G\cup\{g(G)\})_{x}) = g(G_{x}) = x. \]
+		If $x = g(G)$, then $(G\cup\{g(G)\})_{x} = G$, so
+		\[ g((G\cup\{g(G)\})_{x}) = g(G) = x. \]
+		This proves that property (C3) holds.
+		
+		Lastly, we show (C4) applies to $G\cup\{g(G)\}$.
+		Let $X$ be a strict subchain of $G\cup\{g(G)\}$ such that $X_{x} = (G\cup\{g(G)\})_{x}$ for all $x\in X$.
+		If $g(G)\in X$, then the hypothesis $X_{x} = (G\cup\{g(G)\})_{x}$ applies with $x = g(G)$.
+		Thus,
+		\[ X_{g(G)} = (G\cup\{g(G)\})_{g(G)} = G. \]
+		Hence $G\subseteq X$.
+		Since $g(G)\in X$, it follows that $G\cup\{g(G)\}\subseteq X$.
+		But $X\subseteq G\cup\{g(G)\}$, so $X = G\cup\{g(G)\}$, contradicting the fact that $X$ is a strict subchain.
+		Thus, $g(G)\notin X$, so $X\subseteq G$.
+		
+		If $X = G$, then 
+		\[ g(X) = g(G)\in G\cup\{g(G)\} \quad\text{and}\quad X = G = (G\cup\{g(G)\})_{g(G)}. \]
+		Thus, property (C4) holds in this case.
+		Now suppose instead that $X\subset G$.
+		For every $x\in X$, we have
+		\[ (G\cup\{g(G)\})_{x} = G_{x}, \]
+		because $g(G)$ is a strict upper bound of $G$.
+		Hence $X_{x} = G_{x}$ for all $x\in X$.
+		Since (C4) holds for $G$, we have $g(X)\in G$ and $X = G_{g(X)}$.
+		Note that since $g(X)\in G$ and $g(G)$ is a strict upper bound of $G$, we also have $G_{g(X)} = (G\cup\{g(G)\})_{g(X)}$.
+		Therefore,
+		\[ g(X)\in G\cup\{g(G)\} \quad\text{and}\quad X = (G\cup\{g(G)\})_{g(X)}. \]
+		This proves that property (C4) holds.
+		This completes the proof of Claim 5.
+	\end{claimproof}
+	
+	By Claim 5, $G\cup\{g(G)\}$ is a nifty chain, so $G\cup\{g(G)\}\in\cc{G}$.
+	Since $G = \bigcup\cc{G}$, we have $G\cup\{g(G)\}\subseteq G$, and thus $g(G)\in G$.
+	However, $g(G)$ is a strict upper bound of $G$, so $g(G)\notin G$.
+	This is a contradiction, so our initial supposition that facts (i) and (ii) can hold at the same time is false, which is what we set out to prove.
 \end{proof}
 
 
 
 
-% \subsection{Zorn's Lemma}
+
+% 
 
 % At the end, we will write the following topics
 % 1. Peano system
@@ -1753,34 +2029,6 @@ Let us go over an application of the axiom of choice.
 % ZFC set theory, but I am not sure how satisfying it would be. 
 
 \iffalse 
-
-\begin{exer}\label{ch1thm_fn_inverses}
-	Let $f:A\rightarrow B$ be a map whose domain $A$ is nonempty. 
-	Prove the following statements:
-	\begin{itemize}[itemsep=-0.4ex]
-		\item $f$ is injective if and only if it has a left-inverse.
-		If the left-inverse exists, it is surjective.
-		\item $f$ is surjective if and only if it has a right-inverse.
-		If the right-inverse exists, it is injective.
-		\item $f$ is bijective if and only if it has an inverse.
-		If the inverse exists, it is bijective. 
-	\end{itemize}
-	The second bullet point requires the use of the axiom of choice. 
-\end{exer}
-
-A famous consequence of the axiom of choice is Zorn's lemma.
-Zorn's lemma is in fact equivalent to the axiom of choice (given all the other axioms), but for the purposes of our text we are concerned with only one implication direction. 
-
-\begin{theorem}[Zorn's lemma]\label{ch1thm_zornslemma}
-	Let $(P, <)$ be a nonempty partially ordered set.
-	If every totally ordered subset $C\subseteq P$ \textup{(}whose order relation is passed down from $P$\textup{)} is bounded above, then there exists a maximal element of $P$.
-\end{theorem}
-
-The proof for Zorn's lemma is long and difficult, so we place it in \Cref{chA_set_theory_pfs}. 
-
-
-
-
 \section{The Peano System and The Axiom of Infinity}
 
 \subsection{The Peano System}
@@ -1995,7 +2243,7 @@ Finally, we define $< \; = ((\bb{N}, \bb{N})_{K}, G_{<})_{K}$, which is a relati
 	Let $X = \bb{N}\times_{K} (\bb{N}\setminus\{0\})$. 
 	For all natural numbers $m$, we have $(m, \sigma(m))_{K}\in X$ by (PA1). 
 	For all natural numbers $m, n$ such that $(m, n)_{K}\in X$, we have $(m, \sigma(n))_{K}\in X$ by (PA1). 
-	Thus, $X$ satisfies \Cref{ch1eqn_nat_order_rel}, so $(m, 0)_{K}\not\in G_{<}$ for all $m\in\bb{N}$. 
+	Thus, $X$ satisfies \Cref{ch1eqn_nat_order_rel}, so $(m, 0)_{K}\notin G_{<}$ for all $m\in\bb{N}$. 
 	This shows $m\not < 0$ for all $m\in\bb{N}$. 
 	
 	(b).
@@ -2027,7 +2275,7 @@ Finally, we define $< \; = ((\bb{N}, \bb{N})_{K}, G_{<})_{K}$, which is a relati
 	Together, these two facts imply $(a, \sigma(b))_{K}\in X$. 
 	This shows $X$ satisfies the second part of \Cref{ch1eqn_nat_order_rel}.
 	
-	Since $X$ meets both parts in \Cref{ch1eqn_nat_order_rel}, it follows $(m, \sigma(n))_{K}\not\in G_{<}$. 
+	Since $X$ meets both parts in \Cref{ch1eqn_nat_order_rel}, it follows $(m, \sigma(n))_{K}\notin G_{<}$. 
 	Thus, $m \not< \sigma(n)$. 
 	
 	(d).
@@ -2164,7 +2412,7 @@ So for example, if $m < n$ then we say $m$ is less than $n$.
 	Define
 	\[ B = \{ m\in\bb{N} \,|\, m < a \text{ for all } a\in A \}. \]
 	If $0\in A$, then the fact that $0\le a$ for all $a\in A$ by \Cref{ch1thm_peano_order_basic1} (b) implies $0$ is a least element of $A$. 
-	Since $A$ does not have a least element, it follows $0\not\in A$. 
+	Since $A$ does not have a least element, it follows $0\notin A$. 
 	By \Cref{ch1thm_peano_order_basic1} (b), we have $0 < a$ for all $a\in A$. 
 	Thus, $0\in B$. 
 	
@@ -2193,7 +2441,7 @@ Let us demonstrate this formally.
 	By the well-ordering property, $A$ has a least element $a\in A$. 
 	Since $0 < a$, \Cref{ch1thm_peano_order_basic1} (a) implies $a\ne 0$. 
 	By \Cref{ch1thm_peano_zero_or_succ} it follows $a = \sigma(b)$ for some natural number $b$. 
-	By \Cref{ch1thm_peano_order_basic0} (a), $b < a$, and since $a$ is the least element of $A$, it follows $b\not\in A$. 
+	By \Cref{ch1thm_peano_order_basic0} (a), $b < a$, and since $a$ is the least element of $A$, it follows $b\notin A$. 
 	The fact that $b$ is not an element of $A$ means $0\not< b$, so by \Cref{ch1thm_peano_order_basic1} (b) we have $b = 0$, and so we find $a = \sigma(0)$.
 	Since the existence of a natural number $k$ for which $0 < k < \sigma(0)$ contradicts the fact that $\sigma(0)$ is the least element of $A$, which has just been established, it follows that no such $k$ exists. 
 	
